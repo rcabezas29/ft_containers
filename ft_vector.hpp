@@ -6,22 +6,35 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/01/05 11:41:00 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/01/05 19:05:26 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
+
 #include <iostream>
+#include "utils/iterator.hpp"
 
 namespace ft
 {
-	template <typename T, class >
+	template <typename T, class Alloc = std::allocator<T> >
 	class vector
 	{
-		private:
-			T			*_array;
-			int			_size;
-			int			_capacity;
-			allocator_t	_alloc;
+		public:
+			typedef T										value_type;
+			typedef Alloc									allocator_type;
+			typedef typename allocator_type::reference		reference;
+			typedef typename allocator_type::const_referece	const_reference;
+			typedef typename allocator_type::pointer		pointer;
+			typedef typename allocator_type::const_pointer	const_pointer;
+			typedef ptrdiff_t								difference_type;
+			typedef size_t									size_type;
+			
+		protected:
+			allocator_type		_allocator;
+			pointer				_array;
+			size_type			_size;
+			size_type			_capacity;
 			
 		public:
 			//construction & destruction
@@ -47,28 +60,18 @@ namespace ft
 			reverse_iterator		rend(void);
 			const_reverse_iterator	rend(void) const;
 
-			const_iterator			cbegin(void) const noexcept;
-
-			const_iterator			cend(void) const noexcept;
-
-			const_reverse_iterator	crbegin(void) const noexcept;
-
-			const_reverse_iterator	crend(void) const noexcept;
-
 			//capacity
-			size_type	size(void) const;
+			size_type	size(void) const {return _size;};
 
-			size_type	max_size(void) const;
+			size_type	max_size(void) const {return _allocator.max_size();};
 
 			void		resize (size_type n, value_type val = value_type());
 
-			size_type	capacity(void) const;
+			size_type	capacity(void) const {return _capacity};
 
-			bool		empty(void) const;
+			bool		empty(void) const {return (_size == 0)};
 
 			void		reserve(size_type n);
-
-			void		shrink_to_fit(void);
 
 			//element access
 			reference			operator[](size_type n);
@@ -87,12 +90,12 @@ namespace ft
 			const value_type	*data(void) const noexcept;
 
 			//modifiers
-			void		assign(InputIterator first, InputIterator last);
-			void		assign(size_type n, const value_type &val);
+			void			assign(InputIterator first, InputIterator last);
+			void			assign(size_type n, const value_type &val);
 
-			void		push_back(const value_type &val);
+			void			push_back(const value_type &val);
 
-			void		pop_back(void);
+			void			pop_back(void);
 
 			iterator		insert(iterator position, const value_type &val);
 			void			insert(iterator position, size_type n, const value_type &val);
@@ -104,10 +107,6 @@ namespace ft
 			void			swap(vector &x);
 
 			void			clear(void);
-
-			iterator		emplace(const_iterator position, Args&&... args);
-
-			void			emplace_back(Args&&... args);
 
 			allocator_type	get_allocator(void) const;
 	};
