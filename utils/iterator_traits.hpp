@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   iterator.hpp                                       :+:      :+:    :+:   */
+/*   iterator_traits.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/05 18:41:14 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/01/10 09:37:16 by rcabezas         ###   ########.fr       */
+/*   Created: 2022/01/07 11:00:32 by rcabezas          #+#    #+#             */
+/*   Updated: 2022/01/10 09:38:02 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <iostream>
-
 namespace ft
 {
-	template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
-	struct Iter
+	template <class Iter>
+	struct iterator_traits
 	{
-		typedef Category	iterator_category;
-		typedef T			value_type;
-		typedef Distance	difference_type;
-		typedef Pointer		pointer;
-		typedef Reference	referece;
+		typedef Iter::difference_types	difference_type;
+		typedef Iter::value_type		value_type;
+		typedef void					pointer;
+		typedef Iter::reference			referece;
+		typedef Iter::iterator_category	iterator_category;
 	};
 }
