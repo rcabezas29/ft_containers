@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:41:14 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/01/10 09:37:16 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/01/10 13:45:45 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,4 @@ namespace ft
 		typedef Pointer		pointer;
 		typedef Reference	referece;
 	};
-}
+};

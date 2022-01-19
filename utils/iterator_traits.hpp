@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 11:00:32 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/01/10 09:38:02 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/01/10 13:45:47 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,4 @@ namespace ft
 		typedef Iter::reference			referece;
 		typedef Iter::iterator_category	iterator_category;
 	};
-}
+};
