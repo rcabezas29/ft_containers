@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/01/05 19:05:26 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/01/24 20:54:38 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,38 @@ namespace ft
 			typedef typename allocator_type::const_pointer	const_pointer;
 			typedef ptrdiff_t								difference_type;
 			typedef size_t									size_type;
-			
+
 		protected:
 			allocator_type		_allocator;
 			pointer				_array;
 			size_type			_size;
 			size_type			_capacity;
-			
+
 		public:
 			//construction & destruction
-			explicit	vector(const allocator_type &alloc = allocator_type());
-			explicit	vector (size_type n, const value_type &val = value_type(),
-				const allocator_type &alloc = allocator_type());
+			explicit	vector(const allocator_type &alloc = allocator_type())
+			{
+				this->_allocator = alloc;
+				this->_array = NULL;
+				this->_size = 0;
+				this->_capacity = 0;
+			}
+
+			explicit	vector(size_type n, const value_type &val = value_type(),
+				const allocator_type &alloc = allocator_type())
+			{
+				this->_allocator = alloc;
+				this->_array = this->_allocator.allocate(n);
+				for (int i = 0; i < n; i++)
+					this->_array[i] = val;
+				this->_capacity = n;
+			}
+			
 			vector(InputIterator first, InputIterator last,
-					const allocator_type& alloc = allocator_type());
+					const allocator_type& alloc = allocator_type())
+			{
+			}
+
 			vector(const vector &copy);
 			~vector(void);
 			vector	&operator=(const vector &op);
@@ -80,7 +98,7 @@ namespace ft
 			reference			at(size_type n);
 			const_reference		at(size_type n) const;
 
-			reference			front(void);
+			reference			front(void  );
 			const_reference		front(void) const;
 
 			reference			back(void);
