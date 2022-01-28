@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/01/24 20:54:38 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/01/25 12:42:08 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ namespace ft
 			typedef typename allocator_type::const_referece	const_reference;
 			typedef typename allocator_type::pointer		pointer;
 			typedef typename allocator_type::const_pointer	const_pointer;
+			typedef	typename ft::Iter						iterator;
+			typedef											const_iterator;
+			typedef											reverse_iterator;
+			typedef											const_reverse_iterator;
 			typedef ptrdiff_t								difference_type;
 			typedef size_t									size_type;
 
@@ -58,12 +62,35 @@ namespace ft
 			
 			vector(InputIterator first, InputIterator last,
 					const allocator_type& alloc = allocator_type())
+					: _allocator(alloc),
+					_array(nullptr),
+					_size(0),
+					_capacity(0)
 			{
+				while (first != last)
+				{
+					push_back(*first);
+					first++;
+				}
 			}
 
-			vector(const vector &copy);
+			vector(const vector &copy) : _allocator(copy._allocator), 
+				_size(copy.size()), _capacity(copy.capacity())
+			{
+				iterator	it(copy.begin());
+				while (it != copy.end())
+				{
+					push_back(it);
+					it++;
+				}
+			}
+			
 			~vector(void);
-			vector	&operator=(const vector &op);
+
+			vector	&operator=(const vector &op)
+			{
+				
+			}
 
 			//iterators
 			iterator				begin(void);
@@ -124,28 +151,32 @@ namespace ft
 
 			void			swap(vector &x);
 
-			void			clear(void);
+			void			clear(void)
+			{
+				while (this->_size != 0)
+					pop_back();
+			}
 
 			allocator_type	get_allocator(void) const;
 	};
 
 	template <class T, class Alloc>
-	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
 
 	template <class T, class Alloc>
-	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
 
 	template <class T, class Alloc>
-	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
 
 	template <class T, class Alloc>
-	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator<=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
 
 	template <class T, class Alloc>
-	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
 
 	template <class T, class Alloc>
-	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
 
 	template <class T, class Alloc>
 	void swap(vector<T,Alloc>& x, vector<T,Alloc>& y);
