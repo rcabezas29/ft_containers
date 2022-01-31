@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:41:14 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/01/31 20:24:46 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/01/31 20:44:39 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,5 +149,37 @@ namespace ft
 					it++;
 				return it;
 			}
+	};
+
+	template <class Iterator>
+	class reverse_iterator
+	{
+		public:
+			typedef Iterator													iterator_type;
+			typedef typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
+			typedef typename ft::iterator_traits<Iterator>::value_type			value_type;
+			typedef typename ft::iterator_traits<Iterator>::difference_type		difference_type;
+			typedef typename ft::iterator_traits<Iterator>::pointer				pointer;
+			typedef typename ft::iterator_traits<Iterator>::reference			reference;
+
+			reverse_iterator(void);
+			explicit reverse_iterator (iterator_type it);
+
+			template <class Iter>
+			reverse_iterator (const reverse_iterator<Iter>& rev_it);
+			
+			iterator_type base(void) const;
+
+			reference operator*(void) const;
+			reverse_iterator operator+ (difference_type n) const;
+			reverse_iterator	&operator++(void);
+			reverse_iterator  	operator++(int);
+			reverse_iterator	&operator+=(difference_type n);
+			reverse_iterator 	operator-(difference_type n) const;
+			reverse_iterator	&operator--(void);
+			reverse_iterator 	operator--(int);
+			reverse_iterator	&operator-= (difference_type n);
+			pointer 			operator->(void) const;
+			reference			operator[](difference_type n) const;
 	};
 };
