@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/01/25 12:42:08 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/01/31 11:23:27 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,15 +106,15 @@ namespace ft
 			const_reverse_iterator	rend(void) const;
 
 			//capacity
-			size_type	size(void) const {return _size;};
+			size_type	size(void) const {return _size;}
 
-			size_type	max_size(void) const {return _allocator.max_size();};
+			size_type	max_size(void) const {return _allocator.max_size();}
 
 			void		resize (size_type n, value_type val = value_type());
 
-			size_type	capacity(void) const {return _capacity};
+			size_type	capacity(void) const {return _capacity}
 
-			bool		empty(void) const {return (_size == 0)};
+			bool		empty(void) const {return (_size == 0)}
 
 			void		reserve(size_type n);
 

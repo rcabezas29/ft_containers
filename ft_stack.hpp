@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 11:47:46 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/01/24 20:12:06 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/01/31 20:04:57 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ namespace ft
 			typedef Container container_type;
 
 			explicit stack(const container_type &ctnr = container_type());
-			~stack(void);
+			virtual	~stack(void);
 
 			bool empty(void) const {return c.empty();}
 			size_type size(void) const {return c.size();}
