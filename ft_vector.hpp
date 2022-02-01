@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/01/31 11:23:27 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/01 13:47:10 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ namespace ft
 	class vector
 	{
 		public:
-			typedef T										value_type;
-			typedef Alloc									allocator_type;
-			typedef typename allocator_type::reference		reference;
-			typedef typename allocator_type::const_referece	const_reference;
-			typedef typename allocator_type::pointer		pointer;
-			typedef typename allocator_type::const_pointer	const_pointer;
-			typedef	typename ft::Iter						iterator;
-			typedef											const_iterator;
-			typedef											reverse_iterator;
-			typedef											const_reverse_iterator;
-			typedef ptrdiff_t								difference_type;
-			typedef size_t									size_type;
+			typedef T													value_type;
+			typedef Alloc												allocator_type;
+			typedef typename allocator_type::reference					reference;
+			typedef typename allocator_type::const_referece				const_reference;
+			typedef typename allocator_type::pointer					pointer;
+			typedef typename allocator_type::const_pointer				const_pointer;
+			typedef	typename random_access_iterator<value_type>			iterator;
+			typedef	typename random_access_iterator<const value_type>	const_iterator;
+			typedef	typename reverse_iterator<iterator>					reverse_iterator;
+			typedef	typename reverse_iterator<const_iterator>			const_reverse_iterator;
+			typedef ptrdiff_t											difference_type;
+			typedef size_t												size_type;
 
 		protected:
 			allocator_type		_allocator;
