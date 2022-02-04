@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:41:14 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/04 18:18:11 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:19:05 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ namespace ft
 		public:
 			random_access_iterator(void) : _ptr(nullptr) {}
 			random_access_iterator(const random_access_iterator &copy) : _ptr(copy._ptr) {}
+			random_access_iterator(pointer p) : _ptr(p) {}
 
 			random_access_iterator &operator=(const random_access_iterator &op)
 			{
@@ -136,6 +137,7 @@ namespace ft
 		public:
 			reverse_iterator(void) : _ptr(nullptr) {}
 			explicit	reverse_iterator(iterator_type it) : _ptr(it._ptr) {}
+			reverse_iterator(pointer p) : _ptr(p) {}
 
 			template <class Iter>
 			reverse_iterator(const reverse_iterator<Iter> &rev_it) : _ptr(rev_it._ptr) {}

@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/04 16:38:53 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:31:07 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,21 +87,54 @@ namespace ft
 
 			vector	&operator=(const vector &op)
 			{
-				
+				if (this == &op)
+					return *this;
+				this->_allocator = op._allocator;
+				this->_array = op._array;
+				this->_capacity = op._capacity;
+				this->_size = op._size;
 			}
 
 			//iterators
-			iterator				begin(void);
-			const_iterator			begin(void) const;
+			iterator				begin(void)
+			{
+				return iterator	it(&this->_array[0]);
+			}
+			
+			const_iterator			begin(void) const
+			{
+				return	const_iterator	it(&this->_array[0]);
+			}
 
-			iterator				end(void);
-			const_iterator			end(void) const;
+			iterator				end(void)
+			{
+				return iterator	it(&this->_array[this->_size]);
+			}
 
-			reverse_iterator		rbegin(void);
-			const_reverse_iterator	rbegin(void) const;
+			const_iterator			end(void) const
+			{
+				return const_iterator	it(&this->_array[this->_size]);
+			}
 
-			reverse_iterator		rend(void);
-			const_reverse_iterator	rend(void) const;
+			reverse_iterator		rbegin(void)
+			{
+				return reverse_iterator	it(&this->_array[0]);
+			}
+			
+			const_reverse_iterator	rbegin(void) const
+			{
+				return const_reverse_iterator	it(&this->_array[0]);
+			}
+
+			reverse_iterator		rend(void)
+			{
+				return reverse_iterator	it(&this->_array[this->_size]);
+			}
+
+			const_reverse_iterator	rend(void) const
+			{
+				return const_reverse_iterator	it(&this->_array[this->_size]);
+			}
 
 			//capacity
 			size_type	size(void) const {return _size;}
@@ -114,7 +147,7 @@ namespace ft
 
 			bool		empty(void) const {return (_size == 0)}
 
-			void		reserve(size_type n);
+			void		reserve(size_type n) { this->_array = this->_allocator.allocate(n); }
 
 			//element access
 			reference			operator[](size_type n);
