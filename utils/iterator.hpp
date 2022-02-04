@@ -6,11 +6,9 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:41:14 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/01 14:08:00 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/04 18:18:11 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma once
 
 #include <iostream>
 
@@ -29,126 +27,96 @@ namespace ft
 	template <typename T>
 	class random_access_iterator : public ft::Iter<std::random_access_iterator_tag, T>
 	{
+		private:
+			pointer	_ptr;
+
 		public:
-			random_access_iterator(void);
-			random_access_iterator(const random_access_iterator &copy)
-				: iterator_category(copy.iterator_category),
-					value_type(copy.value_type),
-					difference_type(copy.difference_type),
-					pointer(copy.pointer),
-					reference(copy.reference);
+			random_access_iterator(void) : _ptr(nullptr) {}
+			random_access_iterator(const random_access_iterator &copy) : _ptr(copy._ptr) {}
 
 			random_access_iterator &operator=(const random_access_iterator &op)
 			{
 				if (this == &op)
 					return *this;
-				this->iterator_category = op.iterator_category;
-				this->value_type = op.value_type;
-				this->difference_type = op.difference_type;
-				this->pointer = op.pointer;
-				this->reference = op.reference;
+				this->_ptr = op._ptr;
 				return *this;
-			};
+			}
 
 			virtual	~random_access_iterator(void);
 
-			bool	operator==(const random_access_iterator &b) const
-			{
-				return this->reference == b.reference ? true : false;
-			}
+			bool	operator==(const random_access_iterator &b) const { return this->_ptr == b._ptr; }
 			
-			bool	operator!=(const random_access_iterator &b) const
-			{
-				return this->reference == b.reference ? false : true;
-			}
+			bool	operator!=(const random_access_iterator &b) const { return this->_ptr != b._ptr; }
 
-			reference	operator*(void)
-			{
-				return this->reference;
-			}
+			reference	operator*(void) { return *this->_ptr; }
 			
-			pointer		operator->(void)
-			{
-				return this->pointer;
-			}
+			pointer		operator->(void) { return this->_ptr; }
 
-			random_access_iterator	&random_access_iterator::operator++(void)
+			random_access_iterator	&operator++(void)
 			{
-				this->reference += this->difference_type;
+				this->_ptr++;
 				return *this;
 			}
 			
-			random_access_iterator	&random_access_iterator::operator--(void)
+			random_access_iterator	&operator--(void)
 			{
-				this->reference -= this->difference_type;
+				this->_ptr--;
 				return *this;
 			}
 			
-			random_access_iterator	random_access_iterator::operator++(int)
+			random_access_iterator	operator++(int)
 			{
 				random_access_iterator	pre = *this;
-
-				this->reference += this->difference_type;
+				
+				this->_ptr++;
 				return pre;
 			}
 			
-			random_access_iterator	random_access_iterator::operator--(int)
+			random_access_iterator	operator--(int)
 			{
 				random_access_iterator	pre = *this;
-
-				this->reference -= this->difference_type;
+				
+				this->_ptr--;
 				return pre;
 			}
 
 			random_access_iterator operator+(difference_type n) const
 			{
-				return this->reference + n;
+				random_access_iterator res(*this);
+
+				res._ptr += n;
+				return res;
 			}
 			
 			random_access_iterator operator-(difference_type n) const
 			{
-				return this->reference - n;
+				random_access_iterator res(*this);
+
+				res._ptr -= n;
+				return res;
 			}
 
-			bool	operator<(const T &b) const
-			{
-				this->reference < b.reference ? true : false
-			}
+			bool	operator<(const random_access_iterator &b) const { return *this->_ptr < *b._ptr; }
 			
-			bool	operator>(const T &b) const
-			{
-				this->reference > b.reference ? true : false
-			}
+			bool	operator>(const random_access_iterator &b) const { return *this->_ptr > *b._ptr; }
 
-			bool	operator<=(const T &b) const
-			{
-				this->reference <= b.reference ? true : false
-			}
+			bool	operator<=(const random_access_iterator &b) const { return *this->_ptr <= *b._ptr; }
 			
-			bool	operator>=(const T &b) const
-			{
-				this->reference >= b.reference ? true : false
-			}
+			bool	operator>=(const random_access_iterator &b) const { return *this->_ptr >= *b._ptr; }
 
 			random_access_iterator operator+=(difference_type n)
 			{
-				return this->reference += n;
+				this->_ptr += n;
+				return *this;
 			}
 
 			random_access_iterator operator-=(difference_type n)
 			{
-				return this->reference -= n;
+				this->_ptr -= n;
+				return *this;
 			}
 
-			reference operator[](int n)
-			{
-				random_access_iterator	it;
-
-				it = *this;
-				for (int i = 1; i < n; i++)
-					it++;
-				return it;
-			}
+			reference operator[](int n) { return this->_ptr[n]; }
 	};
 
 	template <class Iterator>
@@ -162,24 +130,83 @@ namespace ft
 			typedef typename iterator_traits<Iterator>::pointer				pointer;
 			typedef typename iterator_traits<Iterator>::reference			reference;
 
-			reverse_iterator(void);
-			explicit reverse_iterator(iterator_type it);
+		private:
+			pointer	_ptr;
+
+		public:
+			reverse_iterator(void) : _ptr(nullptr) {}
+			explicit	reverse_iterator(iterator_type it) : _ptr(it._ptr) {}
 
 			template <class Iter>
-			reverse_iterator (const reverse_iterator<Iter>& rev_it);
+			reverse_iterator(const reverse_iterator<Iter> &rev_it) : _ptr(rev_it._ptr) {}
 			
-			iterator_type base(void) const;
+			iterator_type		base(void) const
+			{
+				iterator_type	it(*this);
 
-			reference			operator*(void) const;
-			reverse_iterator	operator+(difference_type n) const;
-			reverse_iterator	&operator++(void);
-			reverse_iterator  	operator++(int);
-			reverse_iterator	&operator+=(difference_type n);
-			reverse_iterator 	operator-(difference_type n) const;
-			reverse_iterator	&operator--(void);
-			reverse_iterator 	operator--(int);
-			reverse_iterator	&operator-= (difference_type n);
-			pointer 			operator->(void) const;
-			reference			operator[](difference_type n) const;
+				return  it;
+			}
+
+			reference			operator*(void) const { return this->reference; }
+
+			reverse_iterator	operator+(difference_type n) const
+			{
+				reverse_iterator res(*this);
+
+				res._ptr += n;
+				return res;
+			}
+
+			reverse_iterator	&operator++(void)
+			{
+				this->_ptr++;
+				return *this;
+			}
+
+			reverse_iterator  	operator++(int)
+			{
+				reverse_iterator	pre = *this;
+				
+				this->_ptr++;
+				return pre;
+			}
+			
+			reverse_iterator	&operator+=(difference_type n)
+			{
+				this->_ptr += n;
+				return *this;
+			}
+			
+			reverse_iterator 	operator-(difference_type n) const
+			{
+				random_access_iterator res(*this);
+
+				res._ptr -= n;
+				return res;
+			}
+			
+			reverse_iterator	&operator--(void)
+			{
+				this->_ptr--;
+				return *this;
+			}
+
+			reverse_iterator 	operator--(int)
+			{
+				reverse_iterator	pre = *this;
+				
+				this->_ptr++;
+				return pre;
+			}
+
+			reverse_iterator	&operator-=(difference_type n)
+			{
+				this->_ptr -= n;
+				return *this;
+			}
+			
+			pointer 			operator->(void) const  { return this->_ptr; }
+
+			reference			operator[](difference_type n) const { return this->_ptr[n]; }
 	};
 };

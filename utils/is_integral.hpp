@@ -6,11 +6,9 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 10:27:24 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/01/28 09:34:13 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/04 16:38:22 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#pragma once
 
 #include <iostream>
 
