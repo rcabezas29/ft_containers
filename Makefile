@@ -6,15 +6,17 @@
 #    By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/03 10:50:18 by rcabezas          #+#    #+#              #
-#    Updated: 2022/01/03 10:51:26 by rcabezas         ###   ########.fr        #
+#    Updated: 2022/02/21 16:16:09 by rcabezas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_containers
 
+INC= -I.
+
 CXX = clang++
 
-CXXFLAGS = -Wall -Werror -Wextra -std=c++98
+CXXFLAGS = -Wall -Werror -Wextra -std=c++98 $(INC)
 
 SRCS = main.cpp
 

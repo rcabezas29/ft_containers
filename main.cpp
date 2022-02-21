@@ -6,24 +6,51 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/04 09:21:02 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/21 16:06:48 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_stack.hpp"
+#include "vector.hpp"
 
-int	main(void)
+#define TESTED_TYPE int
+#define TESTED_NAMESPACE ft
+
+int		main(void)
 {
-	ft::stack<int, std::vector<int, std::allocator<int> > >	stck;
+	TESTED_NAMESPACE::vector<TESTED_TYPE> vct(7);
+	TESTED_NAMESPACE::vector<TESTED_TYPE> vct_two(4);
+	TESTED_NAMESPACE::vector<TESTED_TYPE> vct_three;
+	TESTED_NAMESPACE::vector<TESTED_TYPE> vct_four;
 
-	for (int i = 1; i <= 10; i++)
-		stck.push(i);
+	for (unsigned long int i = 0; i < vct.size(); ++i)
+		vct[i] = (vct.size() - i) * 3;
+	for (unsigned long int i = 0; i < vct_two.size(); ++i)
+		vct_two[i] = (vct_two.size() - i) * 5;
+	printSize(vct);
+	printSize(vct_two);
 
-	while (!stck.empty())
-	{
-		std::cout << stck.top() << std::endl;
-		stck.pop();
-	}
+	vct_three.assign(vct.begin(), vct.end());
+	vct.assign(vct_two.begin(), vct_two.end());
+	vct_two.assign(2, 42);
+	vct_four.assign(4, 21);
+
+	std::cout << "\t### After assign(): ###" << std::endl;
+
+	printSize(vct);
+	printSize(vct_two);
+	printSize(vct_three);
+	printSize(vct_four);
+
+	vct_four.assign(6, 84);
+	printSize(vct_four);
+
+	std::cout << "\t### assign() on enough capacity and low size: ###" << std::endl;
+
+	vct.assign(5, 53);
+	vct_two.assign(vct_three.begin(), vct_three.begin() + 3);
+
+	printSize(vct);
+	printSize(vct_two);
 
 	return (0);
 }

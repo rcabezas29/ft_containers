@@ -6,11 +6,12 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:41:14 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/04 19:19:05 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/21 18:45:55 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include "iterator_traits.hpp"
 
 namespace ft
 {
@@ -27,6 +28,13 @@ namespace ft
 	template <typename T>
 	class random_access_iterator : public ft::Iter<std::random_access_iterator_tag, T>
 	{
+		public:
+			typedef typename ft::Iter<std::random_access_iterator_tag, T>::iterator_category	iterator_category;
+			typedef typename ft::Iter<std::random_access_iterator_tag, T>::value_type			value_type;
+			typedef typename ft::Iter<std::random_access_iterator_tag, T>::difference_type		difference_type;
+			typedef typename ft::Iter<std::random_access_iterator_tag, T>::pointer				pointer;
+			typedef typename ft::Iter<std::random_access_iterator_tag, T>::reference			reference;
+
 		private:
 			pointer	_ptr;
 
@@ -124,12 +132,12 @@ namespace ft
 	class reverse_iterator
 	{
 		public:
-			typedef Iterator												iterator_type;
-			typedef typename iterator_traits<Iterator>::iterator_category	iterator_category;
-			typedef typename iterator_traits<Iterator>::value_type			value_type;
-			typedef typename iterator_traits<Iterator>::difference_type		difference_type;
-			typedef typename iterator_traits<Iterator>::pointer				pointer;
-			typedef typename iterator_traits<Iterator>::reference			reference;
+			typedef Iterator														iterator_type;
+			typedef typename ft::iterator_traits<Iterator>::iterator_category		iterator_category;
+			typedef typename ft::iterator_traits<Iterator>::value_type				value_type;
+			typedef typename ft::iterator_traits<Iterator>::difference_type			difference_type;
+			typedef typename ft::iterator_traits<Iterator>::pointer					pointer;
+			typedef typename ft::iterator_traits<Iterator>::reference				reference;
 
 		private:
 			pointer	_ptr;
@@ -181,7 +189,7 @@ namespace ft
 			
 			reverse_iterator 	operator-(difference_type n) const
 			{
-				random_access_iterator res(*this);
+				reverse_iterator res(*this);
 
 				res._ptr -= n;
 				return res;
