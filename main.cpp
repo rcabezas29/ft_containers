@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/24 09:35:38 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/25 12:45:47 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int main (void)
   // constructors used in the same order as described above:
   ft::vector<int> first;                                // empty vector of ints
   ft::vector<int> second (4,100);                       // four ints with value 100
-  ft::vector<int> third (second.begin(),second.end());  // iterating through second
-  ft::vector<int> fourth (third);                       // a copy of third
+  ft::vector<int> third (second.begin(), second.end());  // iterating through second
+  ft::vector<int> fourth (second);                       // a copy of third
 
   // the iterator constructor can also be used to construct from arrays:
   int myints[] = {16,2,77,29};

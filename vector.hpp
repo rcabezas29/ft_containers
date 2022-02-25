@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/24 10:27:25 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/25 15:21:34 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <algorithm>
 #include "utils/iterator.hpp"
 #include "utils/lexicographical_compare.hpp"
+#include "utils/is_integral.hpp"
+#include "utils/enable_if.hpp"
 
 namespace ft
 {
@@ -42,6 +44,8 @@ namespace ft
 			pointer				_array;
 			size_type			_size;
 			size_type			_capacity;
+			pointer				_end;
+			pointer				_begin;
 
 		public:
 			//construction & destruction
@@ -51,6 +55,8 @@ namespace ft
 				this->_array = NULL;
 				this->_size = 0;
 				this->_capacity = 0;
+				this->_end = NULL;
+				this->_begin = NULL;
 			}
 
 			explicit	vector(size_type n, const value_type &val = value_type(),
@@ -62,33 +68,37 @@ namespace ft
 					this->_array[i] = val;
 				this->_size = n;	
 				this->_capacity = n;
+				this->_begin = &this->_array[0];
+				this->_begin = &this->_array[this->_size];
 			}
 			
 			template <class InputIterator>
-			vector(InputIterator first, InputIterator last,
+			vector(InputIterator first, typename ft::enable_if<>, InputIterator last,
 					const allocator_type& alloc = allocator_type())
 					: _allocator(alloc),
 					_array(NULL),
 					_size(0),
 					_capacity(0)
 			{
-				while (first != last)
+				InputIterator	it = first;
+
+				while (it++ != last)
+					this->_capacity++;
+
+				for (size_type i = 0; i < this->_capacity; i++)
 				{
-					push_back(first);
-					first++;
+					this->_allocator.construct(this->_array, *first++);
 					this->_size++;
+					first++;
 				}
+				this->_begin = &this->_array[0];
+				this->_begin = &this->_array[this->_size];
 			}
 
 			vector(const vector &copy) : _allocator(copy._allocator), 
 				_size(copy.size()), _capacity(copy.capacity())
 			{
-				iterator	it(&copy.begin());
-				while (it != copy.end())
-				{
-					push_back(it);
-					it++;
-				}
+				*this = copy;
 			}
 			
 			// virtual ~vector(void);
@@ -213,7 +223,7 @@ namespace ft
 			void			push_back(const value_type &val)
 			{
 				this->_size++;
-				this->_allocator.construct(this->end(), val);
+				this->_allocator.construct(this->_array, val);
 			}
 
 			void			pop_back(void)
@@ -228,7 +238,7 @@ namespace ft
 				if (this->_capacity < this->_size + 1)
 				{
 					pointer	new_array = this->_allocator.allocate(this->_capacity * 2);
-					while (this->_array[i] != NULL)
+					while (this->_array[i])
 					{
 						new_array[i] = this->_array[i];
 						i++;
@@ -238,7 +248,7 @@ namespace ft
 				else
 				{
 					if (position == this->end())
-						this->alloc.construct(&(this->end(), val));
+						this->_allocator.construct(this->_end, val);
 					else
 					{
 						iterator	it = this->begin();
@@ -268,7 +278,7 @@ namespace ft
 			void			insert(iterator position, InputIterator first, InputIterator last)
 			{
 				while (first++ != last)
-					insert(position++, *first);
+					this->insert(position++, first);
 			}
 
 			iterator		erase(iterator position)
