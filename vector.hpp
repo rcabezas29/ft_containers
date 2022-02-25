@@ -73,8 +73,8 @@ namespace ft
 			}
 			
 			template <class InputIterator>
-			vector(InputIterator first, typename ft::enable_if<>, InputIterator last,
-					const allocator_type& alloc = allocator_type())
+			vector(InputIterator first, InputIterator last,
+					const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 					: _allocator(alloc),
 					_array(NULL),
 					_size(0),
@@ -85,11 +85,11 @@ namespace ft
 				while (it++ != last)
 					this->_capacity++;
 
+				this->_array = this->_allocator.allocate(this->_capacity);
 				for (size_type i = 0; i < this->_capacity; i++)
 				{
 					this->_allocator.construct(this->_array, *first++);
 					this->_size++;
-					first++;
 				}
 				this->_begin = &this->_array[0];
 				this->_begin = &this->_array[this->_size];
@@ -101,16 +101,21 @@ namespace ft
 				*this = copy;
 			}
 			
-			// virtual ~vector(void);
+			virtual ~vector(void)
+			{
+				this->_allocator.destroy(this->_array);
+			}
 
 			vector	&operator=(const vector &op)
 			{
 				if (this == &op)
 					return *this;
 				this->_allocator = op._allocator;
-				this->_array = op._array;
+				for (size_type i = 0; i < this->_size; i++)
+					this->_array[i] = op._array[i];
 				this->_capacity = op._capacity;
 				this->_size = op._size;
+				return *this;
 			}
 
 			//iterators

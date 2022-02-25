@@ -41,7 +41,7 @@ namespace ft
 			pointer	_ptr;
 
 		public:
-			random_access_iterator(void) : _ptr(nullptr) {}
+			random_access_iterator(void) : _ptr(NULL) {}
 			random_access_iterator(const random_access_iterator &copy) : _ptr(copy._ptr) {}
 			random_access_iterator(pointer p) : _ptr(p) {}
 
@@ -147,7 +147,7 @@ namespace ft
 			pointer	_ptr;
 
 		public:
-			reverse_iterator(void) : _ptr(nullptr) {}
+			reverse_iterator(void) : _ptr(NULL) {}
 			explicit	reverse_iterator(iterator_type it) : _ptr(it._ptr) {}
 			reverse_iterator(pointer p) : _ptr(p) {}
 

@@ -16,7 +16,7 @@ INC= -I utils
 
 CXX = clang++
 
-CXXFLAGS = -Wall -Werror -Wextra -std=c++98
+CXXFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g3 #-std=c++98
 
 SRCS = main.cpp
 
