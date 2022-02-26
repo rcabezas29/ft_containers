@@ -228,9 +228,30 @@ namespace ft
 
 			void			push_back(const value_type &val)
 			{
-				this->_array = this->_allocator.allocate(this->_capacity + 1);
-				this->_allocator.construct(&this->_array[this->_size], val);
-				this->_size++;
+				value_type	*new_array;
+				size_type	i;
+
+				if (this->_size == 0)
+				{
+					this->_array = this->_allocator.allocate(sizeof(size_type) * 2);
+					this->_allocator.construct(this->_array, val);
+				}
+				else if (this->_capacity <= this->_size + 1)
+				{
+					new_array = this->_allocator.allocate(this->_capacity * 2);
+					i = 0;
+					while (this->_array[i])
+					{
+						new_array[i] = this->_array[i];
+						++i;
+					}
+					new_array[i] = val;
+					this->_allocator.destroy(this->_array);
+					this->_array = new_array;
+				}
+				else
+					this->_array[this->_size] = val;
+				++this->_size;
 			}
 
 			void			pop_back(void)
