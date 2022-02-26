@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/26 10:16:50 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/26 10:30:10 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,8 +228,9 @@ namespace ft
 
 			void			push_back(const value_type &val)
 			{
+				this->_array = this->_allocator.allocate(this->_capacity + 1);
+				this->_allocator.construct(&this->_array[this->_size], val);
 				this->_size++;
-				this->_allocator.construct(this->_array, val);
 			}
 
 			void			pop_back(void)
