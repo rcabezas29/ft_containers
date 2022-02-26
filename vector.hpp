@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/26 10:30:10 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/26 13:57:26 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,36 +228,24 @@ namespace ft
 
 			void			push_back(const value_type &val)
 			{
-				value_type	*new_array;
-				size_type	i;
-
-				if (this->_size == 0)
+				if (this->_capacity > this->_size)
 				{
-					this->_array = this->_allocator.allocate(sizeof(size_type) * 2);
-					this->_allocator.construct(this->_array, val);
-				}
-				else if (this->_capacity <= this->_size + 1)
-				{
-					new_array = this->_allocator.allocate(this->_capacity * 2);
-					i = 0;
-					while (this->_array[i])
-					{
-						new_array[i] = this->_array[i];
-						++i;
-					}
-					new_array[i] = val;
-					this->_allocator.destroy(this->_array);
-					this->_array = new_array;
+					this->_allocator.construct(this->_end, val);
+					++this->_size;
 				}
 				else
-					this->_array[this->_size] = val;
-				++this->_size;
+				{
+					this->_array = this->_allocator.allocate(this->_capacity * 2);
+					this->_allocator.construct(this->_end, val);
+					++this->_size;
+					this->_capacity *= 2;
+				}
 			}
 
 			void			pop_back(void)
 			{
-				this->_size--;
-				this->_allocator.destruct(this->_array[this->_size]);
+				this->_allocator.destruct(this->_array[--this->_size]);
+				--this->_end;
 			}
 
 			iterator		insert(iterator position, const value_type &val)
