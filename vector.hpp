@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/25 15:21:34 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/26 10:16:50 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ namespace ft
 				this->_array = this->_allocator.allocate(this->_capacity);
 				for (size_type i = 0; i < this->_capacity; i++)
 				{
-					this->_allocator.construct(this->_array, *first++);
+					this->_allocator.construct(&this->_array[i], *first++);
 					this->_size++;
 				}
 				this->_begin = &this->_array[0];
@@ -111,6 +111,7 @@ namespace ft
 				if (this == &op)
 					return *this;
 				this->_allocator = op._allocator;
+				this->_array = this->_allocator.allocate(op._capacity);
 				for (size_type i = 0; i < this->_size; i++)
 					this->_array[i] = op._array[i];
 				this->_capacity = op._capacity;
