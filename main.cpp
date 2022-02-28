@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/26 10:31:16 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/28 13:21:05 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,33 @@ int main (void)
 
 	*/
 
+	/*
+
+		PUSH_BACK / POP_BACK TEST
 	ft::vector<int> myvector;
+	int	sum = 0;
+	
 	for (int i = 1; i <= 5; i++)
 		myvector.push_back(i);
+
 
 	std::cout << "myvector contains:";
 	for (ft::vector<int>::iterator it = myvector.begin() ; it != myvector.end(); ++it)
 		std::cout << ' ' << *it;
 	std::cout << '\n';
+
+	while (!myvector.empty())
+  	{
+    	sum += myvector.back();
+   		myvector.pop_back();
+  	}
+
+	std::cout << "The elements of myvector add up to " << sum << '\n';
+	std::cout << "SIZE: " << myvector.size() << " CAPACITY: " << myvector.capacity() << std::endl;
+	*/
+	
+
+
 
 	return 0;
 }

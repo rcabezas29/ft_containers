@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/26 13:57:26 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/28 13:17:56 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ namespace ft
 				this->_array = NULL;
 				this->_size = 0;
 				this->_capacity = 0;
-				this->_end = NULL;
-				this->_begin = NULL;
+				this->_end = this->_array;
+				this->_begin = this->_array;
 			}
 
 			explicit	vector(size_type n, const value_type &val = value_type(),
@@ -66,10 +66,10 @@ namespace ft
 				this->_array = this->_allocator.allocate(n);
 				for (size_type i = 0; i < n; i++)
 					this->_array[i] = val;
-				this->_size = n;	
+				this->_size = n;
 				this->_capacity = n;
 				this->_begin = &this->_array[0];
-				this->_begin = &this->_array[this->_size];
+				this->_end = &this->_array[this->_size];
 			}
 			
 			template <class InputIterator>
@@ -89,10 +89,10 @@ namespace ft
 				for (size_type i = 0; i < this->_capacity; i++)
 				{
 					this->_allocator.construct(&this->_array[i], *first++);
-					this->_size++;
+					++this->_size;
 				}
 				this->_begin = &this->_array[0];
-				this->_begin = &this->_array[this->_size];
+				this->_end = &this->_array[this->_size];
 			}
 
 			vector(const vector &copy) : _allocator(copy._allocator), 
@@ -184,7 +184,24 @@ namespace ft
 
 			bool		empty(void) const { return (this->_size == 0); }
 
-			void		reserve(size_type n) { this->_array = this->_allocator.allocate(n); }
+			void		reserve(size_type n)
+			{
+				if (this->_capacity < n)
+				{
+					pointer	new_array;
+
+					new_array = this->_allocator.allocate(n);
+					if (this->_size > 0)
+					{
+						for (size_type i = 0; i < this->_size; i++)
+							new_array[i] = this->_array[i];
+					}
+					this->_array = new_array;
+					this->_begin = &this->_array[0];
+					this->_begin = &this->_array[this->_size];
+					this->_capacity = n;
+				}
+			}
 
 			//element access
 			reference			operator[](size_type n) { return this->_array[n]; }
@@ -228,23 +245,17 @@ namespace ft
 
 			void			push_back(const value_type &val)
 			{
-				if (this->_capacity > this->_size)
+				if (this->_size == this->_capacity)
 				{
-					this->_allocator.construct(this->_end, val);
-					++this->_size;
+					this->reserve(this->_capacity > 0 ? this->_capacity * 2 : 1);
 				}
-				else
-				{
-					this->_array = this->_allocator.allocate(this->_capacity * 2);
-					this->_allocator.construct(this->_end, val);
-					++this->_size;
-					this->_capacity *= 2;
-				}
+				this->_allocator.construct(this->_array + this->_size, val);
+				++this->_size;
 			}
 
 			void			pop_back(void)
 			{
-				this->_allocator.destruct(this->_array[--this->_size]);
+				this->_allocator.destroy(&this->_array[--this->_size]);
 				--this->_end;
 			}
 
