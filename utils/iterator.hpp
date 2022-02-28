@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:41:14 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/25 11:14:50 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/28 16:08:00 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,4 +223,16 @@ namespace ft
 
 			reference			operator[](difference_type n) const { return this->_ptr[n]; }
 	};
+
+	template <typename T>
+	typename random_access_iterator<T>::difference_type operator+(const random_access_iterator<T> &a, const random_access_iterator<T> &b)
+	{
+		return a.get_pointer() + b.get_pointer();
+	}
+
+	template <typename T>
+	typename random_access_iterator<T>::difference_type operator-(const random_access_iterator<T> &a, const random_access_iterator<T> &b)
+	{
+		return a.get_pointer() - b.get_pointer();
+	}
 };

@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/28 13:17:56 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/28 20:36:51 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,9 +175,16 @@ namespace ft
 
 			void		resize(size_type n, value_type val = value_type())
 			{
-				this->_allocator.deallocate(this->_array);
-				this->_array = this->_allocator.allocate(n, val);
-				this->_size = n;
+				if (n < this->_size)
+				{
+					for (iterator it = this->end(); this->size() > n; it--)
+						this->erase(it);
+				}
+				else if (n > this->_size)
+				{
+					for (iterator it = this->end(); this->size() <= n; it++)
+						this->insert(it, val);
+				}
 			}
 
 			size_type	capacity(void) const { return this->_capacity; }
@@ -261,38 +268,37 @@ namespace ft
 
 			iterator		insert(iterator position, const value_type &val)
 			{
+				iterator	it = this->begin();
+				size_type	pos = 0;
 				size_type	i = 0;
-				if (this->_capacity < this->_size + 1)
-				{
-					pointer	new_array = this->_allocator.allocate(this->_capacity * 2);
-					while (this->_array[i])
-					{
-						new_array[i] = this->_array[i];
-						i++;
-					}
-					this->_array = new_array;
-				}
-				else
-				{
-					if (position == this->end())
-						this->_allocator.construct(this->_end, val);
-					else
-					{
-						iterator	it = this->begin();
+				bool		inserted = false;
+				value_type	aux;
 
-						while (it++ != position)
-							i++;
-						value_type	aux = this->_array[i];
-						this->_array[i] = val;
-						while (it++ != this->end())
-						{
-							this->_array[++i] = aux;
-							aux = this->_array[i + 1];
-						}
-					}
+				if (this->_capacity == this->_size)
+				{
+					pointer	aux_array = this->_array;
+
+					this->_allocator.deallocate(this->_array, this->_capacity);
+					this->_array = this->_allocator.allocate(this->_capacity > 0 ? this->_capacity * 2 : 1);
+					for (size_type j = 0; j < this->_size; j++)
+						this->_array[j] = aux_array[j];
+					this->_capacity = this->_capacity > 0 ? this->_capacity * 2 : 1;
 				}
-				iterator ret(this->_array + i);
-				return ret;
+				while (i < this->_size + 1)
+					{
+						aux = this->_array[i];
+						if (it == position)
+						{
+							this->_array[i] = val;
+							inserted = true;
+							pos = i;
+						}
+						i++;
+						if (inserted == true)
+							this->_array[i] = aux;
+					}
+				++this->_size;
+				return iterator(this->_array + pos);
 			}
 
 			void			insert(iterator position, size_type n, const value_type &val)
@@ -302,10 +308,10 @@ namespace ft
 			}
 
 			template <class InputIterator>
-			void			insert(iterator position, InputIterator first, InputIterator last)
+			void			insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 			{
 				while (first++ != last)
-					this->insert(position++, first);
+					this->insert(position++, *first);
 			}
 
 			iterator		erase(iterator position)
@@ -313,8 +319,7 @@ namespace ft
 				iterator	it = this->begin();
 				while (it != position)
 					it++;
-				it++;
-				this->_allocator.destroy(*(it - 1));
+				this->_allocator.destroy(&(*it));
 				this->_size--;
 				return it;
 			}
@@ -325,11 +330,11 @@ namespace ft
 
 				while (it != last)
 				{
-					this->_allocator.destroy(*(it - 1));
+					this->_allocator.destroy(&(it - 1));
 					it++;
 					this->_size--;
 				}
-				return *(it + 1);
+				return it + 1;
 			}
 
 			void			swap(vector &x);
