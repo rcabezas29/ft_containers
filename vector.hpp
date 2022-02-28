@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/28 20:36:51 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/28 21:07:22 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ namespace ft
 			typedef typename allocator_type::pointer						pointer;
 			typedef typename allocator_type::const_pointer					const_pointer;
 			typedef	typename ft::random_access_iterator<value_type>			iterator;
-			typedef	typename ft::random_access_iterator<const value_type>	const_iterator;
+			typedef	typename ft::random_access_iterator<value_type>			const_iterator;
 			typedef	typename ft::reverse_iterator<iterator>					reverse_iterator;
 			typedef	typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef ptrdiff_t												difference_type;
@@ -134,8 +134,8 @@ namespace ft
 
 			iterator				end(void)
 			{
-				iterator	it(&this->_array[this->_size]);
-				return it;
+				//iterator	it(&this->_array[this->_size]);
+				return iterator(&this->_array[this->_size]);
 			}
 
 			const_iterator			end(void) const
@@ -330,14 +330,19 @@ namespace ft
 
 				while (it != last)
 				{
-					this->_allocator.destroy(&(it - 1));
+					this->_allocator.destroy(*(it - 1));
 					it++;
 					this->_size--;
 				}
-				return it + 1;
+				return *(it + 1);
 			}
 
-			void			swap(vector &x);
+			void			swap(vector &x)
+			{
+				vector	aux(*this);
+				*this = x;
+				x = aux;
+			}
 
 			void			clear(void)
 			{

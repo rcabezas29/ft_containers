@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:41:14 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/28 16:08:00 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/02/28 21:09:28 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ namespace ft
 				return  it;
 			}
 
-			reference			operator*(void) const { return this->reference; }
+			reference			operator*(void) const { return *(this->_ptr); }
 
 			reverse_iterator	operator+(difference_type n) const
 			{
