@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/01 12:21:10 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:40:18 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ namespace ft
 			typedef typename allocator_type::pointer						pointer;
 			typedef typename allocator_type::const_pointer					const_pointer;
 			typedef	typename ft::random_access_iterator<value_type>			iterator;
-			typedef	typename ft::random_access_iterator<value_type>			const_iterator;
+			typedef	typename ft::random_access_iterator<const value_type>	const_iterator;
 			typedef	typename ft::reverse_iterator<iterator>					reverse_iterator;
 			typedef	typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef ptrdiff_t												difference_type;
@@ -247,7 +247,7 @@ namespace ft
 			{
 				iterator	it = this->begin();
 
-				for (int i = 0; i < n; i++)
+				for (size_type  i = 0; i < n; i++)
 					this->_allocator.construct(it++, val);
 			}
 
@@ -354,11 +354,11 @@ namespace ft
 			allocator_type	get_allocator(void) const;
 	};
 
-	template <class T, class Alloc>
-	bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	template <typename T, typename U, class Alloc>
+	bool operator==(const vector<T, Alloc> &lhs, const vector<U, Alloc> &rhs)
 	{
 		ft::random_access_iterator<T>	lit = lhs.begin();
-		ft::random_access_iterator<T>	rit = rhs.begin();
+		ft::random_access_iterator<U>	rit = rhs.begin();
 
 		while (lit != lhs.end())
 		{
@@ -372,32 +372,32 @@ namespace ft
 		return true;
 	}
 
-	template <class T, class Alloc>
-	bool operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	template <typename T, typename U, class Alloc>
+	bool operator!=(const vector<T, Alloc> &lhs, const vector<U, Alloc> &rhs)
 	{
 		return !(lhs == rhs);
 	}
 
-	template <class T, class Alloc>
-	bool operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	template <typename T, typename U, class Alloc>
+	bool operator<(const vector<T, Alloc> &lhs, const vector<U, Alloc> &rhs)
 	{
-		return ft::lexicographical_compare<ft::random_access_iterator<T>, ft::random_access_iterator<T> >(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return ft::lexicographical_compare<ft::random_access_iterator<T>, ft::random_access_iterator<U> >(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
-	template <class T, class Alloc>
-	bool operator<=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	template <typename T, typename U, class Alloc>
+	bool operator<=(const vector<T, Alloc> &lhs, const vector<U, Alloc> &rhs)
 	{
 		return lhs < rhs || lhs == rhs;
 	}
 
-	template <class T, class Alloc>
-	bool operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	template <typename T, typename U, class Alloc>
+	bool operator>(const vector<T, Alloc> &lhs, const vector<U, Alloc> &rhs)
 	{
 		return !(lhs <= rhs);
 	}
 
-	template <class T, class Alloc>
-	bool operator>=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	template <typename T, typename U, class Alloc>
+	bool operator>=(const vector<T, Alloc> &lhs, const vector<U, Alloc> &rhs)
 	{
 		return !(lhs < rhs);
 	}

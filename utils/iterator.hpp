@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:41:14 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/01 12:12:56 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:34:50 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,16 @@ namespace ft
 
 		public:
 			random_access_iterator(void) : _ptr(NULL) {}
-			random_access_iterator(const random_access_iterator &copy) : _ptr(copy._ptr) {}
+
+			template <typename U>
+			random_access_iterator(const random_access_iterator<U> &copy) : _ptr(copy.get_pointer()) {}
 			random_access_iterator(pointer p) : _ptr(p) {}
 
 			random_access_iterator &operator=(const random_access_iterator &op)
 			{
 				if (this == &op)
 					return *this;
-				this->_ptr = op._ptr;
+				this->_ptr = op.get_pointer();
 				return *this;
 			}
 
@@ -131,15 +133,39 @@ namespace ft
 
 			pointer	get_pointer(void) const { return this->_ptr; }
 	};
+
+	template <typename T, typename U>
+	bool operator<(const random_access_iterator<T> &a, const random_access_iterator<U> &b)
+	{
+		return a.get_pointer() < b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	bool operator>(const random_access_iterator<T> &a, const random_access_iterator<U> &b)
+	{
+		return a.get_pointer() > b.get_pointer();
+	}
 	
-	template <typename T>
-	typename random_access_iterator<T>::difference_type operator+(const random_access_iterator<T> &a, const random_access_iterator<T> &b)
+	template <typename T, typename U>
+	bool operator<=(const random_access_iterator<T> &a, const random_access_iterator<U> &b)
+	{
+		return a.get_pointer() <= b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	bool operator>=(const random_access_iterator<T> &a, const random_access_iterator<U> &b)
+	{
+		return a.get_pointer() >= b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	typename random_access_iterator<T>::difference_type operator+(const random_access_iterator<T> &a, const random_access_iterator<U> &b)
 	{
 		return a.get_pointer() + b.get_pointer();
 	}
 
-	template <typename T>
-	typename random_access_iterator<T>::difference_type operator-(const random_access_iterator<T> &a, const random_access_iterator<T> &b)
+	template <typename T, typename U>
+	typename random_access_iterator<T>::difference_type operator-(const random_access_iterator<T> &a, const random_access_iterator<U> &b)
 	{
 		return a.get_pointer() - b.get_pointer();
 	}
@@ -154,6 +180,18 @@ namespace ft
 	ft::random_access_iterator<T> operator-(typename ft::random_access_iterator<T>::difference_type a, const random_access_iterator<T> &b)
 	{
 		return a - b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	bool operator!=(const random_access_iterator<T> &a, const random_access_iterator<U> &b)
+	{
+		return a.get_pointer() != b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	bool operator==(const random_access_iterator<T> &a, const random_access_iterator<U> &b)
+	{
+		return a.get_pointer() == b.get_pointer();
 	}
 
 	template <class Iterator>
@@ -176,12 +214,16 @@ namespace ft
 			reverse_iterator(pointer p) : _ptr(p) {}
 
 			template <class Iter>
-			reverse_iterator(const reverse_iterator<Iter> &rev_it) : _ptr(rev_it._ptr) {}
+			reverse_iterator(const reverse_iterator<Iter> &rev_it) : _ptr(rev_it.get_pointer()) {}
 			
 			iterator_type		base(void) const
 			{
 				return  iterator_type(this->_ptr);
 			}
+
+			bool	operator==(const reverse_iterator &b) const { return this->_ptr == b._ptr; }
+			
+			bool	operator!=(const reverse_iterator &b) const { return this->_ptr != b._ptr; }
 
 			reference			operator*(void) const { return *(this->_ptr); }
 
@@ -240,9 +282,79 @@ namespace ft
 				this->_ptr -= n;
 				return *this;
 			}
+
+			bool	operator<(const reverse_iterator &b) const { return *this->_ptr < *b._ptr; }
+			
+			bool	operator>(const reverse_iterator &b) const { return *this->_ptr > *b._ptr; }
+
+			bool	operator<=(const reverse_iterator &b) const { return *this->_ptr <= *b._ptr; }
+			
+			bool	operator>=(const reverse_iterator &b) const { return *this->_ptr >= *b._ptr; }
 			
 			pointer 			operator->(void) const  { return this->_ptr; }
 
 			reference			operator[](difference_type n) const { return this->_ptr[n]; }
+
+			pointer				get_pointer(void) const { return this->_ptr; }
 	};
+
+	template <typename T, typename U>
+	typename reverse_iterator<random_access_iterator<T> >::difference_type operator+(const reverse_iterator<random_access_iterator<T> > &a, const reverse_iterator<random_access_iterator<U> > &b)
+	{
+		return a.get_pointer() + b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	typename reverse_iterator<random_access_iterator<T> >::difference_type operator-(const reverse_iterator<random_access_iterator<T> > &a, const reverse_iterator<random_access_iterator<U> > &b)
+	{
+		return a.get_pointer() - b.get_pointer();
+	}
+
+	template <typename T>
+	reverse_iterator<random_access_iterator<T> > operator+(typename reverse_iterator<random_access_iterator<T> >::difference_type a, const reverse_iterator<random_access_iterator<T> > &b)
+	{
+		return a + b.get_pointer();
+	}
+
+	template <typename T>
+	reverse_iterator<random_access_iterator<T> > operator-(typename reverse_iterator<random_access_iterator<T> >::difference_type a, const reverse_iterator<random_access_iterator<T> > &b)
+	{
+		return a - b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	bool operator!=(const reverse_iterator<random_access_iterator<T> > &a, const reverse_iterator<random_access_iterator<U> > &b)
+	{
+		return a.get_pointer() != b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	bool operator==(const reverse_iterator<random_access_iterator<T> > &a, const reverse_iterator<random_access_iterator<U> > &b)
+	{
+		return a.get_pointer() == b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	bool operator<(const reverse_iterator<random_access_iterator<T> > &a, const reverse_iterator<random_access_iterator<U> > &b)
+	{
+		return a.get_pointer() < b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	bool operator>(const reverse_iterator<random_access_iterator<T> > &a, const reverse_iterator<random_access_iterator<U> > &b)
+	{
+		return a.get_pointer() > b.get_pointer();
+	}
+	
+	template <typename T, typename U>
+	bool operator<=(const reverse_iterator<random_access_iterator<T> > &a, const reverse_iterator<random_access_iterator<U> > &b)
+	{
+		return a.get_pointer() <= b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	bool operator>=(const reverse_iterator<random_access_iterator<T> > &a, const reverse_iterator<random_access_iterator<U> > &b)
+	{
+		return a.get_pointer() >= b.get_pointer();
+	}
 };
