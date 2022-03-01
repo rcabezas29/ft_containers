@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:41:14 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/28 21:09:28 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/01 12:12:56 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,30 @@ namespace ft
 
 			pointer	get_pointer(void) const { return this->_ptr; }
 	};
+	
+	template <typename T>
+	typename random_access_iterator<T>::difference_type operator+(const random_access_iterator<T> &a, const random_access_iterator<T> &b)
+	{
+		return a.get_pointer() + b.get_pointer();
+	}
+
+	template <typename T>
+	typename random_access_iterator<T>::difference_type operator-(const random_access_iterator<T> &a, const random_access_iterator<T> &b)
+	{
+		return a.get_pointer() - b.get_pointer();
+	}
+
+	template <typename T>
+	ft::random_access_iterator<T> operator+(typename ft::random_access_iterator<T>::difference_type a, const random_access_iterator<T> &b)
+	{
+		return a + b.get_pointer();
+	}
+
+	template <typename T>
+	ft::random_access_iterator<T> operator-(typename ft::random_access_iterator<T>::difference_type a, const random_access_iterator<T> &b)
+	{
+		return a - b.get_pointer();
+	}
 
 	template <class Iterator>
 	class reverse_iterator
@@ -148,7 +172,7 @@ namespace ft
 
 		public:
 			reverse_iterator(void) : _ptr(NULL) {}
-			explicit	reverse_iterator(iterator_type it) : _ptr(it._ptr) {}
+			explicit	reverse_iterator(iterator_type it) : _ptr(it.get_pointer()) {}
 			reverse_iterator(pointer p) : _ptr(p) {}
 
 			template <class Iter>
@@ -156,9 +180,7 @@ namespace ft
 			
 			iterator_type		base(void) const
 			{
-				iterator_type	it(*this);
-
-				return  it;
+				return  iterator_type(this->_ptr);
 			}
 
 			reference			operator*(void) const { return *(this->_ptr); }
@@ -223,16 +245,4 @@ namespace ft
 
 			reference			operator[](difference_type n) const { return this->_ptr[n]; }
 	};
-
-	template <typename T>
-	typename random_access_iterator<T>::difference_type operator+(const random_access_iterator<T> &a, const random_access_iterator<T> &b)
-	{
-		return a.get_pointer() + b.get_pointer();
-	}
-
-	template <typename T>
-	typename random_access_iterator<T>::difference_type operator-(const random_access_iterator<T> &a, const random_access_iterator<T> &b)
-	{
-		return a.get_pointer() - b.get_pointer();
-	}
 };

@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/02/28 21:07:22 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/01 12:21:10 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ namespace ft
 					for (iterator it = this->end(); this->size() <= n; it++)
 						this->insert(it, val);
 				}
+				this->_size = n;
 			}
 
 			size_type	capacity(void) const { return this->_capacity; }
@@ -330,11 +331,11 @@ namespace ft
 
 				while (it != last)
 				{
-					this->_allocator.destroy(*(it - 1));
+					this->_allocator.destroy(&(*(it - 1)));
 					it++;
 					this->_size--;
 				}
-				return *(it + 1);
+				return &(*(it - 1));
 			}
 
 			void			swap(vector &x)
@@ -356,17 +357,17 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		ft::random_access_iterator<T>	lit = lhs.first();
-		ft::random_access_iterator<T>	rit = rhs.first();
+		ft::random_access_iterator<T>	lit = lhs.begin();
+		ft::random_access_iterator<T>	rit = rhs.begin();
 
 		while (lit != lhs.end())
 		{
-			if (*lit != *rit || rit == rhs.last())
+			if (*lit != *rit || rit == rhs.end())
 				return false;
 			++lit;
 			++rit;
 		}
-		if (rit != rhs.last())
+		if (rit != rhs.end())
 			return false;
 		return true;
 	}
@@ -380,7 +381,7 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		return ft::lexicographical_compare<ft::random_access_iterator, ft::random_access_iterator>(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return ft::lexicographical_compare<ft::random_access_iterator<T>, ft::random_access_iterator<T> >(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <class T, class Alloc>
