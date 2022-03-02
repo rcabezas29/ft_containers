@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/01 19:40:18 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/02 12:28:08 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,37 +226,26 @@ namespace ft
 
 			//modifiers
 			template <class InputIterator>
-			void			assign(InputIterator first, InputIterator last)
+			void			assign(InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 			{
-				difference_type	i;
-				T	*tmp = this->_array;
-				const value_type &val = value_type();
-				
-
-				i = 0;
-				while (first++ != last)
+				this->clear();
+				while (first != last)
 				{
-					this->_allocator.construct(tmp, val);
-					tmp++;
-					i++;
+					this->push_back(*first);
+					++first;
 				}
-				this->_size = i;
 			}
 
 			void			assign(size_type n, const value_type &val)
 			{
-				iterator	it = this->begin();
-
-				for (size_type  i = 0; i < n; i++)
-					this->_allocator.construct(it++, val);
+				for (size_type i = 0; i < n; i++)
+					this->push_back(val);
 			}
 
 			void			push_back(const value_type &val)
 			{
 				if (this->_size == this->_capacity)
-				{
 					this->reserve(this->_capacity > 0 ? this->_capacity * 2 : 1);
-				}
 				this->_allocator.construct(this->_array + this->_size, val);
 				++this->_size;
 			}
@@ -357,18 +346,11 @@ namespace ft
 	template <typename T, typename U, class Alloc>
 	bool operator==(const vector<T, Alloc> &lhs, const vector<U, Alloc> &rhs)
 	{
-		ft::random_access_iterator<T>	lit = lhs.begin();
-		ft::random_access_iterator<U>	rit = rhs.begin();
-
-		while (lit != lhs.end())
-		{
-			if (*lit != *rit || rit == rhs.end())
-				return false;
-			++lit;
-			++rit;
-		}
-		if (rit != rhs.end())
+		if (lhs.size() != rhs.size())
 			return false;
+		for (typename ft::vector<T>::size_type i = 0; i < lhs.size(); i++)
+			if (lhs[i] != rhs[i])
+				return false;
 		return true;
 	}
 
@@ -381,7 +363,7 @@ namespace ft
 	template <typename T, typename U, class Alloc>
 	bool operator<(const vector<T, Alloc> &lhs, const vector<U, Alloc> &rhs)
 	{
-		return ft::lexicographical_compare<ft::random_access_iterator<T>, ft::random_access_iterator<U> >(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <typename T, typename U, class Alloc>

@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/01 11:16:59 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/02 12:38:46 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int main (void)
 
 		CONSTRUCTORS TESTS
 
-	// ft::vector<int> first;                                // empty vector of ints
-	//ft::vector<int> second (4,100);                       // four ints with value 100
-	//ft::vector<int> third (second.begin(), second.end());  // iterating through second
-	//ft::vector<int> fourth (second);                       // a copy of third
+	ft::vector<int> first;                                // empty vector of ints
+	ft::vector<int> second (4,100);                       // four ints with value 100
+	ft::vector<int> third (second.begin(), second.end());  // iterating through second
+	ft::vector<int> fourth (second);                       // a copy of third
 
 	int myints[] = {16,2,77,29};
 	ft::vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
@@ -110,23 +110,24 @@ int main (void)
 	/*
 		ASSIGN TEST
 
-	ft::vector<int> first;
-	ft::vector<int> second;
-	ft::vector<int> third;
+	ft::vector<int>	first;
+	ft::vector<int>	second;
+	ft::vector<int>	third;
 
 	first.assign (7,100);             // 7 ints with a value of 100
 
 	ft::vector<int>::iterator it;
-	it=first.begin()+1;
+	it = first.begin() + 1;
 
-	second.assign (it,first.end()-1); // the 5 central values of first
+	second.assign (it, first.end() - 1); // the 5 central values of first
 
-	int myints[] = {1776,7,4};
-	third.assign (myints,myints+3);   // assigning from array.
+	int myints[] = {1776, 7, 4};
+	third.assign(myints, myints + 3);   // assigning from array.
 
 	std::cout << "Size of first: " << int (first.size()) << '\n';
 	std::cout << "Size of second: " << int (second.size()) << '\n';
 	std::cout << "Size of third: " << int (third.size()) << '\n';
+
 	*/
 
 	return 0;
