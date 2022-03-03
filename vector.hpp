@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/02 12:28:08 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/03 16:25:23 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,50 +122,42 @@ namespace ft
 			//iterators
 			iterator				begin(void)
 			{
-				iterator	it(&this->_array[0]);
-				return it;
+				return iterator(this->_array);
 			}
 			
 			const_iterator			begin(void) const
 			{
-				const_iterator	it(&this->_array[0]);
-				return it;
+				return const_iterator(this->_array);
 			}
 
 			iterator				end(void)
 			{
-				//iterator	it(&this->_array[this->_size]);
-				return iterator(&this->_array[this->_size]);
+				return iterator(this->_array + this->_size);
 			}
 
 			const_iterator			end(void) const
 			{
-				const_iterator	it(&this->_array[this->_size]);
-				return it;
+				return const_iterator(this->_array + this->_size);
 			}
 
 			reverse_iterator		rbegin(void)
 			{
-				reverse_iterator	it(&this->_array[0]);
-				return it;
+				return reverse_iterator(this->_array + this->_size);
 			}
 			
 			const_reverse_iterator	rbegin(void) const
 			{
-				const_reverse_iterator	it(&this->_array[0]);
-				return it;
+				return const_reverse_iterator(this->_array + this->_size);
 			}
 
 			reverse_iterator		rend(void)
 			{
-				reverse_iterator	it(&this->_array[this->_size]);
-				return it;
+				return reverse_iterator(this->_array);
 			}
 
 			const_reverse_iterator	rend(void) const
 			{
-				const_reverse_iterator	it(&this->_array[this->_size]);
-				return it;
+				return const_reverse_iterator(this->_array);
 			}
 
 			//capacity
@@ -215,8 +207,18 @@ namespace ft
 			reference			operator[](size_type n) { return this->_array[n]; }
 			const_reference		operator[](size_type n) const { return this->_array[n]; }
 
-			reference			at(size_type n) { return this->_array[n]; }
-			const_reference		at(size_type n) const { return this->_array[n]; }
+			reference			at(size_type n)
+			{
+				if (n >= this->_size)
+					throw std::out_of_range("vector");
+				return this->_array[n];
+			}
+			const_reference		at(size_type n) const
+			{
+				if (n >= this->_size)
+					throw std::out_of_range("vector");
+				return this->_array[n];
+			}
 
 			reference			front(void) { return this->_array[0]; }
 			const_reference		front(void) const { return this->_array[0]; }
@@ -238,6 +240,7 @@ namespace ft
 
 			void			assign(size_type n, const value_type &val)
 			{
+				this->clear();
 				for (size_type i = 0; i < n; i++)
 					this->push_back(val);
 			}
@@ -246,7 +249,7 @@ namespace ft
 			{
 				if (this->_size == this->_capacity)
 					this->reserve(this->_capacity > 0 ? this->_capacity * 2 : 1);
-				this->_allocator.construct(this->_array + this->_size, val);
+				this->_allocator.construct(this->end().get_pointer(), val);
 				++this->_size;
 			}
 
@@ -258,37 +261,16 @@ namespace ft
 
 			iterator		insert(iterator position, const value_type &val)
 			{
-				iterator	it = this->begin();
-				size_type	pos = 0;
-				size_type	i = 0;
-				bool		inserted = false;
-				value_type	aux;
-
-				if (this->_capacity == this->_size)
-				{
-					pointer	aux_array = this->_array;
-
-					this->_allocator.deallocate(this->_array, this->_capacity);
-					this->_array = this->_allocator.allocate(this->_capacity > 0 ? this->_capacity * 2 : 1);
-					for (size_type j = 0; j < this->_size; j++)
-						this->_array[j] = aux_array[j];
-					this->_capacity = this->_capacity > 0 ? this->_capacity * 2 : 1;
-				}
-				while (i < this->_size + 1)
-					{
-						aux = this->_array[i];
-						if (it == position)
-						{
-							this->_array[i] = val;
-							inserted = true;
-							pos = i;
-						}
-						i++;
-						if (inserted == true)
-							this->_array[i] = aux;
-					}
-				++this->_size;
-				return iterator(this->_array + pos);
+				vector	copy = *this;
+				this->clear();
+				iterator it = copy.begin();
+				while (it < position)
+					this->push_back(*(it++));
+				this->push_back(val);
+				iterator ret = this->end() - 1;
+				while (it < copy.end())
+					this->push_back(*(it++));
+				return (ret);
 			}
 
 			void			insert(iterator position, size_type n, const value_type &val)

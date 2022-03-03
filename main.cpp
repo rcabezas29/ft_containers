@@ -6,11 +6,13 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/02 12:38:46 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/03 16:24:33 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include <vector>
+#include <list>
 #include "vector.hpp"
 
 int main (void)
@@ -84,31 +86,38 @@ int main (void)
 	/*
 
 		INSERT TEST
-	ft::vector<int> myvector (3,100);
-	ft::vector<int>::iterator it;
+
+	ft::vector<int>				myvector(3,100);
+	ft::vector<int>::iterator	it;
 
 	it = myvector.begin();
 	it = myvector.insert(it, 200);
 
-	myvector.insert (it,2,300);
+	myvector.insert(it, 2, 300);
+
 
 	// "it" no longer valid, get a new one:
 	it = myvector.begin();
 
-	ft::vector<int> anothervector (2,400);
-	myvector.insert (it+2,anothervector.begin(),anothervector.end());
+	ft::vector<int>	anothervector(2,400);
+	// myvector.insert(it + 2, anothervector.begin(), anothervector.end());
 
-	int myarray [] = { 501,502,503 };
-	myvector.insert (myvector.begin(), myarray, myarray+3);
+	// int myarray [] = {501, 502, 503};
+	// myvector.insert(myvector.begin(), myarray, myarray + 3);
 
+	std::cout << "MYVEC BEGIN: " << *(myvector.begin() + 3) << std::endl;
+
+	myvector.insert(myvector.begin() + 4, 5);
+	
 	std::cout << "myvector contains:";
-	for (it=myvector.begin(); it<myvector.end(); it++)
+	for (it = myvector.begin(); it < myvector.end(); it++)
 		std::cout << ' ' << *it;
 	std::cout << '\n';
 	*/
 
 	/*
 		ASSIGN TEST
+
 
 	ft::vector<int>	first;
 	ft::vector<int>	second;
@@ -128,7 +137,41 @@ int main (void)
 	std::cout << "Size of second: " << int (second.size()) << '\n';
 	std::cout << "Size of third: " << int (third.size()) << '\n';
 
+	first.assign(2, 4);
+	std::cout << "CHECK OVERWRITE SIZE " << first.size() << " should be 2" << std::endl;
 	*/
 
+	/*
+
+		AT TEST
+	
+	ft::vector<int>	myvector(10);   // 10 zero-initialized ints
+
+	// assign some values:
+	for (unsigned i =  0; i < myvector.size(); i++)
+		myvector.at(i)=i;
+
+	std::cout << "myvector contains:";
+	for (unsigned i = 0; i < myvector.size(); i++)
+		std::cout << ' ' << myvector.at(i);
+	std::cout << '\n';
+
+	try
+	{
+		std::cout << "OUT OF RANGE: " << myvector.at(15) << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+
+	*/
+
+	const int	size = 5;
+
+	ft::vector<int>	vct(size);
+	ft::vector<int>::reverse_iterator it(vct.rbegin());
+
+	std::cout << *it << std::endl;
 	return 0;
 }

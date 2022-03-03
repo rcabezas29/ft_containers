@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:41:14 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/02 09:08:13 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/03 14:05:54 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,13 +109,13 @@ namespace ft
 				return res;
 			}
 
-			bool	operator<(const random_access_iterator &b) const { return *this->_ptr < *b._ptr; }
+			bool	operator<(const random_access_iterator &b) const { return this->_ptr < b.get_pointer(); }
 			
-			bool	operator>(const random_access_iterator &b) const { return *this->_ptr > *b._ptr; }
+			bool	operator>(const random_access_iterator &b) const { return this->_ptr > b.get_pointer(); }
 
-			bool	operator<=(const random_access_iterator &b) const { return *this->_ptr <= *b._ptr; }
+			bool	operator<=(const random_access_iterator &b) const { return this->_ptr <= b.get_pointer(); }
 			
-			bool	operator>=(const random_access_iterator &b) const { return *this->_ptr >= *b._ptr; }
+			bool	operator>=(const random_access_iterator &b) const { return this->_ptr >= b.get_pointer(); }
 
 			random_access_iterator operator+=(difference_type n)
 			{
@@ -283,13 +283,13 @@ namespace ft
 				return *this;
 			}
 
-			bool	operator<(const reverse_iterator &b) const { return *this->_ptr < *b._ptr; }
+			// bool	operator<(const reverse_iterator &b) const { return *this->_ptr < *b._ptr; }
 			
-			bool	operator>(const reverse_iterator &b) const { return *this->_ptr > *b._ptr; }
+			// bool	operator>(const reverse_iterator &b) const { return *this->_ptr > *b._ptr; }
 
-			bool	operator<=(const reverse_iterator &b) const { return *this->_ptr <= *b._ptr; }
+			// bool	operator<=(const reverse_iterator &b) const { return *this->_ptr <= *b._ptr; }
 			
-			bool	operator>=(const reverse_iterator &b) const { return *this->_ptr >= *b._ptr; }
+			// bool	operator>=(const reverse_iterator &b) const { return *this->_ptr >= *b._ptr; }
 			
 			pointer 			operator->(void) const  { return this->_ptr; }
 
