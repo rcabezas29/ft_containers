@@ -36,7 +36,7 @@ namespace ft
 			typedef	typename ft::random_access_iterator<const value_type>	const_iterator;
 			typedef	typename ft::reverse_iterator<iterator>					reverse_iterator;
 			typedef	typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
-			typedef ptrdiff_t												difference_type;
+			typedef std::ptrdiff_t											difference_type;
 			typedef size_t													size_type;
 
 		private:
@@ -103,7 +103,8 @@ namespace ft
 			
 			virtual ~vector(void)
 			{
-				this->_allocator.destroy(this->_array);
+				this->_allocator.deallocate(this->_array, this->_capacity);
+				// this->_allocator.destroy(this->_array);
 			}
 
 			vector	&operator=(const vector &op)

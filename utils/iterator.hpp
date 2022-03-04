@@ -237,7 +237,7 @@ namespace ft
 
 			reverse_iterator	&operator++(void)
 			{
-				this->_ptr++;
+				this->_ptr--;
 				return *this;
 			}
 
@@ -245,7 +245,7 @@ namespace ft
 			{
 				reverse_iterator	pre = *this;
 				
-				this->_ptr++;
+				this->_ptr--;
 				return pre;
 			}
 			
@@ -265,7 +265,7 @@ namespace ft
 			
 			reverse_iterator	&operator--(void)
 			{
-				this->_ptr--;
+				this->_ptr++;
 				return *this;
 			}
 

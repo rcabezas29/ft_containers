@@ -14,6 +14,9 @@
 #include <vector>
 #include <list>
 #include "vector.hpp"
+#include "base.hpp"
+
+#define TESTED_TYPE foo<int>
 
 int main (void)
 {
@@ -169,11 +172,14 @@ int main (void)
 
 	const int	size = 5;
 
-	ft::vector<int>	vct(size, 4);
-	ft::vector<int>::reverse_iterator it;
-
-	it = vct.rbegin();
+	ft::vector<TESTED_TYPE>							vct(size);
+	ft::vector<TESTED_TYPE>::reverse_iterator		it(vct.rbegin());
+	ft::vector<TESTED_TYPE>::const_reverse_iterator	ite(vct.rend());
 
 	std::cout << *it << std::endl;
+
+	for (int i = 1; it != ite; ++i)
+		*it++ = (i * 7);
+
 	return 0;
 }
