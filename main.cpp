@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/03 16:24:33 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/04 16:29:35 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <vector>
 #include <list>
 #include "vector.hpp"
-#include "base.hpp"
 
 #define TESTED_TYPE foo<int>
 

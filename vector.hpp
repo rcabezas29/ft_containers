@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/03 16:25:23 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/04 16:32:07 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ namespace ft
 			
 			virtual ~vector(void)
 			{
-				this->_allocator.deallocate(this->_array, this->_capacity);
+				// this->_allocator.deallocate(this->_array, this->_capacity);
 				// this->_allocator.destroy(this->_array);
 			}
 
