@@ -169,8 +169,10 @@ int main (void)
 
 	const int	size = 5;
 
-	ft::vector<int>	vct(size);
-	ft::vector<int>::reverse_iterator it(vct.rbegin());
+	ft::vector<int>	vct(size, 4);
+	ft::vector<int>::reverse_iterator it;
+
+	it = vct.rbegin();
 
 	std::cout << *it << std::endl;
 	return 0;

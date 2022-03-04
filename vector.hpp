@@ -142,12 +142,12 @@ namespace ft
 
 			reverse_iterator		rbegin(void)
 			{
-				return reverse_iterator(this->_array + this->_size);
+				return reverse_iterator(this->_array + this->_size - 1);
 			}
 			
 			const_reverse_iterator	rbegin(void) const
 			{
-				return const_reverse_iterator(this->_array + this->_size);
+				return const_reverse_iterator(this->_array + this->_size - 1);
 			}
 
 			reverse_iterator		rend(void)
