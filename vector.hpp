@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/04 16:32:07 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/05 10:45:23 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,12 @@ namespace ft
 					return *this;
 				this->_allocator = op._allocator;
 				this->_array = this->_allocator.allocate(op._capacity);
-				for (size_type i = 0; i < this->_size; i++)
-					this->_array[i] = op._array[i];
 				this->_capacity = op._capacity;
+				for (size_type i = 0; i < op._size; i++)
+					this->_array[i] = op._array[i];
 				this->_size = op._size;
+				this->_begin = op._begin;
+				this->_end = op._end;
 				return *this;
 			}
 
@@ -260,6 +262,8 @@ namespace ft
 				--this->_end;
 			}
 
+
+			// *** FIX ***
 			iterator		insert(iterator position, const value_type &val)
 			{
 				vector	copy = *this;

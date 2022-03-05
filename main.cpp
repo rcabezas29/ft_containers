@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/04 16:29:35 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/05 10:42:49 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <vector>
 #include <list>
 #include "vector.hpp"
-
-#define TESTED_TYPE foo<int>
 
 int main (void)
 {
@@ -169,16 +167,60 @@ int main (void)
 
 	*/
 
-	const int	size = 5;
+	ft::vector<int> vct(5);
+	ft::vector<int>::iterator it = vct.begin(), ite = vct.end();
 
-	ft::vector<TESTED_TYPE>							vct(size);
-	ft::vector<TESTED_TYPE>::reverse_iterator		it(vct.rbegin());
-	ft::vector<TESTED_TYPE>::const_reverse_iterator	ite(vct.rend());
+	std::cout << "len: " << (ite - it) << std::endl;
+	for (; it != ite; ++it)
+		*it = (ite - it);
 
-	std::cout << *it << std::endl;
+	it = vct.begin();
+	ft::vector<int> vct_range(it, --(--ite));
+	for (int i = 0; it != ite; ++it)
+		*it = ++i * 5;
 
-	for (int i = 1; it != ite; ++i)
-		*it++ = (i * 7);
+	it = vct.begin();
+	ft::vector<int> vct_copy(vct);
+	for (int i = 0; it != ite; ++it)
+		*it = ++i * 7;
+	vct_copy.push_back(42);
+	vct_copy.push_back(21);
+
+	std::cout << "\t-- PART ONE --" << std::endl;
+
+	std::cout << "* VCT *" << std::endl;
+	for (size_t i = 0; i != vct.size(); i++)
+		std::cout << vct[i] << " ";
+	std::cout << "\n";
+
+	std::cout << "* RANGE *" << std::endl;
+	for (size_t i = 0; i != vct_range.size(); i++)
+		std::cout << vct_range[i] << " ";
+	std::cout << "\n";
+	
+	std::cout << "* COPY *" << std::endl;
+	for (size_t i = 0; i != vct_copy.size(); i++)
+		std::cout << vct_copy[i] << " ";
+	std::cout << "\n";
+
+	std::cout << "VCT = COPY" << std::endl;
+	vct = vct_copy;
+	std::cout << "COPY = RANGE" << std::endl;
+	vct_copy = vct_range;
+	vct_range.clear();
+
+	std::cout << "\t-- PART TWO --" << std::endl;
+	for (size_t i = 0; i != vct.size(); i++)
+		std::cout << vct[i] << " ";
+	std::cout << "\n";
+
+	for (size_t i = 0; i != vct_range.size(); i++)
+		std::cout << vct_range[i] << " ";
+	std::cout << "\n";
+	
+	for (size_t i = 0; i != vct_copy.size(); i++)
+		std::cout << vct_copy[i] << " ";
+	std::cout << "\n";
 
 	return 0;
 }
