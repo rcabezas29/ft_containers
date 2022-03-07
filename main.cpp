@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/05 10:42:49 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/07 15:22:56 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int main (void)
 	/*
 
 		INSERT TEST
-
+		
 	ft::vector<int>				myvector(3,100);
 	ft::vector<int>::iterator	it;
 
@@ -105,7 +105,7 @@ int main (void)
 	// int myarray [] = {501, 502, 503};
 	// myvector.insert(myvector.begin(), myarray, myarray + 3);
 
-	std::cout << "MYVEC BEGIN: " << *(myvector.begin() + 3) << std::endl;
+	std::cout << "MYVEC BEGIN: " << *(myvector.begin() + 4) << std::endl;
 
 	myvector.insert(myvector.begin() + 4, 5);
 	
@@ -167,6 +167,10 @@ int main (void)
 
 	*/
 
+
+	/*
+
+		COPY & ASSIGNMENT CONSTRUCTOR TEST
 	ft::vector<int> vct(5);
 	ft::vector<int>::iterator it = vct.begin(), ite = vct.end();
 
@@ -221,6 +225,30 @@ int main (void)
 	for (size_t i = 0; i != vct_copy.size(); i++)
 		std::cout << vct_copy[i] << " ";
 	std::cout << "\n";
+	*/
+
+	ft::vector<int> foo(3, 15);
+	ft::vector<int> bar(5, 42);
+	
+	ft::vector<int>::const_iterator it_foo = foo.begin();
+	ft::vector<int>::const_iterator it_bar = bar.begin();
+
+	foo.swap(bar);
+
+	std::cout << "Iterator validity:" << std::endl;
+
+	std::cout << "IT_FOO: " << *it_foo << " " << &it_foo << std::endl;
+	std::cout << "IT_BAR: " << *it_bar << " " << &it_bar << std::endl;
+
+	ft::vector<int>::const_iterator foo_check = foo.begin();
+	ft::vector<int>::const_iterator bar_check = bar.begin();
+	
+	std::cout << "bar begin: " << *bar_check << " " << &bar_check << std::endl;
+	std::cout << "foo begin: " << *foo_check << " " << &foo_check << std::endl;
+
+	
+	std::cout << (it_foo == bar_check) << std::endl;
+	std::cout << (it_bar == foo_check) << std::endl;
 
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/05 10:45:23 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/07 15:40:36 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,7 @@ namespace ft
 				this->_allocator = op._allocator;
 				this->_array = this->_allocator.allocate(op._capacity);
 				this->_capacity = op._capacity;
-				for (size_type i = 0; i < op._size; i++)
-					this->_array[i] = op._array[i];
+				this->_array = op._array;
 				this->_size = op._size;
 				this->_begin = op._begin;
 				this->_end = op._end;
@@ -316,9 +315,10 @@ namespace ft
 
 			void			swap(vector &x)
 			{
-				vector	aux(*this);
-				*this = x;
-				x = aux;
+				vector	aux = x;
+
+				x = *this;
+				*this = aux;
 			}
 
 			void			clear(void)
@@ -327,7 +327,7 @@ namespace ft
 					pop_back();
 			}
 
-			allocator_type	get_allocator(void) const;
+			allocator_type	get_allocator(void) const { return this->_allocator; }
 	};
 
 	template <typename T, typename U, class Alloc>
