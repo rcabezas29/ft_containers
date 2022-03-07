@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/07 15:40:36 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/07 15:47:14 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,13 +171,13 @@ namespace ft
 			{
 				if (n < this->_size)
 				{
-					for (iterator it = this->end(); this->size() > n; it--)
-						this->erase(it);
+					for (size_type i = this->size(); i > n; i--)
+						this->pop_back();
 				}
 				else if (n > this->_size)
 				{
-					for (iterator it = this->end(); this->size() <= n; it++)
-						this->insert(it, val);
+					for (size_type i = this->size(); i < n; i++)
+						this->push_back(val);
 				}
 				this->_size = n;
 			}
