@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/08 11:48:57 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/08 12:54:38 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,14 +225,5 @@ int main (void)
 	std::cout << "\n";
 	*/
 
-	ft::vector<int>	vct(5);
-	ft::vector<int>::reverse_iterator it_0(vct.rbegin());
-	ft::vector<int>::reverse_iterator it_1(vct.rend());
-
-	for (int i = 5; it_0 != it_1; --i)
-	{
-		std::cout << i << std::endl;
-		*it_0++ = i;
-	}
 	return 0;
 }
