@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/07 15:47:14 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/08 11:36:34 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ namespace ft
 				this->_allocator = alloc;
 				this->_array = this->_allocator.allocate(n);
 				for (size_type i = 0; i < n; i++)
-					this->_array[i] = val;
+					this->_allocator.construct(&this->_array[i], val);
 				this->_size = n;
 				this->_capacity = n;
 				this->_begin = &this->_array[0];
@@ -95,8 +95,7 @@ namespace ft
 				this->_end = &this->_array[this->_size];
 			}
 
-			vector(const vector &copy) : _allocator(copy._allocator), 
-				_size(copy.size()), _capacity(copy.capacity())
+			vector(const vector &copy)
 			{
 				*this = copy;
 			}
@@ -114,7 +113,9 @@ namespace ft
 				this->_allocator = op._allocator;
 				this->_array = this->_allocator.allocate(op._capacity);
 				this->_capacity = op._capacity;
-				this->_array = op._array;
+				for (size_type i = 0; i < op.size(); i++)
+					this->_array[i] = op._array[i];
+				// this->_array = op._array;
 				this->_size = op._size;
 				this->_begin = op._begin;
 				this->_end = op._end;
@@ -316,9 +317,12 @@ namespace ft
 			void			swap(vector &x)
 			{
 				vector	aux = x;
+				aux._array = x._array;
 
 				x = *this;
+				x._array = this->_array;
 				*this = aux;
+				this->_array = aux._array;
 			}
 
 			void			clear(void)

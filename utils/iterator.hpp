@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:41:14 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/07 15:26:18 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/07 20:23:02 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,7 +231,7 @@ namespace ft
 			{
 				reverse_iterator res(*this);
 
-				res._ptr += n;
+				res._ptr -= n;
 				return res;
 			}
 
@@ -251,7 +251,7 @@ namespace ft
 			
 			reverse_iterator	&operator+=(difference_type n)
 			{
-				this->_ptr += n;
+				this->_ptr -= n;
 				return *this;
 			}
 			
@@ -259,7 +259,7 @@ namespace ft
 			{
 				reverse_iterator res(*this);
 
-				res._ptr -= n;
+				res._ptr += n;
 				return res;
 			}
 			
@@ -279,7 +279,7 @@ namespace ft
 
 			reverse_iterator	&operator-=(difference_type n)
 			{
-				this->_ptr -= n;
+				this->_ptr += n;
 				return *this;
 			}
 
@@ -337,24 +337,24 @@ namespace ft
 	template <typename T, typename U>
 	bool operator<(const reverse_iterator<random_access_iterator<T> > &a, const reverse_iterator<random_access_iterator<U> > &b)
 	{
-		return a.get_pointer() < b.get_pointer();
+		return a.get_pointer() > b.get_pointer();
 	}
 
 	template <typename T, typename U>
 	bool operator>(const reverse_iterator<random_access_iterator<T> > &a, const reverse_iterator<random_access_iterator<U> > &b)
 	{
-		return a.get_pointer() > b.get_pointer();
+		return a.get_pointer() < b.get_pointer();
 	}
 	
 	template <typename T, typename U>
 	bool operator<=(const reverse_iterator<random_access_iterator<T> > &a, const reverse_iterator<random_access_iterator<U> > &b)
 	{
-		return a.get_pointer() <= b.get_pointer();
+		return a.get_pointer() >= b.get_pointer();
 	}
 
 	template <typename T, typename U>
 	bool operator>=(const reverse_iterator<random_access_iterator<T> > &a, const reverse_iterator<random_access_iterator<U> > &b)
 	{
-		return a.get_pointer() >= b.get_pointer();
+		return a.get_pointer() <= b.get_pointer();
 	}
 };

@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/07 15:22:56 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/08 11:48:57 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,9 +164,7 @@ int main (void)
 	{
 		std::cerr << e.what() << '\n';
 	}
-
 	*/
-
 
 	/*
 
@@ -227,28 +225,14 @@ int main (void)
 	std::cout << "\n";
 	*/
 
-	ft::vector<int> foo(3, 15);
-	ft::vector<int> bar(5, 42);
-	
-	ft::vector<int>::const_iterator it_foo = foo.begin();
-	ft::vector<int>::const_iterator it_bar = bar.begin();
+	ft::vector<int>	vct(5);
+	ft::vector<int>::reverse_iterator it_0(vct.rbegin());
+	ft::vector<int>::reverse_iterator it_1(vct.rend());
 
-	foo.swap(bar);
-
-	std::cout << "Iterator validity:" << std::endl;
-
-	std::cout << "IT_FOO: " << *it_foo << " " << &it_foo << std::endl;
-	std::cout << "IT_BAR: " << *it_bar << " " << &it_bar << std::endl;
-
-	ft::vector<int>::const_iterator foo_check = foo.begin();
-	ft::vector<int>::const_iterator bar_check = bar.begin();
-	
-	std::cout << "bar begin: " << *bar_check << " " << &bar_check << std::endl;
-	std::cout << "foo begin: " << *foo_check << " " << &foo_check << std::endl;
-
-	
-	std::cout << (it_foo == bar_check) << std::endl;
-	std::cout << (it_bar == foo_check) << std::endl;
-
+	for (int i = 5; it_0 != it_1; --i)
+	{
+		std::cout << i << std::endl;
+		*it_0++ = i;
+	}
 	return 0;
 }
