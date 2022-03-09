@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:41:14 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/07 20:23:02 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/08 21:36:02 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,14 +225,15 @@ namespace ft
 			
 			bool	operator!=(const reverse_iterator &b) const { return this->_ptr != b._ptr; }
 
-			reference			operator*(void) const { return *(this->_ptr); }
+			reference			operator*(void) const
+			{
+				iterator_type ret = this->get_pointer();
+                return (*(--ret));
+			}
 
 			reverse_iterator	operator+(difference_type n) const
 			{
-				reverse_iterator res(*this);
-
-				res._ptr -= n;
-				return res;
+				return reverse_iterator(this->_ptr - n);
 			}
 
 			reverse_iterator	&operator++(void)
@@ -257,10 +258,7 @@ namespace ft
 			
 			reverse_iterator 	operator-(difference_type n) const
 			{
-				reverse_iterator res(*this);
-
-				res._ptr += n;
-				return res;
+				return reverse_iterator(this->_ptr + n);
 			}
 			
 			reverse_iterator	&operator--(void)
@@ -293,7 +291,7 @@ namespace ft
 			
 			pointer 			operator->(void) const  { return this->_ptr; }
 
-			reference			operator[](difference_type n) const { return this->_ptr[n]; }
+			reference			operator[](difference_type n) const { return *(this->_ptr - n); }
 
 			pointer				get_pointer(void) const { return this->_ptr; }
 	};
@@ -313,7 +311,7 @@ namespace ft
 	template <typename T>
 	reverse_iterator<random_access_iterator<T> > operator+(typename reverse_iterator<random_access_iterator<T> >::difference_type a, const reverse_iterator<random_access_iterator<T> > &b)
 	{
-		return a + b.get_pointer();
+		return b.get_pointer() + a;
 	}
 
 	template <typename T>

@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/08 12:48:50 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/08 21:01:50 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ namespace ft
 					}
 					this->_array = new_array;
 					this->_begin = &this->_array[0];
-					this->_begin = &this->_array[this->_size];
+					this->_end = &this->_array[this->_size];
 					this->_capacity = n;
 				}
 			}
