@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 11:47:46 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/09 15:30:32 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/09 17:57:17 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 #include <iostream>
 #include <vector>
-#include "stack.hpp"
+#include "vector.hpp"
 
 namespace ft
 {
-	template <class T, class Container = std::vector<T> >
+	template <class T, class Container = ft::vector<T> >
 	class stack
 	{
 		public:
@@ -30,8 +30,11 @@ namespace ft
 			container_type c;
 
 		public:
-			explicit stack(const container_type &ctnr = container_type()) : c(ctnr) {}
-			virtual	~stack(void) {}
+			explicit stack(const container_type &ctnr = container_type())
+			{
+				this->c = ctnr;
+			}
+			~stack(void) {}
 
 			bool empty(void) const { return c.empty(); }
 			size_type size(void) const { return c.size(); }

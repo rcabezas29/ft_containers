@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/08 21:01:50 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/09 20:48:10 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,7 @@ namespace ft
 			
 			virtual ~vector(void)
 			{
-				// this->_allocator.deallocate(this->_array, this->_capacity);
-				// this->_allocator.destroy(this->_array);
+				
 			}
 
 			vector	&operator=(const vector &op)
@@ -114,8 +113,7 @@ namespace ft
 				this->_array = this->_allocator.allocate(op._capacity);
 				this->_capacity = op._capacity;
 				for (size_type i = 0; i < op.size(); i++)
-					this->_array[i] = op._array[i];
-				// this->_array = op._array;
+					this->_allocator.construct(&this->_array[i], op._array[i]);
 				this->_size = op._size;
 				this->_begin = op._begin;
 				this->_end = op._end;
@@ -145,28 +143,28 @@ namespace ft
 
 			reverse_iterator		rbegin(void)
 			{
-				return reverse_iterator(this->_array + this->_size - 1);
+				return reverse_iterator(this->end());
 			}
 			
 			const_reverse_iterator	rbegin(void) const
 			{
-				return const_reverse_iterator(this->_array + this->_size - 1);
+				return const_reverse_iterator(this->end());
 			}
 
 			reverse_iterator		rend(void)
 			{
-				return reverse_iterator(this->_array - 1);
+				return reverse_iterator(this->begin() - 1);
 			}
 
 			const_reverse_iterator	rend(void) const
 			{
-				return const_reverse_iterator(this->_array - 1);
+				return const_reverse_iterator(this->begin() - 1);
 			}
 
 			//capacity
-			size_type	size(void) const {return this->_size;}
+			size_type	size(void) const { return this->_size; }
 
-			size_type	max_size(void) const {return this->_allocator.max_size();}
+			size_type	max_size(void) const { return this->_allocator.max_size(); }
 
 			void		resize(size_type n, value_type val = value_type())
 			{
@@ -197,7 +195,7 @@ namespace ft
 					if (this->_size > 0)
 					{
 						for (size_type i = 0; i < this->_size; i++)
-							new_array[i] = this->_array[i];
+							this->_allocator.construct(&new_array[i], this->_array[i]);
 					}
 					this->_array = new_array;
 					this->_begin = &this->_array[0];

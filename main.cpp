@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/09 15:26:11 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/09 20:48:56 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,33 @@
 
 int main (void)
 {
+
+	//const int size = 5;
+	//ft::vector<int> vct(size);
+	//ft::vector<int>::reverse_iterator it_0(vct.rbegin());
+	//ft::vector<int>::reverse_iterator it_1(vct.rend());
+
+	/*
+	for (int i = size; it_0 != it_1; --i)
+		*it_0++ = i;
+
+	for (size_t i = 0; i < vct.size(); i++)
+		std::cout << vct[i] << " ";
+	*/
+
+	ft::vector<int> vct2(5, 5);
+
+	ft::vector<int>::reverse_iterator rit = vct2.rbegin();
+	ft::vector<int>::reverse_iterator rite = vct2.rend();
+
+	while (rit != rite)
+	{
+		std::cout << *rit << std::endl;
+		rit++;
+	}
+	
+	
+
 	/*
 
 		CONSTRUCTORS TESTS
@@ -270,15 +297,7 @@ int main (void)
 		std::cout << vct[i] << " ";
 	*/
 
-	std::deque<int> mydeque(3, 100);          // deque with 3 elements
-	ft::vector<int> myvector(2, 200);        // vector with 2 elements
-
-	ft::stack<int> first;                    // empty stack
-
-	ft::stack<int, std::vector<int> > third;  // empty stack using vector
-
-	std::cout << "size of first: " << first.size() << '\n';
-	std::cout << "size of third: " << third.size() << '\n';
+	
 
 	return 0;
 }
