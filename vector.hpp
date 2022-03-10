@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/09 20:48:10 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/10 15:40:22 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,12 +153,12 @@ namespace ft
 
 			reverse_iterator		rend(void)
 			{
-				return reverse_iterator(this->begin() - 1);
+				return reverse_iterator(this->begin());
 			}
 
 			const_reverse_iterator	rend(void) const
 			{
-				return const_reverse_iterator(this->begin() - 1);
+				return const_reverse_iterator(this->begin());
 			}
 
 			//capacity

@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/09 20:48:56 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/10 16:37:40 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,32 @@
 
 int main (void)
 {
+	const int size = 5;
+	ft::vector<int> vct(size);
+	ft::vector<int>::reverse_iterator it = vct.rbegin();
+	ft::vector<int>::const_reverse_iterator ite = vct.rbegin();
 
-	//const int size = 5;
-	//ft::vector<int> vct(size);
-	//ft::vector<int>::reverse_iterator it_0(vct.rbegin());
-	//ft::vector<int>::reverse_iterator it_1(vct.rend());
+	for (int i = 0; i < size; ++i)
+		it[i] = (size - i) * 5;
+
+	it = it + 5;
+	it = 1 + it;
+	it = it - 4;
+	std::cout << *(it += 2) << std::endl;
+	std::cout << *(it -= 1) << std::endl;
+
+	*(it -= 2) = 42;
+	*(it += 2) = 21;
+
+	std::cout << "const_ite +=/-=: " << *(ite += 2) << " | " << *(ite -= 2) << std::endl;
+
+	std::cout << "(it == const_it): " << (ite == it) << std::endl;
+	std::cout << "(const_ite - it): " << (ite - it) << std::endl;
+	std::cout << "(ite + 3 == it): " << (ite + 3 == it) << std::endl;
 
 	/*
-	for (int i = size; it_0 != it_1; --i)
-		*it_0++ = i;
 
-	for (size_t i = 0; i < vct.size(); i++)
-		std::cout << vct[i] << " ";
-	*/
-
+		REV ITER TEST
 	ft::vector<int> vct2(5, 5);
 
 	ft::vector<int>::reverse_iterator rit = vct2.rbegin();
@@ -43,8 +55,86 @@ int main (void)
 		std::cout << *rit << std::endl;
 		rit++;
 	}
+
 	
 	
+	ft::vector<int> myvector;
+	for (int i = 0; i < 10; i++)
+		myvector.push_back(i);	// myvector: 0 1 2 3 4 5 6 7 8 9
+
+	typedef ft::vector<int>::iterator iter_type;
+
+	ft::reverse_iterator<iter_type> rev_iterator = myvector.rbegin();
+
+	std::cout << "RBEGIN = "<< *rev_iterator << std::endl;
+
+	rev_iterator += 2;
+	
+	std::cout << "The third element from the end is: " << *rev_iterator << '\n';
+
+	rev_iterator -= 1;
+
+	std::cout << "The second element from the end is: " << *rev_iterator << '\n';
+
+	ft::reverse_iterator<iter_type> check_iterator = rev_iterator - 1;
+
+	std::cout << "The first element from the end is: " << *check_iterator << '\n';
+
+	check_iterator = check_iterator + 3;
+
+	std::cout << "The fourth element from the end is: " << *check_iterator << '\n';
+
+	check_iterator -= 2;
+
+	std::cout << "The second element from the end is: " << *check_iterator << '\n';
+
+	std::cout << "----------------------------------------" << std::endl;
+
+	std::cout << "       RELATIONAL OPERATOR CHECK         " << std::endl;
+
+	std::cout << "----------------------------------------" << std::endl;
+
+	std::cout << std::boolalpha;
+
+	std::cout << (rev_iterator < check_iterator) << " - Should be false" << std::endl;
+	std::cout << (rev_iterator <= check_iterator) << " - Should be true" << std::endl;
+	std::cout << (rev_iterator > check_iterator) << " - Should be false" << std::endl;
+	std::cout << (rev_iterator >= check_iterator) << " - Should be true" << std::endl;
+
+	++check_iterator;
+
+	std::cout << "--SECOND PART--" << std::endl;
+
+	std::cout << "CHECK IT --> " << *check_iterator << std::endl;
+
+	std::cout << (rev_iterator < check_iterator) << " - Should be true" << std::endl;
+	std::cout << (rev_iterator <= check_iterator) << " - Should be true" << std::endl;
+	std::cout << (rev_iterator > check_iterator) << " - Should be false" << std::endl;
+	std::cout << (rev_iterator >= check_iterator) << " - Should be false" << std::endl;
+
+	check_iterator = check_iterator - 2;
+
+	std::cout << "--THIRD PART--" << std::endl;
+
+	std::cout << "CHECK IT --> " << *check_iterator << std::endl;
+
+	std::cout << (rev_iterator < check_iterator) << " - Should be false" << std::endl;
+	std::cout << (rev_iterator <= check_iterator) << " - Should be false" << std::endl;
+	std::cout << (rev_iterator > check_iterator) << " - Should be true" << std::endl;
+	std::cout << (rev_iterator >= check_iterator) << " - Should be true" << std::endl;
+
+	std::cout << "--FOURTH PART--" << std::endl;
+
+	++check_iterator;
+
+	std::cout << "CHECK IT --> " << *check_iterator << std::endl;
+
+	std::cout << (rev_iterator + 2 < check_iterator) << " - Should be false" << std::endl;
+	std::cout << (rev_iterator - 1 <= check_iterator) << " - Should be true" << std::endl;
+	std::cout << (rev_iterator + 5 > check_iterator) << " - Should be true" << std::endl;
+	std::cout << (rev_iterator >= check_iterator) << " - Should be true" << std::endl;
+
+	*/
 
 	/*
 
