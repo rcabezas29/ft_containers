@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/10 15:40:22 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/11 20:39:31 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,21 +260,31 @@ namespace ft
 				--this->_end;
 			}
 
-
-			// *** FIX ***
 			iterator		insert(iterator position, const value_type &val)
 			{
-				vector	copy = *this;
-				this->clear();
-				iterator it = copy.begin();
-				while (it < position)
-					this->push_back(*(it++));
-				this->push_back(val);
-				iterator ret = this->end() - 1;
-				while (it < copy.end())
-					this->push_back(*(it++));
-				return (ret);
+				iterator	it;
+				size_type	i = this->size();
+
+				if (this->size() + 1 >= this->capacity())
+					this->reserve(this->capacity() > 0 ? this->capacity() * 2 : 1);
+				it = this->end();
+				while (it > position && it != this->begin())
+				{
+					if (this->_array[i])
+						this->_allocator.destroy(&this->_array[i]);
+					this->_allocator.construct(&this->_array[i], this->_array[i - 1]);
+					--i;
+					--it;
+				}
+				if (this->_array[i])
+					this->_allocator.destroy(&this->_array[i]);
+				this->_allocator.construct(&this->_array[i], val);
+				++this->_size;
+				this->_begin = &this->_array[0];
+				this->_end = &this->_array[this->_size];
+				return (iterator(&this->_array[i]));
 			}
+			
 
 			void			insert(iterator position, size_type n, const value_type &val)
 			{
@@ -285,10 +295,9 @@ namespace ft
 			template <class InputIterator>
 			void			insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 			{
-				while (first++ != last)
-					this->insert(position++, *first);
+				while (first != last)
+					this->insert(position++, *first++);
 			}
-
 			iterator		erase(iterator position)
 			{
 				iterator	it = this->begin();
@@ -325,8 +334,8 @@ namespace ft
 
 			void			clear(void)
 			{
-				while (this->_size != 0)
-					pop_back();
+				while (this->_size > 0)
+					this->pop_back();
 			}
 
 			allocator_type	get_allocator(void) const { return this->_allocator; }

@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/10 16:37:40 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/11 15:22:59 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,6 @@
 
 int main (void)
 {
-	const int size = 5;
-	ft::vector<int> vct(size);
-	ft::vector<int>::reverse_iterator it = vct.rbegin();
-	ft::vector<int>::const_reverse_iterator ite = vct.rbegin();
-
-	for (int i = 0; i < size; ++i)
-		it[i] = (size - i) * 5;
-
-	it = it + 5;
-	it = 1 + it;
-	it = it - 4;
-	std::cout << *(it += 2) << std::endl;
-	std::cout << *(it -= 1) << std::endl;
-
-	*(it -= 2) = 42;
-	*(it += 2) = 21;
-
-	std::cout << "const_ite +=/-=: " << *(ite += 2) << " | " << *(ite -= 2) << std::endl;
-
-	std::cout << "(it == const_it): " << (ite == it) << std::endl;
-	std::cout << "(const_ite - it): " << (ite - it) << std::endl;
-	std::cout << "(ite + 3 == it): " << (ite + 3 == it) << std::endl;
-
 	/*
 
 		REV ITER TEST
@@ -204,8 +181,9 @@ int main (void)
 	/*
 
 		INSERT TEST
+		*/
 		
-	ft::vector<int>				myvector(3,100);
+	ft::vector<int>				myvector(3, 100);
 	ft::vector<int>::iterator	it;
 
 	it = myvector.begin();
@@ -224,27 +202,21 @@ int main (void)
 	// "it" no longer valid, get a new one:
 	it = myvector.begin();
 
-	myvector.insert(it + 2, 99);
-
-	// ft::vector<int>	anothervector(2,400);
-	// myvector.insert(it + 2, anothervector.begin(), anothervector.end());
+	ft::vector<int>	anothervector(2, 400);
+	myvector.insert(it + 2, anothervector.begin(), anothervector.end());
 
 	for (size_t i = 0; i < myvector.size(); i++)
 		std::cout << myvector[i] << " ";
 	std::cout << "\n" << std::endl;
 
-	// int myarray [] = {501, 502, 503};
-	// myvector.insert(myvector.begin(), myarray, myarray + 3);
-
-	// std::cout << "MYVEC BEGIN: " << *(myvector.begin() + 4) << std::endl;
-
-	// myvector.insert(myvector.begin() + 4, 5);
+	int myarray [] = {501, 502, 503};
+	myvector.insert(myvector.begin(), myarray, myarray + 3);
 	
-	// std::cout << "myvector contains:";
-	// for (it = myvector.begin(); it < myvector.end(); it++)
-	// 	std::cout << ' ' << *it;
-	// std::cout << '\n';
-	
+	std::cout << "myvector contains:";
+	for (it = myvector.begin(); it < myvector.end(); it++)
+		std::cout << " " << *it;
+	std::cout << "\n";
+	/*
 	*/
 
 	/*
