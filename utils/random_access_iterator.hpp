@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 21:05:05 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/11 21:12:12 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/14 17:16:48 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ namespace ft
 {
 	
 	template <typename T>
-	class random_access_iterator : public ft::Iter<std::random_access_iterator_tag, T>
+	class random_access_iterator
 	{
 		public:
 			typedef typename ft::Iter<std::random_access_iterator_tag, T>::iterator_category	iterator_category;

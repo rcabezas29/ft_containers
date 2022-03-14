@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/11 21:11:06 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/14 20:49:52 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,23 +289,57 @@ namespace ft
 
 			void			insert(iterator position, size_type n, const value_type &val)
 			{
+				vector		tmp;
+				iterator	it = this->begin();
+
+				for (; it != position; it++)
+				{
+					tmp.push_back(*it);
+				}
 				while (n-- > 0)
-					insert(position++, val);
+					tmp.push_back(val);
+				for (; it != this->end(); it++)
+				{
+					tmp.push_back(*it);
+				}
+				this->swap(tmp);
 			}
 
 			template <class InputIterator>
 			void			insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 			{
+				vector		tmp;
+				iterator	it = this->begin();
+
+				for (; it != position; it++)
+				{
+					tmp.push_back(*it);
+				}
 				while (first != last)
-					this->insert(position++, *first++);
+				{
+					tmp.push_back(*first);
+					first++;
+				}
+				for (; it != this->end(); it++)
+				{
+					tmp.push_back(*it);
+				}
+				this->swap(tmp);
 			}
+
 			iterator		erase(iterator position)
 			{
 				iterator	it = this->begin();
-				while (it != position)
-					it++;
+				size_type	i = 0;
+				while (it++ != position)
+					i++;
 				this->_allocator.destroy(&(*it));
-				this->_size--;
+				while (i < this->_size + 1)
+				{
+					this->_allocator.construct(&this->_array[i], this->_array[i + 1]);
+					++i;
+				}
+				--this->_size;
 				return it;
 			}
 			

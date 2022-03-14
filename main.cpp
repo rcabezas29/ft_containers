@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/11 15:22:59 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/14 20:53:55 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 int main (void)
 {
+
+
 	/*
 
 		REV ITER TEST
@@ -181,7 +183,6 @@ int main (void)
 	/*
 
 		INSERT TEST
-		*/
 		
 	ft::vector<int>				myvector(3, 100);
 	ft::vector<int>::iterator	it;
@@ -216,7 +217,6 @@ int main (void)
 	for (it = myvector.begin(); it < myvector.end(); it++)
 		std::cout << " " << *it;
 	std::cout << "\n";
-	/*
 	*/
 
 	/*
