@@ -6,14 +6,15 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/14 18:54:36 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/16 17:15:31 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <memory>
-#include <utils/pair.hpp>
+#include "utils/pair.hpp"
+#include "utils/binary_tree.hpp"
 
 namespace	ft
 {	
@@ -54,6 +55,9 @@ namespace	ft
 			}
 
 		private:
+			allocator_type									_allocactor;
+			ft::binary_tree<T, key_compare, allocator_type>	_btree;
+			size_type										_size;
 			
 
 		public:
@@ -64,7 +68,7 @@ namespace	ft
 				const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type());
 
-			map(const map& x);
+			map(const map& x) { *this = x; }
 
 			virtual	~map(void);
 
@@ -76,9 +80,9 @@ namespace	ft
 			iterator end(void);
 			const_iterator end(void) const;
 
-			bool empty(void) const;
-			size_type size(void) const;
-			size_type max_size(void) const;
+			bool empty(void) const {return this->_size == 0 ? true : false; }
+			size_type size(void) const { return this->_size; }
+			size_type max_size(void) const { return this->_allocator.max_size(); }
 
 			mapped_type &operator[](const key_type &k);
 
@@ -92,7 +96,7 @@ namespace	ft
 			size_type erase(const key_type &k);
 			void erase(iterator first, iterator last);
 
-			void swap (map& x);
+			void swap(map& x);
 
 			void clear(void);
 
@@ -113,7 +117,7 @@ namespace	ft
 			pair<const_iterator, const_iterator> equal_range(const key_type &k) const;
 			pair<iterator, iterator>             equal_range(const key_type &k);
 
-			allocator_type get_allocator(void) const;
+			allocator_type get_allocator(void) const { return this->_allocator; }
 
 	};
 };

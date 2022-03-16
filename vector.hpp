@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/14 20:49:52 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/16 20:13:02 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ namespace ft
 
 		private:
 			allocator_type		_allocator;
-			pointer				_array;
 			size_type			_size;
 			size_type			_capacity;
+			pointer				_array;
 			pointer				_end;
 			pointer				_begin;
 
@@ -77,9 +77,9 @@ namespace ft
 			vector(InputIterator first, InputIterator last,
 					const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 					: _allocator(alloc),
-					_array(NULL),
 					_size(0),
-					_capacity(0)
+					_capacity(0),
+					_array(NULL)
 			{
 				InputIterator	it = first;
 
