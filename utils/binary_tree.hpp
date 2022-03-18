@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/18 16:18:16 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/18 20:59:13 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,10 @@ namespace	ft
 		node_color	color;
 
 		node(void) : parent(NULL), lhs(NULL), rhs(NULL), color(RED) {}
-		node(const T value) : value(value), parent(NULL), lhs(NULL), rhs(NULL), color(RED) {}
+		node(const T value) : value(value), lhs(NULL), rhs(NULL), color(RED) {}
 		node	&operator=(const node &op)
 		{
 			this->value = op.value;
-			this->parent = op.parent;
-			this->lhs = op.lhs;
-			this->rhs = op.rhs;
-			this->color = op.color;
 			return *this;
 		}
 
@@ -60,7 +56,7 @@ namespace	ft
 		public:
 			typedef typename Alloc::template rebind<ft::node<T> >::other	allocator_type;
 
-		private:
+		public:
 			node<T>			*_root;
 			allocator_type	_allocator;
 
@@ -74,18 +70,32 @@ namespace	ft
 			binary_tree(ft::node<T> node, const allocator_type &alloc = allocator_type()) :  _root(node), _allocator(alloc) {}
 			virtual ~binary_tree(void) {}
 
-			void	insert_node(const ft::node<T> &node)
+			void	insert_node(const T &val)
 			{
-				ft::node<T>	*aux = this->_root;
+				ft::node<T>	*aux;
+				ft::node<T>	*par;
+
+				if (!this->_root)
+				{
+					*this->_root = ft::node<T>(val);
+					return ;	
+				}
+				aux = this->_root;
 				while (aux)
 				{
-					if (aux->value > node.value)
+					std::cout << this->_root->rhs << std::endl;
+					std::cout << aux << std::endl;
+					par = aux;
+					if (val >= aux->value)
 						aux = aux->rhs;
 					else
 						aux = aux->lhs;
 				}
 				aux = this->_allocator.allocate(1);
-				*aux = node;
+				aux->value = val;
+				aux->parent = par;
+				std::cout << this->_root->rhs << std::endl;
+				std::cout << aux << std::endl;
 			}
 
 			void	delete_node(const node<T> *node)
