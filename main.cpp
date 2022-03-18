@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/14 20:53:55 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/18 16:10:00 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,17 @@
 #include <list>
 #include "vector.hpp"
 #include "stack.hpp"
+// #include "map.hpp"
+#include "utils/binary_tree.hpp"
 
 int main (void)
 {
+	ft::binary_tree<int, std::less<int>, std::allocator<int> >	a(4);
 
+	ft::node<int>	node(5);
 
+	a.insert_node(node);
+	// std::cout << a << std::endl;
 	/*
 
 		REV ITER TEST

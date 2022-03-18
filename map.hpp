@@ -6,13 +6,15 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/16 17:15:31 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/18 15:09:32 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <memory>
+#include <iterator>
+#include <functional>
 #include "utils/pair.hpp"
 #include "utils/binary_tree.hpp"
 
@@ -31,16 +33,14 @@ namespace	ft
 			typedef typename allocator_type::const_reference				const_reference;
 			typedef typename allocator_type::pointer						pointer;
 			typedef typename allocator_type::const_pointer					const_pointer;
-			typedef typename ft::bidirectional_iterator<value_type>			iterator;
-			typedef typename ft::bidirectional_iterator<const value_type>	const_iterator;
+			typedef typename std::bidirectional_iterator<value_type>		iterator;
+			typedef typename std::bidirectional_iterator<const value_type>	const_iterator;
 			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef typename ft::iterator_traits<iterator>::difference_type	difference_type;
 			typedef size_t													size_type;
 
-
-			template <class Key, class T, class Compare, class Alloc>
-			class map<Key, T, Compare, Alloc>::value_compare : std::binary_function<value_type, value_type, bool>
+			class value_compare : std::binary_function<value_type, value_type, bool>
 			{
 				friend class map;
 				protected:
@@ -52,7 +52,7 @@ namespace	ft
 					typedef value_type	second_argument_type;
 
 					bool	operator()(const value_type &x, const value_type &y) const { return comp(x.first, y.first); }
-			}
+			};
 
 		private:
 			allocator_type									_allocactor;

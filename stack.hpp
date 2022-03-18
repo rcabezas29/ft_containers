@@ -6,14 +6,13 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 11:47:46 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/09 17:57:17 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/18 16:04:22 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <iostream>
-#include <vector>
 #include "vector.hpp"
 
 namespace ft

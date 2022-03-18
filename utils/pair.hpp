@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 17:25:47 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/14 17:43:14 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/18 10:31:42 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,48 +42,42 @@ namespace	ft
 				return *this;
 			}
 
-			template <class T1, class T2>
-			bool	operator==(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
+			bool	operator==(const pair<T1, T2> &b)
 			{
-				return lhs.first == rhs.first && lhs.second == rhs.second ? true : false;
+				return this->first == b.first && this->second == b.second ? true : false;
 			}
 
-			template <class T1, class T2>
-			bool	operator!=(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
+			bool	operator!=(const pair<T1, T2> &b)
 			{
-				return !(lhs == rhs);
+				return !(*this == b);
 			}
 
-			template <class T1, class T2>
-			bool	operator<(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
+			bool	operator<(const pair<T1, T2> &b)
 			{
-				if (lhs.first < rhs.first)
+				if (this->first < b.first)
 					return true;
-				else if (lhs.first > rhs.first)
+				else if (this->first > b.first)
 					return false;
-				else if (lhs.second < rhs.second)
+				else if (this->second < b.second)
 					return true;
 				else
 					return false;
 					
 			}
 
-			template <class T1, class T2>
-			bool	operator<=(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
+			bool	operator<=(const pair<T1, T2> &b)
 			{
-				return lhs < rhs;
+				return *this < b;
 			}
 
-			template <class T1, class T2>
-			bool	operator>(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
+			bool	operator>(const pair<T1, T2> &b)
 			{
-				return !(lhs < rhs);
+				return !(*this < b);
 			}
 
-			template <class T1, class T2>
-			bool	operator>=(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
+			bool	operator>=(const pair<T1, T2> &b)
 			{
-				return !(lhs < rhs);
+				return !(*this < b);
 			}
 
 	};
