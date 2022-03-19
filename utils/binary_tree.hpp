@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/18 20:59:13 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/19 09:22:24 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,30 +72,29 @@ namespace	ft
 
 			void	insert_node(const T &val)
 			{
-				ft::node<T>	*aux;
 				ft::node<T>	*par;
-
+				ft::node<T> *aux = this->_root;
+				ft::node<T>	*inserted = this->_allocator.allocate(1);
+				
+				this->_allocator.construct(inserted, ft::node<T>(val));
 				if (!this->_root)
 				{
-					*this->_root = ft::node<T>(val);
-					return ;	
+					this->_root = inserted;
+					return ;
 				}
-				aux = this->_root;
-				while (aux)
+				while (aux != NULL)
 				{
-					std::cout << this->_root->rhs << std::endl;
-					std::cout << aux << std::endl;
 					par = aux;
 					if (val >= aux->value)
 						aux = aux->rhs;
 					else
 						aux = aux->lhs;
 				}
-				aux = this->_allocator.allocate(1);
-				aux->value = val;
-				aux->parent = par;
-				std::cout << this->_root->rhs << std::endl;
-				std::cout << aux << std::endl;
+				if (val >= par->value)
+					par->rhs = inserted;
+				else
+					par->lhs = inserted;
+				inserted->parent = par;
 			}
 
 			void	delete_node(const node<T> *node)
