@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/19 09:22:24 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/22 08:16:28 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,16 @@ namespace	ft
 			{
 				this->_root = this->_allocator.allocate(1);
 				this->_allocator.construct(this->_root, val);
+				this->_root->color = BLACK;
 			}
 			binary_tree(ft::node<T> node, const allocator_type &alloc = allocator_type()) :  _root(node), _allocator(alloc) {}
 			virtual ~binary_tree(void) {}
+
+			binary_tree	&operator=(const binary_tree &x)
+			{
+				this->_root = x._root;
+				this->_allocator = x._allocator;
+			}
 
 			void	insert_node(const T &val)
 			{
@@ -80,6 +87,7 @@ namespace	ft
 				if (!this->_root)
 				{
 					this->_root = inserted;
+					this->_root->color = BLACK;
 					return ;
 				}
 				while (aux != NULL)
@@ -99,26 +107,15 @@ namespace	ft
 
 			void	delete_node(const node<T> *node)
 			{
-				ft::node<T>	*aux = this->_root;
-				while (aux)
-				{
-					if (aux->value > node->value)
-						aux = aux->rhs;
-					else
-						aux = aux->lhs;
-				}
-				if (aux->lhs)
-				{
-					aux->swap(aux->lhs);
-					this->_allocator.destroy(aux->lhs);
-				}
-				else if (aux->rhs)
-				{
-					aux->swap(aux->rhs);
-					this->_allocator.destroy(aux->rhs);
-				}
-				else
-					this->_allocator.destroy(aux);
+			
+			}
+
+			bool	check_violations(ft::node<T> *node)
+			{
+				if (node->color == RED && node->parent->color == RED)
+					return true;
+
+				
 			}
 
 	};

@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/18 15:09:32 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/20 19:06:45 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,37 @@ namespace	ft
 			};
 
 		private:
-			allocator_type									_allocactor;
-			ft::binary_tree<T, key_compare, allocator_type>	_btree;
-			size_type										_size;
+			allocator_type												_allocactor;
+			ft::binary_tree<value_type, key_compare, allocator_type>	_btree;
+			size_type													_size;
 			
 
 		public:
-			explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type());
+			explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()) : _allocator(alloc), _btree(_allocactor), _size(0) {}
 
 			template <class InputIterator>
 			map(InputIterator first, InputIterator last,
 				const key_compare& comp = key_compare(),
-				const allocator_type& alloc = allocator_type());
+				const allocator_type& alloc = allocator_type(),
+				typename ft::enable_if<!ft::is_integral<InputIterator>::value,
+					InputIterator>::type* = NULL)
+				: _allocator(alloc), _btree(_allocactor, _size())
+			{
+				while (first != last)
+					_btree.insert_node(ft::node<value_type>(*first++));
+			}
 
 			map(const map& x) { *this = x; }
 
 			virtual	~map(void);
 
-			map	&operator=(const map &x);
+			map	&operator=(const map &x)
+			{
+				this->_allocactor = x._allocator;
+				this->_btree = x._btree;
+				this->_size = x._size;
+				return *this;
+			}
 
 			iterator begin(void);
 			const_iterator begin(void) const;
@@ -90,34 +103,45 @@ namespace	ft
 			iterator insert(iterator position, const value_type &val);
 			
 			template <class InputIterator>
-			void insert(InputIterator first, InputIterator last);
+			void insert(InputIterator first, InputIterator last,
+				typename ft::enable_if<!ft::is_integral<InputIterator>::value,
+					InputIterator>::type* = NULL);
 
 			void erase(iterator position);
 			size_type erase(const key_type &k);
 			void erase(iterator first, iterator last);
 
-			void swap(map& x);
+			void swap(map& x)
+			{
+				map aux = *this;
+				*this = x;
+				x = aux;
+			}
 
-			void clear(void);
+			void clear(void)
+			{
+				while (this->_size != 0)
+					this->_btree.delete_node(this->_btree._root);
+			}
 
-			key_compare key_comp(void) const;
-			value_compare value_comp(void) const;
+			key_compare		key_comp(void) const;
+			value_compare	value_comp(void) const;
 
-			iterator find(const key_type &k);
-			const_iterator find(const key_type &k) const;
+			iterator		find(const key_type &k);
+			const_iterator	find(const key_type &k) const;
 
-			size_type count(const key_type &k) const;
+			size_type	count(const key_type &k) const;
 
-			iterator lower_bound(const key_type &k);
-			const_iterator lower_bound(const key_type &k) const;
+			iterator		lower_bound(const key_type &k);
+			const_iterator	lower_bound(const key_type &k) const;
 
-			iterator upper_bound(const key_type &k);
-			const_iterator upper_bound(const key_type &k) const;
+			iterator		upper_bound(const key_type &k);
+			const_iterator	upper_bound(const key_type &k) const;
 
-			pair<const_iterator, const_iterator> equal_range(const key_type &k) const;
-			pair<iterator, iterator>             equal_range(const key_type &k);
+			pair<const_iterator, const_iterator>	equal_range(const key_type &k) const;
+			pair<iterator, iterator>				equal_range(const key_type &k);
 
-			allocator_type get_allocator(void) const { return this->_allocator; }
+			allocator_type	get_allocator(void) const { return this->_allocator; }
 
 	};
 };
