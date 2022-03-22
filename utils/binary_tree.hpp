@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/22 08:16:28 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/22 18:45:51 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,9 @@ namespace	ft
 			{
 				if (node->color == RED && node->parent->color == RED)
 					return true;
-
+				else if (this->_root->color == RED)
+					return true;
+				
 				
 			}
 
