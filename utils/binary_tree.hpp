@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/22 18:45:51 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/23 21:20:26 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ namespace	ft
 		node_color	color;
 
 		node(void) : parent(NULL), lhs(NULL), rhs(NULL), color(RED) {}
-		node(const T value) : value(value), lhs(NULL), rhs(NULL), color(RED) {}
+		node(const T value) : value(value), parent(NULL), lhs(NULL), rhs(NULL), color(RED) {}
 		node	&operator=(const node &op)
 		{
 			this->value = op.value;
@@ -103,23 +103,156 @@ namespace	ft
 				else
 					par->lhs = inserted;
 				inserted->parent = par;
+				this->insertFix(inserted);
+			}
+
+			void	insertFix(ft::node<T> *k)
+			{
+				ft::node<T>	*u;
+				while (k->parent->color == RED)
+				{
+					if (k->parent == k->parent->parent->rhs)
+					{
+						u = k->uncle();
+						if (u && u->color == RED)
+						{
+							this->recolor(k);
+							k = k->parent->parent;
+						}
+						else
+						{
+							if (k == k->parent->lhs)
+							{
+								k = k->parent;
+								rightRotate(k);
+							}
+							k->parent->color = BLACK;
+							k->parent->parent->color = RED;
+							leftRotate(k->parent->parent);
+						}
+					}
+					else
+					{
+						u = k->uncle();
+
+						if (u && u->color == RED)
+						{
+							this->recolor(k);
+							k = k->parent->parent;
+						}
+						else
+						{
+							if (k == k->parent->rhs)
+							{
+								k = k->parent;
+								leftRotate(k);
+							}
+							k->parent->color = BLACK;
+							k->parent->parent->color = RED;
+							rightRotate(k->parent->parent);
+						}
+					}
+					if (k == this->_root)
+						break;
+				}
+				this->_root->color = BLACK;
+			}
+
+			void	recolor(ft::node<T> *node)
+			{
+				node->uncle()->color = BLACK;
+				node->parent->color = BLACK;
+				node->parent->parent->color = RED;
+			}
+
+			void	rightRotate(ft::node<T> *node)
+			{
+				ft::node<T> *y = node->lhs;
+	
+				node->lhs = y->rhs;
+				if (y->rhs != NULL)
+					y->rhs->parent = node;
+				y->parent = node->parent;
+				if (node->parent == NULL)
+					this->_root = y;
+				else if (node == node->parent->rhs)
+					node->parent->rhs = y;
+				else
+					node->parent->lhs = y;
+				y->rhs = node;
+				node->parent = y;
+			}
+
+			void	leftRotate(ft::node<T> *node)
+			{
+				ft::node<T> *y = node->rhs;
+
+				std::cout << node->value << std::endl;
+				node->rhs = y->lhs;
+				if (y->lhs != NULL)
+					y->lhs->parent = node;
+				y->parent = node->parent;
+				if (node->parent == NULL)
+					this->_root = y;
+				else if (node == node->parent->lhs)
+					node->parent->lhs = y;
+				else
+					node->parent->rhs = y;
+				y->lhs = node;
+				node->parent = y;
 			}
 
 			void	delete_node(const node<T> *node)
 			{
-			
+				node_color	origin_color = node->color;
+				ft::node<T>	*min;
+				ft::node<T>	*r_child;
+
+				if (node->lhs == NULL)
+				{
+					node = node->rhs;
+					this->transplant(node, node->rhs);
+				}
+				else if (node->rhs == NULL)
+				{
+					node = node->lhs;
+					this->transplant(node, node->lhs);
+				}
+				else
+				{
+					min = this->minimum(node);
+					origin_color = min->color;
+					r_child = min->rhs;
+					if (min->parent == node)
+						r_child = min;
+					else
+					{
+						this->transplant(min, min->rhs);
+						min->rhs = node->rhs;
+						min->rhs->parent = min;
+					}
+				}
 			}
 
-			bool	check_violations(ft::node<T> *node)
+			ft::node<T>	*minimum(ft::node<T> *node)
 			{
-				if (node->color == RED && node->parent->color == RED)
-					return true;
-				else if (this->_root->color == RED)
-					return true;
-				
-				
+				ft::node<T>	*aux = node;
+
+				while (aux->lhs != NULL)
+					aux = aux->lhs;
+				return aux;
 			}
 
+			void	transplant(ft::node<T> *u, ft::node<T> *v)
+			{
+				if (u->parent == NULL)
+					this->_root = v;
+				else if (u == u->parent->left)
+					u->parent->left = v;
+				else
+					u->parent->right = v;
+				v->parent = u->parent;
+			}
 	};
 
 };
