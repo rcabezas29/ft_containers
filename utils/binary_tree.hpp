@@ -187,7 +187,6 @@ namespace	ft
 			{
 				ft::node<T> *y = node->rhs;
 
-				std::cout << node->value << std::endl;
 				node->rhs = y->lhs;
 				if (y->lhs != NULL)
 					y->lhs->parent = node;
@@ -230,8 +229,84 @@ namespace	ft
 						this->transplant(min, min->rhs);
 						min->rhs = node->rhs;
 						min->rhs->parent = min;
+						min->color = origin_color;
 					}
 				}
+				if (origin_color == BLACK)
+					deleteFix(node);
+			}
+
+			void	deleteFix(ft::node<T> *node)
+			{
+				ft::node<T> *s;
+				while (node != this->_root && node->color == BLACK)
+				{
+					if (node == node->parent->lhs)
+					{
+						s = node->parent->rhs;
+						if (s->color == RED)
+						{
+							s->color = BLACK;
+							node->parent->color = RED;
+							leftRotate(node->parent);
+							s = node->parent->rhs;
+						}
+
+						if (s->left->color == BLACK && s->rhs->color == BLACK)
+						{
+							s->color = RED;
+							node = node->parent;
+						}
+						else
+						{
+							if (s->rhs->color == BLACK)
+							{
+								s->lhs->color = BLACK;
+								s->color = RED;
+								rightRotate(s);
+								s = node->parent->rhs;
+							}
+							s->color = node->parent->color;
+							node->parent->color = BLACK;
+							s->rhs->color = BLACK;
+							leftRotate(node->parent);
+							node = this->_root;
+						}
+					}
+					else
+					{
+						s = node->parent->lhs;
+						if (s->color == RED)
+						{
+							s->color = BLACK;
+							node->parent->color = RED;
+							rightRotate(node->parent);
+							s = node->parent->lhs;
+						}
+
+						if (s->rhs->color == BLACK && s->rhs->color == BLACK)
+						{
+							s->color = RED;
+							node = node->parent;
+						}
+						else
+						{
+							if (s->lhs->color == BLACK)
+							{
+								s->rhs->color = BLACK;
+								s->color = RED;
+								leftRotate(s);
+								s = node->parent->lhs;
+							}
+							s->color = node->parent->color;
+							node->parent->color = BLACK;
+							s->lhs->color = BLACK;
+							rightRotate(node->parent);
+							node = this->_root;
+						}
+					}
+				}
+				node->color = BLACK;
 			}
 
 			ft::node<T>	*minimum(ft::node<T> *node)
