@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/25 18:06:44 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/26 12:49:07 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,26 +203,13 @@ namespace	ft
 
 			void delete_node(T val)
 			{
-				ft::node<T>	*node = this->_root;
 				ft::node<T> *z = NULL;
 				ft::node<T> *x;
 				ft::node<T> *y;
 
-				while (node != NULL)
-				{
-					if (node->value == val)
-						z = node;
+				z = find(val);
 
-					if (node->value <= val)
-						node = node->rhs;
-					else
-						node = node->lhs;
-				}
-				if (z == NULL)
-				{
-					std::cout << "Not found" << std::endl; // substitute by exception
-					return ;
-				}
+				std::cout << "Found " << z->value << std::endl;
 				
 				y = z;
 				node_color y_original_color = y->color;
@@ -240,10 +227,14 @@ namespace	ft
 				else
 				{
 					y = minimum(z->rhs);
+					std::cout << "Minimum: " << y->value << std::endl;
 					y_original_color = y->color;
 					x = y->rhs;
 					if (y->parent == z)
-						x->parent = y;
+					{
+						if (x)
+							x->parent = y;
+					}
 					else
 					{
 						transplant(y, y->rhs);
@@ -252,7 +243,7 @@ namespace	ft
 					}
 					transplant(z, y);
 					y->lhs = z->lhs;
-					y->lhs->parent = y;
+					// y->lhs->parent = y;
 					y->color = z->color;
 				}
 				delete z;
@@ -264,7 +255,7 @@ namespace	ft
 			{
 				ft::node<T> *s;
 
-				while (x != this->_root && x->color == BLACK)
+				while (x != this->_root && (!x || x->color == BLACK))
 				{
 					if (x == x->parent->lhs)
 					{
@@ -350,8 +341,37 @@ namespace	ft
 					u->parent->lhs = v;
 				else
 					u->parent->rhs = v;
-				v->parent = u->parent;
+				if (v)
+					v->parent = u->parent;
 			}
+
+			ft::node<T>	*find(const T val)
+			{
+				ft::node<T>	*z = NULL;
+				ft::node<T>	*node = this->_root;
+	
+				while (node != NULL)
+				{
+					if (node->value == val)
+						z = node;
+
+					if (node->value <= val)
+						node = node->rhs;
+					else
+						node = node->lhs;
+				}
+				if (z == NULL)
+					throw NodeNotFoud();
+				return z;
+			}
+
+			class	NodeNotFoud : public std::exception
+			{
+				virtual const char * what() const throw()
+				{
+					return "The node wasn't found";
+				}
+			};
 	};
 
 };
