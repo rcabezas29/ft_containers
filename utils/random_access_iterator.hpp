@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 21:05:05 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/14 17:16:48 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/30 13:05:28 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ namespace ft
 				res._ptr += n;
 				return res;
 			}
-			
+
 			random_access_iterator operator-(difference_type n) const
 			{
 				random_access_iterator res(*this);

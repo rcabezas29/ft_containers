@@ -44,4 +44,4 @@ namespace ft
 		typedef const T&						referece;
 		typedef std::random_access_iterator_tag	iterator_category;
 	};
-};
+}

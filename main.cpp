@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/26 12:34:41 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/30 20:21:25 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 int main (void)
 {
+
 	ft::binary_tree<int, std::less<int>, std::allocator<int> >	a(4);
 
 	a.insert_node(6);
@@ -33,16 +34,16 @@ int main (void)
 	a.insert_node(7);
 	a.insert_node(9);
 
-	a.delete_node(2);
-	a.delete_node(3);
+	a.delete_val(2);
+	a.delete_val(3);
 
 	std::cout << a._root->value << std::endl;
 	std::cout << "----------------------------" << std::endl;
 	std::cout << a._root->lhs->value << " ";
 	std::cout << a._root->rhs->value << std::endl;
 	std::cout << "----------------------------" << std::endl;
-	// std::cout << a._root->lhs->lhs->value << " ";
-	std::cout << a._root->lhs->rhs->value << " ";
+	std::cout << a._root->lhs->lhs->value << " ";
+	// std::cout << a._root->lhs->rhs->value << " ";
 	std::cout << a._root->rhs->lhs->value << " ";
 	std::cout << a._root->rhs->rhs->value << std::endl;
 	std::cout << "----------------------------" << std::endl;
@@ -56,8 +57,7 @@ int main (void)
 	// std::cout << a._root->rhs->rhs->lhs->value << " ";
 	// std::cout << a._root->rhs->rhs->rhs->value << " ";
 
-
-
+	
 	/*
 
 		REV ITER TEST

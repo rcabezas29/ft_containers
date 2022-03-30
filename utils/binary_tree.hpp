@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/26 12:49:07 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/30 20:32:38 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ namespace	ft
 		}
 
 		node	*uncle(void) { return this->parent->parent->lhs == this->parent ? this->parent->parent->rhs : this->parent->parent->lhs; }
-		void	swap(node &b)
+		void	swap(ft::node<T> &b)
 		{
-			T	aux = b->value;
+			T	aux = b.value;
 
-			b->value = this->value;
+			b.value = this->value;
 			this->value = aux;
 		}
 	};
@@ -200,128 +200,42 @@ namespace	ft
 				y->lhs = node;
 				node->parent = y;
 			}
-
-			void delete_node(T val)
+			
+			void	delete_val(const T &val)
 			{
-				ft::node<T> *z = NULL;
-				ft::node<T> *x;
-				ft::node<T> *y;
+				ft::node<T>	*node = find(val);
+				delete_node(node);
+			}
 
-				z = find(val);
+			void	delete_node(ft::node<T>	*node)
+			{
+				ft::node<T>	*parent = NULL;
+				ft::node<T>	*x = NULL;
 
-				std::cout << "Found " << z->value << std::endl;
-				
-				y = z;
-				node_color y_original_color = y->color;
-
-				if (z->lhs == NULL)
+				if (node->lhs == NULL && node->rhs == NULL)
+					node = NULL;
+				else if ((node->lhs == NULL && node->rhs != NULL) || (node->rhs == NULL && node->lhs != NULL))
 				{
-					x = z->rhs;
-					transplant(z, z->rhs);
-				}
-				else if (z->rhs == NULL)
-				{
-					x = z->lhs;
-					transplant(z, z->lhs);
+					parent = node->parent;
+					node->rhs ? x = node->rhs : node->lhs;
+					if (node == parent->rhs)
+						parent->rhs = x;
+					else
+						parent->lhs = x;
+					x->parent = parent;
+					node = NULL;
 				}
 				else
 				{
-					y = minimum(z->rhs);
-					std::cout << "Minimum: " << y->value << std::endl;
-					y_original_color = y->color;
-					x = y->rhs;
-					if (y->parent == z)
-					{
-						if (x)
-							x->parent = y;
-					}
-					else
-					{
-						transplant(y, y->rhs);
-						y->rhs = z->rhs;
-						y->rhs->parent = y;
-					}
-					transplant(z, y);
-					y->lhs = z->lhs;
-					// y->lhs->parent = y;
-					y->color = z->color;
+					x = minimum(node->rhs);
+					node->swap(*x);
+					delete_node(x);
 				}
-				delete z;
-				if (y_original_color == BLACK)
-					deleteFix(x);
 			}
 
-			void deleteFix(ft::node<T> *x)
+			void	deleteFix(ft::node<T> *z)
 			{
-				ft::node<T> *s;
-
-				while (x != this->_root && (!x || x->color == BLACK))
-				{
-					if (x == x->parent->lhs)
-					{
-						s = x->parent->rhs;
-						if (s->color == RED)
-						{
-							s->color = BLACK;
-							x->parent->color = RED;
-							leftRotate(x->parent);
-							s = x->parent->rhs;
-						}
-
-						if (s->lhs->color == BLACK && s->rhs->color == BLACK)
-						{
-							s->color = RED;
-							x = x->parent;
-						}
-						else
-						{
-							if (s->rhs->color == BLACK)
-							{
-								s->lhs->color = BLACK;
-								s->color = RED;
-								rightRotate(s);
-								s = x->parent->rhs;
-							}
-							s->color = x->parent->color;
-							x->parent->color = BLACK;
-							s->rhs->color = BLACK;
-							leftRotate(x->parent);
-							x = this->_root;
-						}
-					}
-					else
-					{
-						s = x->parent->lhs;
-						if (s->color == RED)
-						{
-							s->color = BLACK;
-							x->parent->color = RED;
-							rightRotate(x->parent);
-							s = x->parent->lhs;
-						}
-						if (s->rhs->color == BLACK && s->rhs->color == BLACK)
-						{
-							s->color = RED;
-							x = x->parent;
-						}
-						else
-						{
-							if (s->lhs->color == BLACK)
-							{
-								s->rhs->color = BLACK;
-								s->color = RED;
-								leftRotate(s);
-								s = x->parent->lhs;
-							}
-							s->color = x->parent->color;
-							x->parent->color = BLACK;
-							s->lhs->color = BLACK;
-							rightRotate(x->parent);
-							x = this->_root;
-						}
-					}
-				}
-				x->color = BLACK;
+				(void)z;
 			}
 
 			ft::node<T>	*minimum(ft::node<T> *node)
@@ -341,28 +255,27 @@ namespace	ft
 					u->parent->lhs = v;
 				else
 					u->parent->rhs = v;
-				if (v)
-					v->parent = u->parent;
+				v->parent = u->parent;
 			}
 
 			ft::node<T>	*find(const T val)
 			{
-				ft::node<T>	*z = NULL;
 				ft::node<T>	*node = this->_root;
 	
 				while (node != NULL)
 				{
 					if (node->value == val)
-						z = node;
-
-					if (node->value <= val)
+					{
+						return node;
+					}
+					else if (node->value < val)
 						node = node->rhs;
 					else
 						node = node->lhs;
 				}
-				if (z == NULL)
-					throw NodeNotFoud();
-				return z;
+				std::cout << "Node not found" << std::endl;
+				// throw NodeNotFoud();
+				return NULL;
 			}
 
 			class	NodeNotFoud : public std::exception
@@ -373,5 +286,4 @@ namespace	ft
 				}
 			};
 	};
-
-};
+}
