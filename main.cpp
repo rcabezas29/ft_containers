@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/30 20:21:25 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/03/31 08:22:06 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int main (void)
 	// std::cout << a._root->lhs->rhs->lhs->value << " ";
 	// std::cout << a._root->lhs->rhs->rhs->value << " ";
 	// std::cout << a._root->rhs->lhs->lhs->value << " ";
-	// std::cout << a._root->rhs->lhs->rhs->value << " ";
-	// std::cout << a._root->rhs->rhs->lhs->value << " ";
+	std::cout << a._root->rhs->lhs->rhs->value << " ";
+	std::cout << a._root->rhs->rhs->lhs->value << " ";
 	// std::cout << a._root->rhs->rhs->rhs->value << " ";
 
 	

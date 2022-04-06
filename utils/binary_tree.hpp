@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/30 20:32:38 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/05 20:30:35 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,28 @@ namespace	ft
 		}
 
 		node	*uncle(void) { return this->parent->parent->lhs == this->parent ? this->parent->parent->rhs : this->parent->parent->lhs; }
+		
+		node	*sibling(void)
+		{
+			if (this->parent)
+				return this->parent->rhs == this ? this->parent->lhs : this->parent->rhs;
+			return NULL;
+		}
+		
+		node	*closest_nephew(void)
+		{
+			if (this->sibling())
+				return this == this->parent->lhs ? this->sibling()->lhs : this->sibling()->rhs;
+			return NULL;
+		}
+
+		node	*farthest_nephew(void)
+		{
+			if (this->sibling())
+				return this == this->parent->lhs ? this->sibling()->rhs : this->sibling()->lhs;
+			return NULL;
+		}
+
 		void	swap(ft::node<T> &b)
 		{
 			T	aux = b.value;
@@ -213,29 +235,46 @@ namespace	ft
 				ft::node<T>	*x = NULL;
 
 				if (node->lhs == NULL && node->rhs == NULL)
+				{
+					parent = node->parent;
+					parent->rhs = node ? parent->rhs = NULL : parent->lhs = NULL;
 					node = NULL;
+				}
 				else if ((node->lhs == NULL && node->rhs != NULL) || (node->rhs == NULL && node->lhs != NULL))
 				{
 					parent = node->parent;
-					node->rhs ? x = node->rhs : node->lhs;
+					node->rhs ? x = node->rhs : x = node->lhs;
 					if (node == parent->rhs)
 						parent->rhs = x;
 					else
 						parent->lhs = x;
 					x->parent = parent;
+					if (node->color == BLACK)
+						x->color = BLACK;
 					node = NULL;
 				}
 				else
 				{
-					x = minimum(node->rhs);
+					x = maximum(node->lhs);
 					node->swap(*x);
 					delete_node(x);
 				}
+				// if (double_black)
+				// 	deleteFix();
 			}
 
-			void	deleteFix(ft::node<T> *z)
+			void	deleteFix(ft::node<T> *n)
 			{
-				(void)z;
+				ft::node<T>	*p = n->parent;
+				ft::node<T>	*s = n->sibling();
+				ft::node<T>	*c = n->closest_nephew();
+				ft::node<T>	*d = n->farthest_nephew();
+				
+
+				while (p != NULL)
+				{
+					if ()
+				}
 			}
 
 			ft::node<T>	*minimum(ft::node<T> *node)
@@ -244,6 +283,15 @@ namespace	ft
 
 				while (aux->lhs != NULL)
 					aux = aux->lhs;
+				return aux;
+			}
+
+			ft::node<T>	*maximum(ft::node<T> *node)
+			{
+				ft::node<T>	*aux = node;
+
+				while (aux->rhs != NULL)
+					aux = aux->rhs;
 				return aux;
 			}
 
