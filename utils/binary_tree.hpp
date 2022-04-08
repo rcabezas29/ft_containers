@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/05 20:30:35 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/08 18:01:21 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,49 +231,88 @@ namespace	ft
 
 			void	delete_node(ft::node<T>	*node)
 			{
-				ft::node<T>	*parent = NULL;
-				ft::node<T>	*x = NULL;
+				ft::node<T>	*p = node->parent;
+				ft::node<T>	*s = node->sibling();
+				ft::node<T>	*x = node;
+				node_color	check_color = node->color;
 
 				if (node->lhs == NULL && node->rhs == NULL)
 				{
-					parent = node->parent;
-					parent->rhs = node ? parent->rhs = NULL : parent->lhs = NULL;
-					node = NULL;
+					p->rhs == node ? p->rhs = NULL : p->lhs = NULL;
+					check_color = node->color;
+					this->_allocator.destroy(node);
+					this->_allocator.deallocate(node, 1);
 				}
 				else if ((node->lhs == NULL && node->rhs != NULL) || (node->rhs == NULL && node->lhs != NULL))
 				{
-					parent = node->parent;
 					node->rhs ? x = node->rhs : x = node->lhs;
-					if (node == parent->rhs)
-						parent->rhs = x;
-					else
-						parent->lhs = x;
-					x->parent = parent;
-					if (node->color == BLACK)
-						x->color = BLACK;
-					node = NULL;
+					node == p->rhs ? p->rhs = x : p->lhs = x;
+					x->parent = p;
+					this->_allocator.destroy(node);
+					this->_allocator.deallocate(node, 1);
+					return ;
 				}
 				else
 				{
 					x = maximum(node->lhs);
+					check_color = x->color;
 					node->swap(*x);
-					delete_node(x);
+					x->parent->rhs == x ? x->parent->rhs = NULL : x->parent->lhs = NULL;
 				}
-				// if (double_black)
-				// 	deleteFix();
+				if (check_color == BLACK)
+					deleteFix(node, p, s);
 			}
 
-			void	deleteFix(ft::node<T> *n)
+			void	deleteFix(ft::node<T> *n, ft::node<T> *p, ft::node<T> *s)
 			{
-				ft::node<T>	*p = n->parent;
-				ft::node<T>	*s = n->sibling();
-				ft::node<T>	*c = n->closest_nephew();
-				ft::node<T>	*d = n->farthest_nephew();
+				ft::node<T>	*c;
+				ft::node<T>	*d;
 				
-
-				while (p != NULL)
+				s == p->lhs ? c = p->rhs : c = p->lhs;
+				s == p->lhs ? d = p->lhs : d = p->rhs;
+				while (p != NULL && n->color != BLACK)
 				{
-					if ()
+					if (s && s->color == RED)
+					{
+						n == p->lhs ? leftRotate(p) : rightRotate(p);
+						p->color = RED;
+						s->color = BLACK;
+						s = c;
+					}
+					else if (p->color == BLACK && (s && s->color == BLACK)
+						&& (!c || c->color == BLACK) && (!d || d->color))
+					{
+						s->color = RED;
+						n = p;
+						p = n->parent;
+						s = n->sibling();
+						c = n->closest_nephew();
+						d = n->farthest_nephew();
+					}
+					else if (p->color == RED && (!c || c->color == BLACK)
+						&& (!d || d->color == BLACK))
+					{
+						s->color = RED;
+						p->color = BLACK;
+						return ;
+					}
+					if ((c && c->color == RED) && (s && s->color == BLACK)
+						&& (!d || d->color == BLACK))
+					{
+						n == p->lhs ? rightRotate(s) : leftRotate(s);
+						s->color = RED;
+						c->color = BLACK;
+						d = s;
+						s = c;
+					}
+					if ((d && d->color == RED) && (!s || s->color == BLACK))
+					{
+						n == p->lhs ? leftRotate(p) : rightRotate(p);
+						s->color = p->color;
+						p->color = BLACK;
+						d->color = BLACK;
+						return ;
+					}
 				}
 			}
 

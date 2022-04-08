@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/31 08:22:06 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/08 16:30:44 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 
 int main (void)
 {
+
+	/*
+		R/B TREE TEST
 
 	ft::binary_tree<int, std::less<int>, std::allocator<int> >	a(4);
 
@@ -42,8 +45,8 @@ int main (void)
 	std::cout << a._root->lhs->value << " ";
 	std::cout << a._root->rhs->value << std::endl;
 	std::cout << "----------------------------" << std::endl;
-	std::cout << a._root->lhs->lhs->value << " ";
-	// std::cout << a._root->lhs->rhs->value << " ";
+	//std::cout << a._root->lhs->lhs->value << " ";
+	std::cout << a._root->lhs->rhs->value << " ";
 	std::cout << a._root->rhs->lhs->value << " ";
 	std::cout << a._root->rhs->rhs->value << std::endl;
 	std::cout << "----------------------------" << std::endl;
@@ -56,8 +59,51 @@ int main (void)
 	std::cout << a._root->rhs->lhs->rhs->value << " ";
 	std::cout << a._root->rhs->rhs->lhs->value << " ";
 	// std::cout << a._root->rhs->rhs->rhs->value << " ";
+	*/
 
-	
+	ft::binary_tree<int, std::less<int>, std::allocator<int> >	a(1);
+
+	a.insert_node(2);
+	a.insert_node(3);
+	a.insert_node(4);
+	a.insert_node(5);
+	a.insert_node(6);
+	a.insert_node(7);
+	a.insert_node(8);
+	a.insert_node(9);
+	a.insert_node(10);
+	a.insert_node(11);
+	a.insert_node(12);
+	a.insert_node(13);
+	a.insert_node(14);
+	a.insert_node(15);
+	a.insert_node(16);
+	a.insert_node(17);
+	a.insert_node(18);
+	a.insert_node(19);
+
+	a.delete_val(5);
+	a.delete_val(12);
+
+	std::cout << a._root->value << std::endl;
+	std::cout << "----------------------------" << std::endl;
+	std::cout << a._root->lhs->value << " ";
+	std::cout << a._root->rhs->value << std::endl;
+	std::cout << "----------------------------" << std::endl;
+	std::cout << a._root->lhs->lhs->value << " ";
+	std::cout << a._root->lhs->rhs->value << " ";
+	std::cout << a._root->rhs->lhs->value << " ";
+	std::cout << a._root->rhs->rhs->value << std::endl;
+	std::cout << "----------------------------" << std::endl;
+	std::cout << a._root->lhs->lhs->lhs->value << " ";
+	std::cout << a._root->lhs->lhs->rhs->value << " ";
+	std::cout << a._root->lhs->rhs->lhs->value << " ";
+	std::cout << a._root->lhs->rhs->rhs->value << " ";
+	std::cout << a._root->rhs->lhs->lhs->value << " ";
+	std::cout << a._root->rhs->lhs->rhs->value << " ";
+	std::cout << a._root->rhs->rhs->lhs->value << " ";
+	std::cout << a._root->rhs->rhs->rhs->value << std::endl;
+
 	/*
 
 		REV ITER TEST
@@ -155,8 +201,9 @@ int main (void)
 	/*
 
 		CONSTRUCTORS TESTS
+	ft::vector<int> first(1000000000);                                // empty vector of ints
 
-	ft::vector<int> first;                                // empty vector of ints
+	std::cout << first.max_size() << std::endl;
 	ft::vector<int> second (4,100);                       // four ints with value 100
 	ft::vector<int> third (second.begin(), second.end());  // iterating through second
 	ft::vector<int> fourth (second);                       // a copy of third
