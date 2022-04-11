@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/11 16:55:52 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/11 17:25:26 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ int main (void)
 	a.insert_node(18);
 	a.insert_node(19);
 
-	// a.delete_val(5);
-	// a.delete_val(12);
-	// a.delete_val(16);
-	// a.delete_val(3);
+	a.delete_val(5);
+	a.delete_val(12);
+	a.delete_val(16);
+	a.delete_val(3);
 	a.delete_val(8);
 	a.delete_val(7);
 
@@ -99,8 +99,8 @@ int main (void)
 	std::cout << a._root->rhs->lhs->value << "(" << a._root->rhs->rhs->color << ")" << " ";
 	std::cout << a._root->rhs->rhs->value << "(" << a._root->rhs->rhs->color << ")" << std::endl;
 	std::cout << "----------------------------" << std::endl;
-	std::cout << a._root->lhs->lhs->lhs->value << "(" << a._root->lhs->lhs->lhs->color << ")" << " ";
-	std::cout << a._root->lhs->lhs->rhs->value << "(" << a._root->lhs->lhs->rhs->color << ")" << " ";
+	// std::cout << a._root->lhs->lhs->lhs->value << "(" << a._root->lhs->lhs->lhs->color << ")" << " ";
+	// std::cout << a._root->lhs->lhs->rhs->value << "(" << a._root->lhs->lhs->rhs->color << ")" << " ";
 	// std::cout << a._root->lhs->rhs->lhs->value << "(" << a._root->lhs->rhs->lhs->color << ")" << " ";
 	// std::cout << a._root->lhs->rhs->rhs->value << "(" << a._root->lhs->rhs->rhs->color << ")" << " ";
 	std::cout << a._root->rhs->lhs->lhs->value << "(" << a._root->rhs->lhs->lhs->color << ")" << " ";

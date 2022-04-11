@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/20 19:06:45 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/11 18:01:59 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ namespace	ft
 			allocator_type												_allocactor;
 			ft::binary_tree<value_type, key_compare, allocator_type>	_btree;
 			size_type													_size;
-			
 
 		public:
 			explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()) : _allocator(alloc), _btree(_allocactor), _size(0) {}

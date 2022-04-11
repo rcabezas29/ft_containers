@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/11 16:55:34 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/11 17:23:58 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,8 +240,8 @@ namespace	ft
 				{
 					p->rhs == node ? p->rhs = NULL : p->lhs = NULL;
 					check_color = node->color;
-					// this->_allocator.destroy(node);
-					// this->_allocator.deallocate(node, 1);
+					this->_allocator.destroy(node);
+					this->_allocator.deallocate(node, 1);
 					node = NULL;
 				}
 				else if ((node->lhs == NULL && node->rhs != NULL) || (node->rhs == NULL && node->lhs != NULL))
@@ -249,8 +249,8 @@ namespace	ft
 					node->rhs ? x = node->rhs : x = node->lhs;
 					node == p->rhs ? p->rhs = x : p->lhs = x;
 					x->parent = p;
-					// this->_allocator.destroy(node);
-					// this->_allocator.deallocate(node, 1);
+					this->_allocator.destroy(node);
+					this->_allocator.deallocate(node, 1);
 					node = NULL;
 					return ;
 				}
@@ -269,6 +269,8 @@ namespace	ft
 					}
 					else
 						node->parent->lhs == node ? node->parent->lhs = NULL : node->parent->rhs = NULL;
+					this->_allocator.destroy(node);
+					this->_allocator.deallocate(node, 1);
 					node = NULL;
 				}
 				if (!node)
