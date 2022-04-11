@@ -240,16 +240,18 @@ namespace	ft
 				{
 					p->rhs == node ? p->rhs = NULL : p->lhs = NULL;
 					check_color = node->color;
-					this->_allocator.destroy(node);
-					this->_allocator.deallocate(node, 1);
+					// this->_allocator.destroy(node);
+					// this->_allocator.deallocate(node, 1);
+					node = NULL;
 				}
 				else if ((node->lhs == NULL && node->rhs != NULL) || (node->rhs == NULL && node->lhs != NULL))
 				{
 					node->rhs ? x = node->rhs : x = node->lhs;
 					node == p->rhs ? p->rhs = x : p->lhs = x;
 					x->parent = p;
-					this->_allocator.destroy(node);
-					this->_allocator.deallocate(node, 1);
+					// this->_allocator.destroy(node);
+					// this->_allocator.deallocate(node, 1);
+					node = NULL;
 					return ;
 				}
 				else
@@ -258,6 +260,13 @@ namespace	ft
 					check_color = x->color;
 					node->swap(*x);
 					x->parent->rhs == x ? x->parent->rhs = NULL : x->parent->lhs = NULL;
+				}
+				if (!node)
+				{
+					ft::node<T>	*aux;
+					aux = this->_allocator.allocate(1);
+					aux->color = BLACK;
+					node = aux;
 				}
 				if (check_color == BLACK)
 					deleteFix(node, p, s);
@@ -268,9 +277,9 @@ namespace	ft
 				ft::node<T>	*c;
 				ft::node<T>	*d;
 				
-				s == p->lhs ? c = p->rhs : c = p->lhs;
-				s == p->lhs ? d = p->lhs : d = p->rhs;
-				while (p != NULL && n->color != BLACK)
+				s == p->lhs ? c = s->rhs : c = s->lhs;
+				s == p->lhs ? d = s->lhs : d = s->rhs;
+				while (p != NULL && n->color == BLACK)
 				{
 					if (s && s->color == RED)
 					{
@@ -280,7 +289,7 @@ namespace	ft
 						s = c;
 					}
 					else if (p->color == BLACK && (s && s->color == BLACK)
-						&& (!c || c->color == BLACK) && (!d || d->color))
+						&& (!c || c->color == BLACK) && (!d || d->color == BLACK))
 					{
 						s->color = RED;
 						n = p;

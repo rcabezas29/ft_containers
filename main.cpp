@@ -85,24 +85,24 @@ int main (void)
 	a.delete_val(5);
 	a.delete_val(12);
 
-	std::cout << a._root->value << std::endl;
+	std::cout << a._root->value << "(" << a._root->color << ")" << std::endl;
 	std::cout << "----------------------------" << std::endl;
-	std::cout << a._root->lhs->value << " ";
-	std::cout << a._root->rhs->value << std::endl;
+	std::cout << a._root->lhs->value << "(" << a._root->lhs->color << ")" << " ";
+	std::cout << a._root->rhs->value << "(" << a._root->rhs->color << ")" << std::endl;
 	std::cout << "----------------------------" << std::endl;
-	std::cout << a._root->lhs->lhs->value << " ";
-	std::cout << a._root->lhs->rhs->value << " ";
-	std::cout << a._root->rhs->lhs->value << " ";
-	std::cout << a._root->rhs->rhs->value << std::endl;
+	std::cout << a._root->lhs->lhs->value << "(" << a._root->lhs->lhs->color << ")" << " ";
+	std::cout << a._root->lhs->rhs->value << "(" << a._root->lhs->rhs->color << ")" << " ";
+	std::cout << a._root->rhs->lhs->value << "(" << a._root->rhs->rhs->color << ")" << " ";
+	std::cout << a._root->rhs->rhs->value << "(" << a._root->rhs->rhs->color << ")" << std::endl;
 	std::cout << "----------------------------" << std::endl;
-	std::cout << a._root->lhs->lhs->lhs->value << " ";
-	std::cout << a._root->lhs->lhs->rhs->value << " ";
-	std::cout << a._root->lhs->rhs->lhs->value << " ";
-	std::cout << a._root->lhs->rhs->rhs->value << " ";
-	std::cout << a._root->rhs->lhs->lhs->value << " ";
-	std::cout << a._root->rhs->lhs->rhs->value << " ";
-	std::cout << a._root->rhs->rhs->lhs->value << " ";
-	std::cout << a._root->rhs->rhs->rhs->value << std::endl;
+	std::cout << a._root->lhs->lhs->lhs->value << "(" << a._root->lhs->lhs->lhs->color << ")" << " ";
+	std::cout << a._root->lhs->lhs->rhs->value << "(" << a._root->lhs->lhs->rhs->color << ")" << " ";
+	std::cout << a._root->lhs->rhs->lhs->value << "(" << a._root->lhs->rhs->lhs->color << ")" << " ";
+	std::cout << a._root->lhs->rhs->rhs->value << "(" << a._root->lhs->rhs->rhs->color << ")" << " ";
+	std::cout << a._root->rhs->lhs->lhs->value << "(" << a._root->rhs->lhs->lhs->color << ")" << " ";
+	std::cout << a._root->rhs->lhs->rhs->value << "(" << a._root->rhs->lhs->rhs->color << ")" << " ";
+	std::cout << a._root->rhs->rhs->lhs->value << "(" << a._root->rhs->rhs->lhs->color << ")" << " ";
+	std::cout << a._root->rhs->rhs->rhs->value << "(" << a._root->rhs->rhs->rhs->color << ")" << std::endl;
 
 	/*
 
