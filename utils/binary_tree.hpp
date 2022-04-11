@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/11 15:18:28 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/11 16:55:34 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,13 @@ namespace	ft
 					p = x->parent;
 					s = x->sibling();
 					node = x;
+					if (node->lhs)
+					{
+						p->rhs = node->lhs;
+						check_color = RED;
+					}
+					else
+						node->parent->lhs == node ? node->parent->lhs = NULL : node->parent->rhs = NULL;
 					node = NULL;
 				}
 				if (!node)
@@ -317,7 +324,7 @@ namespace	ft
 					if ((c && c->color == RED) && (!s || s->color == BLACK)
 						&& (!d || d->color == BLACK))
 					{
-						n == p->lhs ? rightRotate(s) : leftRotate(s);
+						s == p->rhs ? rightRotate(s) : leftRotate(s);
 						s->color = RED;
 						c->color = BLACK;
 						d = s;
@@ -325,7 +332,7 @@ namespace	ft
 					}
 					if ((d && d->color == RED) && (!s || s->color == BLACK))
 					{
-						n == p->lhs ? leftRotate(p) : rightRotate(p);
+						s == p->rhs ? leftRotate(p) : rightRotate(p);
 						s->color = p->color;
 						p->color = BLACK;
 						d->color = BLACK;
