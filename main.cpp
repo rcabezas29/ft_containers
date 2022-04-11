@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/08 16:30:44 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/11 15:16:45 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int main (void)
 	a.insert_node(18);
 	a.insert_node(19);
 
-	a.delete_val(5);
+	// a.delete_val(5);
 	a.delete_val(12);
 
 	std::cout << a._root->value << "(" << a._root->color << ")" << std::endl;

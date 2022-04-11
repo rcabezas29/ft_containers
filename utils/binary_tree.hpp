@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/08 18:01:21 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/11 15:18:28 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,10 @@ namespace	ft
 					x = maximum(node->lhs);
 					check_color = x->color;
 					node->swap(*x);
-					x->parent->rhs == x ? x->parent->rhs = NULL : x->parent->lhs = NULL;
+					p = x->parent;
+					s = x->sibling();
+					node = x;
+					node = NULL;
 				}
 				if (!node)
 				{
@@ -279,6 +282,12 @@ namespace	ft
 				
 				s == p->lhs ? c = s->rhs : c = s->lhs;
 				s == p->lhs ? d = s->lhs : d = s->rhs;
+
+				std::cout << "Parent: " << p->value << " " << "color: " << p->color << std::endl;
+				std::cout << "Sibling: " << s->value << " " << "color: " << s->color << std::endl;
+				if (c) { std::cout << "Closest: " << c->value << " " << "color: " << c->color << std::endl;}
+				if (d) { std::cout << "Farthest: " << d->value << " " << "color: " << d->color << std::endl;}
+				
 				while (p != NULL && n->color == BLACK)
 				{
 					if (s && s->color == RED)
@@ -305,7 +314,7 @@ namespace	ft
 						p->color = BLACK;
 						return ;
 					}
-					if ((c && c->color == RED) && (s && s->color == BLACK)
+					if ((c && c->color == RED) && (!s || s->color == BLACK)
 						&& (!d || d->color == BLACK))
 					{
 						n == p->lhs ? rightRotate(s) : leftRotate(s);
