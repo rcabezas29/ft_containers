@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/21 14:42:26 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/12 08:30:28 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include <iostream>
 #include <memory>
 #include <algorithm>
-#include "utils/random_access_iterator.hpp"
-#include "utils/reverse_iterator.hpp"
+#include "utils/iterators/random_access_iterator.hpp"
+#include "utils/iterators/reverse_iterator.hpp"
 #include "utils/lexicographical_compare.hpp"
 #include "utils/is_integral.hpp"
 #include "utils/enable_if.hpp"

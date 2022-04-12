@@ -6,17 +6,18 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/11 18:01:59 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/12 08:29:49 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <memory>
-#include <iterator>
 #include <functional>
-#include "utils/pair.hpp"
 #include "utils/binary_tree.hpp"
+#include "utils/iterators/binarytree_iterator.hpp"
+#include "utils/enable_if.hpp"
+#include "utils/is_integral.hpp"
 
 namespace	ft
 {	
@@ -33,8 +34,8 @@ namespace	ft
 			typedef typename allocator_type::const_reference				const_reference;
 			typedef typename allocator_type::pointer						pointer;
 			typedef typename allocator_type::const_pointer					const_pointer;
-			typedef typename std::bidirectional_iterator<value_type>		iterator;
-			typedef typename std::bidirectional_iterator<const value_type>	const_iterator;
+			typedef typename ft::binarytree_iterator<value_type>			iterator;
+			typedef typename ft::binarytree_iterator<const value_type>		const_iterator;
 			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef typename ft::iterator_traits<iterator>::difference_type	difference_type;

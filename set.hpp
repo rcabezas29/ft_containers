@@ -6,13 +6,17 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 17:39:34 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/11 18:01:28 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/12 09:03:41 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
+#include <memory>
 #include "utils/binary_tree.hpp"
+#include "utils/iterators/binarytree_iterator.hpp"
+#include "utils/enable_if.hpp"
+#include "utils/is_integral.hpp"
 
 namespace	ft
 {
@@ -28,8 +32,8 @@ namespace	ft
 			typedef typename allocator_type::const_reference				const_reference;
 			typedef typename allocator_type::pointer						pointer;
 			typedef typename allocator_type::const_pointer					const_pointer;
-			typedef typename std::bidirectional_iterator<value_type>		iterator;
-			typedef typename std::bidirectional_iterator<const value_type>	const_iterator;
+			typedef typename ft::binarytree_iterator<value_type>			iterator;
+			typedef typename ft::binarytree_iterator<const value_type>		const_iterator;
 			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef typename ft::iterator_traits<iterator>::difference_type	difference_type;
@@ -67,12 +71,11 @@ namespace	ft
 			reverse_iterator		rend(void);
 			const_reverse_iterator	rend(void) const;
 
-			bool	empty(void) const;
+			bool	empty(void) const {return this->_size == 0 ? true : false; }
 
-			size_type	size(void) const;
+			size_type	size(void) const { return this->_size; }
 
-			size_type	max_size(void) const;
-
+			size_type	max_size(void) const { return this->_allocactor.max_size(); }
 
 			ft::pair<iterator, bool>	insert(const value_type &val);
 
@@ -89,7 +92,10 @@ namespace	ft
 			
 			void	swap(set &x);
 
-			void	clear(void);
+			void	clear(void)
+			{
+				this->erase(this->begin(), this->end());
+			}
 
 			key_compare	key_comp(void) const;
 
@@ -105,7 +111,7 @@ namespace	ft
 
 			ft::pair<iterator,iterator>	equal_range(const value_type &val) const;
 
-			allocator_type	get_allocator(void) const;
+			allocator_type	get_allocator(void) const { return this->_allocactor; }
 
 	};
 };

@@ -6,17 +6,16 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 21:05:05 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/30 13:05:28 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/12 08:05:38 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-#include "iterator.hpp"
 
+#include "iterator.hpp"
 
 namespace ft
 {
-	
 	template <typename T>
 	class random_access_iterator
 	{
