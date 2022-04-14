@@ -6,13 +6,14 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:02:15 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/12 08:56:08 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/14 19:44:18 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "iterator.hpp"
+#include "../binary_tree.hpp"
 
 namespace ft
 {
@@ -20,11 +21,11 @@ namespace ft
 	class binarytree_iterator
 	{
 		public:
-			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::iterator_category	iterator_category;
-			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::value_type			value_type;
-			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::difference_type		difference_type;
-			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::pointer				pointer;
-			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::reference			reference;
+			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::iterator_category	iterator_category;
+			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::value_type		value_type;
+			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::difference_type	difference_type;
+			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::pointer			pointer;
+			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::reference			reference;
 
 		private:
 			pointer	_ptr;
@@ -54,21 +55,21 @@ namespace ft
 
 			binarytree_iterator	&operator++(void)
 			{
-				
+				this->_ptr = inorder_next(this->_ptr);
 				return *this;
 			}
 			
 			binarytree_iterator	&operator--(void)
 			{
-				
+				this->_ptr = inorder_prev(this->_ptr);
 				return *this;
 			}
 			
 			binarytree_iterator	operator++(int)
 			{
 				binarytree_iterator	pre = *this;
-				
-				
+
+				this->_ptr = inorder_next(this->_ptr);
 				return pre;
 			}
 			
@@ -76,7 +77,7 @@ namespace ft
 			{
 				binarytree_iterator	pre = *this;
 				
-				
+				this->_ptr = inorder_prev(this->_ptr);
 				return pre;
 			}
 

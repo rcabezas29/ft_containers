@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/12 08:29:49 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/14 19:47:57 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <functional>
 #include "utils/binary_tree.hpp"
 #include "utils/iterators/binarytree_iterator.hpp"
+#include "utils/iterators/reverse_iterator.hpp"
 #include "utils/enable_if.hpp"
 #include "utils/is_integral.hpp"
 
@@ -56,12 +57,12 @@ namespace	ft
 			};
 
 		private:
-			allocator_type												_allocactor;
+			allocator_type												_allocator;
 			ft::binary_tree<value_type, key_compare, allocator_type>	_btree;
 			size_type													_size;
 
 		public:
-			explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()) : _allocator(alloc), _btree(_allocactor), _size(0) {}
+			explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()) : _allocator(alloc), _btree(comp, alloc), _size(0) {}
 
 			template <class InputIterator>
 			map(InputIterator first, InputIterator last,
@@ -69,10 +70,13 @@ namespace	ft
 				const allocator_type& alloc = allocator_type(),
 				typename ft::enable_if<!ft::is_integral<InputIterator>::value,
 					InputIterator>::type* = NULL)
-				: _allocator(alloc), _btree(_allocactor, _size())
+				: _allocator(alloc), _btree(comp, alloc)
 			{
 				while (first != last)
-					_btree.insert_node(ft::node<value_type>(*first++));
+				{
+					_btree.insert_node(*first++);
+					++_size;
+				}
 			}
 
 			map(const map& x) { *this = x; }
@@ -81,7 +85,7 @@ namespace	ft
 
 			map	&operator=(const map &x)
 			{
-				this->_allocactor = x._allocator;
+				this->_allocator = x._allocator;
 				this->_btree = x._btree;
 				this->_size = x._size;
 				return *this;

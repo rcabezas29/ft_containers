@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/11 17:23:58 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/14 19:59:03 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,24 @@ namespace	ft
 	{
 		public:
 			typedef typename Alloc::template rebind<ft::node<T> >::other	allocator_type;
+			typedef T														value_type;
+			typedef typename ft::node<value_type>*							node_pointer;
+			typedef Comp													compare;
 
 		public:
 			node<T>			*_root;
 			allocator_type	_allocator;
+			compare			_compare;
 
 		public:
-			binary_tree(const allocator_type &alloc = allocator_type()) : _root(NULL), _allocator(alloc) {}
-			binary_tree(const T &val, const allocator_type &alloc = allocator_type()) : _allocator(alloc)
+			binary_tree(compare &comp, const allocator_type &alloc = allocator_type()) : _root(NULL), _allocator(alloc), _compare(comp) {}
+			binary_tree(const T &val, const compare &comp = compare(), const allocator_type &alloc = allocator_type()) : _allocator(alloc), _compare(comp)
 			{
 				this->_root = this->_allocator.allocate(1);
 				this->_allocator.construct(this->_root, val);
 				this->_root->color = BLACK;
 			}
-			binary_tree(ft::node<T> node, const allocator_type &alloc = allocator_type()) :  _root(node), _allocator(alloc) {}
+			binary_tree(ft::node<T> node, const compare &comp = compare(), const allocator_type &alloc = allocator_type()) :  _root(node), _allocator(alloc), _compare(comp) {}
 			virtual ~binary_tree(void) {}
 
 			binary_tree	&operator=(const binary_tree &x)
@@ -115,12 +119,12 @@ namespace	ft
 				while (aux != NULL)
 				{
 					par = aux;
-					if (val >= aux->value)
+					if (val >= aux->value) // if (_compare(val, par->value))
 						aux = aux->rhs;
 					else
 						aux = aux->lhs;
 				}
-				if (val >= par->value)
+				if (val >= par->value) // if (_compare(val, par->value))
 					par->rhs = inserted;
 				else
 					par->lhs = inserted;
@@ -292,10 +296,10 @@ namespace	ft
 				s == p->lhs ? c = s->rhs : c = s->lhs;
 				s == p->lhs ? d = s->lhs : d = s->rhs;
 
-				std::cout << "Parent: " << p->value << " " << "color: " << p->color << std::endl;
-				std::cout << "Sibling: " << s->value << " " << "color: " << s->color << std::endl;
-				if (c) { std::cout << "Closest: " << c->value << " " << "color: " << c->color << std::endl;}
-				if (d) { std::cout << "Farthest: " << d->value << " " << "color: " << d->color << std::endl;}
+				// std::cout << "Parent: " << p->value << " " << "color: " << p->color << std::endl;
+				// std::cout << "Sibling: " << s->value << " " << "color: " << s->color << std::endl;
+				// if (c) { std::cout << "Closest: " << c->value << " " << "color: " << c->color << std::endl;}
+				// if (d) { std::cout << "Farthest: " << d->value << " " << "color: " << d->color << std::endl;}
 				
 				while (p != NULL && n->color == BLACK)
 				{
@@ -343,23 +347,6 @@ namespace	ft
 				}
 			}
 
-			ft::node<T>	*minimum(ft::node<T> *node)
-			{
-				ft::node<T>	*aux = node;
-
-				while (aux->lhs != NULL)
-					aux = aux->lhs;
-				return aux;
-			}
-
-			ft::node<T>	*maximum(ft::node<T> *node)
-			{
-				ft::node<T>	*aux = node;
-
-				while (aux->rhs != NULL)
-					aux = aux->rhs;
-				return aux;
-			}
 
 			void	transplant(ft::node<T> *u, ft::node<T> *v)
 			{
@@ -388,16 +375,74 @@ namespace	ft
 						node = node->lhs;
 				}
 				std::cout << "Node not found" << std::endl;
-				// throw NodeNotFoud();
 				return NULL;
 			}
 
-			class	NodeNotFoud : public std::exception
-			{
-				virtual const char * what() const throw()
-				{
-					return "The node wasn't found";
-				}
-			};
 	};
+	
+	template <typename T>
+	ft::node<T>	*minimum(ft::node<T> *node)
+	{
+		ft::node<T>	*aux = node;
+
+		while (aux->lhs != NULL)
+			aux = aux->lhs;
+		return aux;
+	}
+
+	template <typename T>
+	ft::node<T>	*maximum(ft::node<T> *node)
+	{
+		ft::node<T>	*aux = node;
+
+		while (aux->rhs != NULL)
+			aux = aux->rhs;
+		return aux;
+	}
+
+	template <typename T>
+	ft::node<T>	*inorder_next(ft::node<T> *n)
+	{
+		ft::node<T>	*p = n->parent;
+
+		if (n->rhs)
+			return minimum(n->rhs);
+		else
+		{
+			if (n == p->lhs)
+				return p;
+			else
+			{
+				while (n == p->rhs)
+				{
+					n = p;
+					p = n->parent;
+				}
+				return n->parent;
+			}
+		}
+	}
+
+	template <typename T>
+	ft::node<T>	*inorder_prev(ft::node<T> *n)
+	{
+		ft::node<T>	*p = n->parent;
+
+		if (n->lhs)
+			return maximum(n->lhs);
+		else
+		{
+			if (n == p->rhs)
+				return p;
+			else
+			{
+				while (n == p->lhs)
+				{
+					n = p;
+					p = n->parent;
+				}
+				return n->parent;
+			}
+		}
+	}
 }
