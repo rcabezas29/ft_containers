@@ -14,6 +14,8 @@
 
 #include "pair.hpp"
 #include <functional>
+#include <memory>
+#include <iostream>
 
 namespace	ft
 {
@@ -119,12 +121,12 @@ namespace	ft
 				while (aux != NULL)
 				{
 					par = aux;
-					if (val >= aux->value) // if (_compare(val, par->value))
+					if (_compare(par->value, val))
 						aux = aux->rhs;
 					else
 						aux = aux->lhs;
 				}
-				if (val >= par->value) // if (_compare(val, par->value))
+				if (_compare(par->value, val))
 					par->rhs = inserted;
 				else
 					par->lhs = inserted;
