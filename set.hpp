@@ -17,6 +17,7 @@
 #include "utils/iterators/binarytree_iterator.hpp"
 #include "utils/enable_if.hpp"
 #include "utils/is_integral.hpp"
+#include "utils/iterators/reverse_iterator.hpp"
 
 namespace	ft
 {
