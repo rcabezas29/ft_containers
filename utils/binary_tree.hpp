@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/14 19:59:03 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/18 20:07:59 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,14 @@ namespace	ft
 		}
 	};
 
-	template <class T, class Comp, class Alloc = std::allocator<T> >
+	template <class T, class Comp = std::less<T>, class Alloc = std::allocator<T> >
 	class	binary_tree
 	{
 		public:
-			typedef typename Alloc::template rebind<ft::node<T> >::other	allocator_type;
-			typedef T														value_type;
-			typedef typename ft::node<value_type>*							node_pointer;
-			typedef Comp													compare;
+			typedef T																value_type;
+			typedef typename Alloc::template rebind<ft::node<value_type> >::other	allocator_type;
+			typedef typename ft::node<value_type>*									node_pointer;
+			typedef Comp															compare;
 
 		public:
 			node<T>			*_root;
@@ -89,20 +89,26 @@ namespace	ft
 			compare			_compare;
 
 		public:
-			binary_tree(compare &comp, const allocator_type &alloc = allocator_type()) : _root(NULL), _allocator(alloc), _compare(comp) {}
-			binary_tree(const T &val, const compare &comp = compare(), const allocator_type &alloc = allocator_type()) : _allocator(alloc), _compare(comp)
+			binary_tree(void) : _root(NULL) {}
+
+			binary_tree(const compare &comp) : _root(NULL), _compare(comp) {}			
+			
+			binary_tree(const T &val, const compare &comp = compare()) : _compare(comp)
 			{
 				this->_root = this->_allocator.allocate(1);
 				this->_allocator.construct(this->_root, val);
 				this->_root->color = BLACK;
 			}
-			binary_tree(ft::node<T> node, const compare &comp = compare(), const allocator_type &alloc = allocator_type()) :  _root(node), _allocator(alloc), _compare(comp) {}
+			
+			binary_tree(ft::node<T> node, const compare &comp = compare()) :  _root(node), _compare(comp) {}
+			
 			virtual ~binary_tree(void) {}
 
 			binary_tree	&operator=(const binary_tree &x)
 			{
 				this->_root = x._root;
 				this->_allocator = x._allocator;
+				return *this;
 			}
 
 			void	insert_node(const T &val)
@@ -121,12 +127,12 @@ namespace	ft
 				while (aux != NULL)
 				{
 					par = aux;
-					if (_compare(par->value, val))
+					if (_compare(par->value.first, val.first))
 						aux = aux->rhs;
 					else
 						aux = aux->lhs;
 				}
-				if (_compare(par->value, val))
+				if (_compare(par->value.first, val.first))
 					par->rhs = inserted;
 				else
 					par->lhs = inserted;
@@ -264,7 +270,8 @@ namespace	ft
 				{
 					x = maximum(node->lhs);
 					check_color = x->color;
-					node->swap(*x);
+					// node->swap(*x);
+					transplant(node, x);
 					p = x->parent;
 					s = x->sibling();
 					node = x;
@@ -380,6 +387,50 @@ namespace	ft
 				return NULL;
 			}
 
+			ft::node<T>	*begin(void) const
+			{
+				ft::node<T>	*aux = this->_root;
+
+				if (!aux)
+					return this->_root;
+				while (aux->lhs)
+					aux = aux->lhs;
+				return aux;
+			}
+
+			ft::node<T>	*end(void) const
+			{
+				ft::node<T>	*aux = this->_root;
+
+				if (!aux)
+					return this->_root;
+				while (aux->rhs)
+					aux = aux->rhs;
+				return aux->rhs;
+			}
+
+			ft::node<T>	*rbegin(void) const
+			{
+				ft::node<T>	*aux = this->_root;
+
+				if (!aux)
+					return this->_root;
+				while (aux->rhs)
+					aux = aux->rhs;
+				return aux;
+			}
+
+			ft::node<T>	*rend(void) const
+			{
+				ft::node<T>	*aux = this->_root;
+
+				if (!aux)
+					return this->_root;
+				while (aux->lhs)
+					aux = aux->lhs;
+				return aux->lhs;
+			}
+
 	};
 	
 	template <typename T>
@@ -407,6 +458,8 @@ namespace	ft
 	{
 		ft::node<T>	*p = n->parent;
 
+		if (n->parent == NULL)
+			return n->rhs;
 		if (n->rhs)
 			return minimum(n->rhs);
 		else
@@ -430,6 +483,8 @@ namespace	ft
 	{
 		ft::node<T>	*p = n->parent;
 
+		if (n->parent == NULL)
+			return n->lhs;
 		if (n->lhs)
 			return maximum(n->lhs);
 		else

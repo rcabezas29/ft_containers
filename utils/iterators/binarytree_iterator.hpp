@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:02:15 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/14 19:44:18 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/18 15:59:40 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,20 @@ namespace ft
 			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::iterator_category	iterator_category;
 			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::value_type		value_type;
 			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::difference_type	difference_type;
-			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::pointer			pointer;
-			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::reference			reference;
+			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::pointer			node_pointer;
+			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::reference			node_reference;
+			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::pointer						pointer;
+			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::reference					reference;
 
 		private:
-			pointer	_ptr;
+			node_pointer	_ptr;
 
 		public:
 			binarytree_iterator(void) : _ptr(NULL) {}
 
 			template <typename U>
 			binarytree_iterator(const binarytree_iterator<U> &copy) : _ptr(copy.get_pointer()) {}
-			binarytree_iterator(pointer p) : _ptr(p) {}
+			binarytree_iterator(node_pointer p) : _ptr(p) {}
 
 			binarytree_iterator &operator=(const binarytree_iterator &op)
 			{
@@ -46,12 +48,12 @@ namespace ft
 			}
 
 			bool	operator==(const binarytree_iterator &b) const { return this->_ptr == b._ptr; }
-			
+
 			bool	operator!=(const binarytree_iterator &b) const { return this->_ptr != b._ptr; }
 
-			reference	operator*(void) { return *(this->_ptr); }
-			
-			pointer		operator->(void) { return this->_ptr; }
+			reference	operator*(void) const { return this->_ptr->value; }
+
+			pointer		operator->(void) const { return &(this->_ptr->value); }
 
 			binarytree_iterator	&operator++(void)
 			{
@@ -81,7 +83,7 @@ namespace ft
 				return pre;
 			}
 
-			pointer	get_pointer(void) const { return this->_ptr; }
+			node_pointer	get_pointer(void) const { return this->_ptr; }
 
 	};
 };

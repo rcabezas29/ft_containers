@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/11 17:25:26 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/18 18:04:57 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,40 @@
 #include <list>
 #include "vector.hpp"
 #include "stack.hpp"
-// #include "map.hpp"
+#include "map.hpp"
 #include "utils/binary_tree.hpp"
 
 int main (void)
 {
+	/*
+		MAP construction 
+	
+	ft::map<char, int> first;
+
+	first['a'] = 10;
+	first['b'] = 30;
+	first['c'] = 50;
+	first['d'] = 70;
+
+	ft::map<char,int> second(first.begin(), first.end());
+
+	ft::map<char,int> third(second);
+
+	ft::map<char,int>	fourth;
+	*/
+
+	ft::map<char, int> first;
+	ft::map<char, int> second;
+
+	first['x'] = 8;
+	first['y'] = 16;
+	first['z'] = 32;
+
+	second = first;
+	first = ft::map<char,int>();
+
+	std::cout << "Size of first: " << first.size() << '\n';
+	std::cout << "Size of second: " << second.size() << '\n';
 
 	/*
 		R/B TREE TEST
@@ -60,6 +89,9 @@ int main (void)
 	std::cout << a._root->rhs->rhs->lhs->value << " ";
 	// std::cout << a._root->rhs->rhs->rhs->value << " ";
 	*/
+
+	/*
+		R/B Tree
 
 	ft::binary_tree<int, std::less<int>, std::allocator<int> >	a(1);
 
@@ -108,6 +140,7 @@ int main (void)
 	std::cout << a._root->rhs->rhs->lhs->value << "(" << a._root->rhs->rhs->lhs->color << ")" << " ";
 	std::cout << a._root->rhs->rhs->rhs->value << "(" << a._root->rhs->rhs->rhs->color << ")" << std::endl;
 
+	*/
 	/*
 
 		REV ITER TEST
