@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/18 19:59:23 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/19 18:11:58 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ namespace	ft
 			size_type size(void) const { return this->_size; }
 			size_type max_size(void) const { return this->_allocator.max_size(); }
 
-			mapped_type &operator[](const key_type &k)
+			mapped_type	&operator[](const key_type &k)
 			{
 				iterator aux = this->find(k);
 
@@ -151,6 +151,7 @@ namespace	ft
 			{
 				this->_btree.insert_node(val);
 				iterator it = this->find(val.first);
+				++this->_size;
 				return ft::make_pair(it, true);
 			}
 
@@ -197,10 +198,7 @@ namespace	ft
 
 			iterator		find(const key_type &k)
 			{
-				for (iterator it = this->begin(); it != this->end(); it++)
-					if ((*it).first == k)
-						return it;
-				return this->end();
+				return iterator(this->_btree.find(ft::make_pair(k, mapped_type())));
 			}
 
 			const_iterator	find(const key_type &k) const;

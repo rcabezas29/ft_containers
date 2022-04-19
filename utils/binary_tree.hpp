@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/18 20:07:59 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/19 18:16:58 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -374,16 +374,13 @@ namespace	ft
 	
 				while (node != NULL)
 				{
-					if (node->value == val)
-					{
+					if (node->value.first == val.first)
 						return node;
-					}
-					else if (node->value < val)
+					else if (_compare(node->value.first, val.first))
 						node = node->rhs;
 					else
 						node = node->lhs;
 				}
-				std::cout << "Node not found" << std::endl;
 				return NULL;
 			}
 
@@ -458,7 +455,7 @@ namespace	ft
 	{
 		ft::node<T>	*p = n->parent;
 
-		if (n->parent == NULL)
+		if (!p)
 			return n->rhs;
 		if (n->rhs)
 			return minimum(n->rhs);
@@ -468,7 +465,7 @@ namespace	ft
 				return p;
 			else
 			{
-				while (n == p->rhs)
+				while (p && n == p->rhs)
 				{
 					n = p;
 					p = n->parent;

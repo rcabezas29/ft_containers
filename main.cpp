@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/18 18:04:57 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/19 18:17:44 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <vector>
 #include <deque>
 #include <list>
+#include <map>
 #include "vector.hpp"
 #include "stack.hpp"
 #include "map.hpp"
@@ -22,8 +23,8 @@
 int main (void)
 {
 	/*
-		MAP construction 
-	
+		MAP iterator
+
 	ft::map<char, int> first;
 
 	first['a'] = 10;
@@ -31,13 +32,60 @@ int main (void)
 	first['c'] = 50;
 	first['d'] = 70;
 
-	ft::map<char,int> second(first.begin(), first.end());
+	ft::map<char, int>::iterator it = first.begin();
+	ft::map<char, int>::iterator ite = first.end();
+	
+	it++;
+	it++;
 
-	ft::map<char,int> third(second);
+	if (it == ite) {
+		std::cout << "son iguales" << std::endl;
+	} else {
+		std::cout << "no son iguales" << std::endl;
+	}
+	
 
-	ft::map<char,int>	fourth;
-	*/
+	for (ft::map<char, int>::iterator it = first.begin(); it != first.end(); it++)
+		std::cout << (*it).first << std::endl;
+		
+		*/
 
+	/*
+		MAP construction
+		*/
+	ft::map<char, int> first;
+
+	first['a'] = 10;
+	first['b'] = 30;
+	first['c'] = 50;
+	first['d'] = 70;
+
+	std::cout << "-------Buscando------" << std::endl;
+
+	std::cout << first['a'] << std::endl;
+	std::cout << first['b'] << std::endl;
+	std::cout << first['c'] << std::endl;
+	std::cout << first['d'] << std::endl;
+
+	// std::cout << first['a'] << " " << first['b'] << " " << first['c']  << " " << first['d'] << std::endl;
+
+	// ft::map<char,int> second(first.begin(), first.end());
+
+	// ft::map<char,int> third(second);
+
+	// ft::map<char,int>	fourth;
+
+	std::cout << "First size = " << first.size() << std::endl;
+
+	for (ft::map<char, int>::iterator it = first.begin(); it != first.end(); it++)
+		std::cout << (*it).first << std::endl;
+	// std::cout << "Second size = " << second.size() << std::endl;
+	// std::cout << "Third size = " << third.size() << std::endl;
+	// std::cout << "Fourth size = " << fourth.size() << std::endl;
+
+	/*
+		MAP/operator=
+	
 	ft::map<char, int> first;
 	ft::map<char, int> second;
 
@@ -50,6 +98,8 @@ int main (void)
 
 	std::cout << "Size of first: " << first.size() << '\n';
 	std::cout << "Size of second: " << second.size() << '\n';
+
+	*/
 
 	/*
 		R/B TREE TEST
