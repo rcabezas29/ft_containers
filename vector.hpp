@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/12 08:30:28 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/19 20:39:27 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,68 +263,89 @@ namespace ft
 
 			iterator		insert(iterator position, const value_type &val)
 			{
-				iterator	it;
-				size_type	i = this->size();
+				vector	temp(this->_capacity + 1, 0);
+				iterator	it = this->begin();
+				size_type	pos = 0;
 
-				if (this->size() + 1 >= this->capacity())
-					this->reserve(this->capacity() > 0 ? this->capacity() * 2 : 1);
-				it = this->end();
-				while (it > position && it != this->begin())
+				while (it != position)
 				{
-					if (this->_array[i])
-						this->_allocator.destroy(&this->_array[i]);
-					this->_allocator.construct(&this->_array[i], this->_array[i - 1]);
-					--i;
-					--it;
+					temp[pos] = *it;
+					it++;
+					pos++;
 				}
-				if (this->_array[i])
-					this->_allocator.destroy(&this->_array[i]);
-				this->_allocator.construct(&this->_array[i], val);
-				++this->_size;
-				this->_begin = &this->_array[0];
-				this->_end = &this->_array[this->_size];
-				return (iterator(&this->_array[i]));
+				size_type ret = pos;
+				temp[pos++] = val;
+				while (it != this->end())
+				{
+					temp[pos] = *it;
+					it++;
+					pos++;
+				}
+				this->swap(temp);
+				for (size_type j = 0; j < temp.size(); j++)
+					this->_allocator.destroy(&temp[j]);
+				return this->begin() + ret;
 			}
 			
 
 			void			insert(iterator position, size_type n, const value_type &val)
 			{
-				vector		tmp;
+				vector	temp(this->_capacity + (n - (this->_capacity - this->_size)), 0);
 				iterator	it = this->begin();
+				size_type	pos = 0;
 
-				for (; it != position; it++)
+				while (it != position)
 				{
-					tmp.push_back(*it);
+					temp[pos] = *it;
+					it++;
+					pos++;
 				}
-				while (n-- > 0)
-					tmp.push_back(val);
-				for (; it != this->end(); it++)
+				while (n--)
 				{
-					tmp.push_back(*it);
+					temp[pos] = val;
+					pos++;
+					++this->_size;
 				}
-				this->swap(tmp);
+				while (it != this->end())
+				{
+					temp[pos] = *it;
+					it++;
+					pos++;
+				}
+				this->swap(temp);
+				for (size_type j = 0; j < temp.size(); j++)
+					this->_allocator.destroy(&temp[j]);
 			}
 
 			template <class InputIterator>
 			void			insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 			{
-				vector		tmp;
+				// distance creo que es de c17
+				vector	temp(this->_capacity + (std::distance(first, last) - (this->_capacity - this->_size)), 0);
 				iterator	it = this->begin();
+				size_type	pos = 0;
 
-				for (; it != position; it++)
+				while (it != position)
 				{
-					tmp.push_back(*it);
+					temp[pos] = *it;
+					it++;
+					pos++;
 				}
 				while (first != last)
 				{
-					tmp.push_back(*first);
+					temp[pos] = *first;
 					first++;
+					pos++;
 				}
-				for (; it != this->end(); it++)
+				while (it != this->end())
 				{
-					tmp.push_back(*it);
+					temp[pos] = *it;
+					it++;
+					pos++;
 				}
-				this->swap(tmp);
+				this->swap(temp);
+				for (size_type j = 0; j < temp.size(); j++)
+					this->_allocator.destroy(&temp[j]);
 			}
 
 			iterator		erase(iterator position)

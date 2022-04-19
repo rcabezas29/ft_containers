@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/19 18:17:44 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/19 18:38:29 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,21 @@
 
 int main (void)
 {
+	/*
+		Map empty
+	
+	ft::map<char, int> first;
+
+	std::cout << "Empty? " << first.empty() << std::endl;
+
+	first['a'] = 10;
+	first['b'] = 30;
+	first['c'] = 50;
+	first['d'] = 70;
+
+	std::cout << "Empty? " << first.empty() << std::endl;
+
+	*/
 	/*
 		MAP iterator
 
@@ -52,7 +67,6 @@ int main (void)
 
 	/*
 		MAP construction
-		*/
 	ft::map<char, int> first;
 
 	first['a'] = 10;
@@ -60,28 +74,24 @@ int main (void)
 	first['c'] = 50;
 	first['d'] = 70;
 
-	std::cout << "-------Buscando------" << std::endl;
+	std::cout << first['a'] << " " << first['b'] << " " << first['c']  << " " << first['d'] << std::endl;
 
-	std::cout << first['a'] << std::endl;
-	std::cout << first['b'] << std::endl;
-	std::cout << first['c'] << std::endl;
-	std::cout << first['d'] << std::endl;
+	ft::map<char,int> second(first.begin(), first.end());
 
-	// std::cout << first['a'] << " " << first['b'] << " " << first['c']  << " " << first['d'] << std::endl;
+	ft::map<char,int> third(second);
 
-	// ft::map<char,int> second(first.begin(), first.end());
-
-	// ft::map<char,int> third(second);
-
-	// ft::map<char,int>	fourth;
+	ft::map<char,int>	fourth;
 
 	std::cout << "First size = " << first.size() << std::endl;
+	std::cout << "Second size = " << second.size() << std::endl;
+	std::cout << "Third size = " << third.size() << std::endl;
+	std::cout << "Fourth size = " << fourth.size() << std::endl;
 
+	std::cout << "Printing first" << std::endl;
 	for (ft::map<char, int>::iterator it = first.begin(); it != first.end(); it++)
-		std::cout << (*it).first << std::endl;
-	// std::cout << "Second size = " << second.size() << std::endl;
-	// std::cout << "Third size = " << third.size() << std::endl;
-	// std::cout << "Fourth size = " << fourth.size() << std::endl;
+		std::cout << (*it).first << " ";
+
+		*/
 
 	/*
 		MAP/operator=
