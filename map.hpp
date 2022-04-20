@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/19 18:11:58 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/20 17:11:16 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ namespace	ft
 			typedef typename allocator_type::pointer						pointer;
 			typedef typename allocator_type::const_pointer					const_pointer;
 			typedef typename ft::binarytree_iterator<value_type>			iterator;
-			typedef typename ft::binarytree_iterator<const value_type>		const_iterator;
+			typedef typename ft::binarytree_iterator<value_type>		const_iterator;
 			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef typename ft::iterator_traits<iterator>::difference_type	difference_type;
@@ -117,7 +117,7 @@ namespace	ft
 			{
 				return reverse_iterator(this->_btree.rbegin());
 			}
-			
+
 			const_reverse_iterator rbegin(void) const
 			{
 				return const_reverse_iterator(this->_btree.rbegin());
@@ -155,12 +155,20 @@ namespace	ft
 				return ft::make_pair(it, true);
 			}
 
-			iterator insert(iterator position, const value_type &val);
+			iterator insert(iterator position, const value_type &val)
+			{
+				position = this->insert(val).first;
+				return position;
+			}
 			
 			template <class InputIterator>
 			void insert(InputIterator first, InputIterator last,
 				typename ft::enable_if<!ft::is_integral<InputIterator>::value,
-					InputIterator>::type* = NULL);
+					InputIterator>::type* = NULL)
+			{
+				while (first != last)
+					this->insert(*first++);
+			}
 
 			void erase(iterator position)
 			{
@@ -193,39 +201,34 @@ namespace	ft
 					this->_btree.delete_node(this->_btree._root);
 			}
 
-			key_compare		key_comp(void) const;
-			value_compare	value_comp(void) const;
+			key_compare		key_comp(void) const { return key_compare(); }
+			value_compare	value_comp(void) const { return value_compare(key_comp()); }
 
 			iterator		find(const key_type &k)
 			{
 				return iterator(this->_btree.find(ft::make_pair(k, mapped_type())));
 			}
 
-			const_iterator	find(const key_type &k) const;
+			const_iterator	find(const key_type &k) const
+			{
+				return const_iterator(this->_btree.find(ft::make_pair(k, mapped_type())));
+			}
 
 			size_type	count(const key_type &k) const
 			{
 				size_type	c = 0;
 
 				for (iterator it = this->begin(); it != this->end(); it++)
-					if (*it.first == k)
+					if ((*it).first == k)
 						c++;
 				return c;
 			}
 
-			iterator		lower_bound(const key_type &k)
-			{
-				iterator	it = find(k);
-				return --it;
-			}
-
+			iterator		lower_bound(const key_type &k);
+	
 			const_iterator	lower_bound(const key_type &k) const;
 
-			iterator		upper_bound(const key_type &k)
-			{
-				iterator	it = find(k);
-				return ++it;
-			}
+			iterator		upper_bound(const key_type &k);
 
 			const_iterator	upper_bound(const key_type &k) const;
 

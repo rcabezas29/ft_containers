@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/19 18:38:29 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/20 16:03:09 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -539,8 +539,6 @@ int main (void)
 	for (size_t i = 0; i < vct.size(); i++)
 		std::cout << vct[i] << " ";
 	*/
-
-	
 
 	return 0;
 }

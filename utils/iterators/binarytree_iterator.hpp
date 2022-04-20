@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:02:15 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/19 10:18:00 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/20 17:22:15 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ namespace ft
 			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::difference_type	difference_type;
 			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::pointer			node_pointer;
 			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::reference			node_reference;
-			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::pointer						pointer;
+			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::pointer						;
 			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::reference					reference;
 
 		private:
