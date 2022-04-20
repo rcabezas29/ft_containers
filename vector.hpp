@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/19 20:39:27 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/04/20 09:49:23 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,31 +350,24 @@ namespace ft
 
 			iterator		erase(iterator position)
 			{
-				iterator	it = this->begin();
-				size_type	i = 0;
-				while (it++ != position)
-					i++;
-				this->_allocator.destroy(&(*it));
-				while (i < this->_size + 1)
+				for (size_type i = 0; position + i + 1 != this->end(); i++)
 				{
-					this->_allocator.construct(&this->_array[i], this->_array[i + 1]);
-					++i;
+					this->_allocator.destroy(&(*(position + i)));
+					this->_allocator.construct(&(*(position + i)), *(position + i + 1));
 				}
 				--this->_size;
-				return it;
+				return position;
 			}
 			
 			iterator		erase(iterator first, iterator last)
-			{
-				iterator	it = first;
-
-				while (it != last)
+			{	
+				for (size_type i = 0; last + i != this->end(); i++)
 				{
-					this->_allocator.destroy(&(*(it - 1)));
-					it++;
-					this->_size--;
+					this->_allocator.destroy(&(*(first + i)));
+					this->_allocator.construct(&(*(first + i)), *(last + i));
 				}
-				return &(*(it - 1));
+				this->_size -= last - first;
+				return first;
 			}
 
 			void			swap(vector &x)
