@@ -28,6 +28,7 @@ namespace	ft
 			typedef T														key_type;
 			typedef T														value_type;
 			typedef Compare													key_compare;
+			typedef Compare													value_compare;
 			typedef Alloc													allocator_type;
 			typedef typename allocator_type::reference						reference;
 			typedef typename allocator_type::const_reference				const_reference;
@@ -41,36 +42,80 @@ namespace	ft
 			typedef size_t													size_type;
 
 		private:
-			allocator_type												_allocactor;
+			allocator_type												_allocator;
 			ft::binary_tree<value_type, key_compare, allocator_type>	_btree;
 			size_type													_size;
 
 		public:	
 			explicit set(const key_compare &comp = key_compare(),
-				const allocator_type &alloc = allocator_type());
+				const allocator_type &alloc = allocator_type())
+			: _allocator(alloc), _btree(comp), _size(0) {}
 
 			template <class InputIterator>
 			set(InputIterator first, InputIterator last,
 				const key_compare &comp = key_compare(),
-				const allocator_type &alloc = allocator_type());
+				const allocator_type &alloc = allocator_type())
+				: _allocator(alloc), _btree(comp), _size(0)
+			{
+				while (first != last)
+				{
+					_btree.insert_node(*first++);
+					++_size;
+				}
+			}
 
-			set(const set &x);
+			set(const set &x) {*this = x; }
 
-			~set(void);
+			~set(void) {}
 
-			set	&operator=(const set &x);
+			set	&operator=(const set &x)
+			{
+				this->_allocator = x._allocator;
+				this->_btree = x._btree;
+				this->_size = x._size;
+				return *this;
+			}
 
-			iterator				begin(void);
-			const_iterator			begin(void) const;
 
-			iterator				end(void);
-			const_iterator			end(void) const;
+			iterator				begin(void)
+			{
+				return iterator(this->_btree.begin());
+			}
 
-			reverse_iterator		rbegin(void);
-			const_reverse_iterator	rbegin(void) const;
+			const_iterator			begin(void) const
+			{
+				return const_iterator(this->_btree.begin());
+			}
 
-			reverse_iterator		rend(void);
-			const_reverse_iterator	rend(void) const;
+			iterator				end(void)
+			{
+				return iterator(this->_btree.end());
+			}
+
+			const_iterator			end(void) const
+			{
+				return const_iterator(this->_btree.end());
+			}
+
+			reverse_iterator		rbegin(void)
+			{
+				return reverse_iterator(this->_btree.rbegin());
+			}
+
+			const_reverse_iterator	rbegin(void) const
+			{
+				return const_reverse_iterator(this->_btree.rbegin());
+			}
+
+			reverse_iterator		rend(void)
+			{
+				return iterator(this->_btree.rend());
+			}
+
+			const_reverse_iterator	rend(void) const
+			{
+				return const_iterator(this->_btree.rend());
+			}
 
 			bool	empty(void) const {return this->_size == 0 ? true : false; }
 
@@ -78,33 +123,76 @@ namespace	ft
 
 			size_type	max_size(void) const { return this->_allocactor.max_size(); }
 
-			ft::pair<iterator, bool>	insert(const value_type &val);
+			ft::pair<iterator, bool>	insert(const value_type &val)
+			{
+				this->_btree.insert_node(val);
+				iterator it = this->find(val.first);
+				++this->_size;
+				return ft::make_pair(it, true);
+			}
 
-			iterator	insert(iterator position, const value_type &val);
+			iterator	insert(iterator position, const value_type &val)
+			{
+				position = this->insert(val).first;
+				return position;
+			}
 
 			template <class InputIterator>
-			void	insert(InputIterator first, InputIterator last);
+			void	insert(InputIterator first, InputIterator last)
+			{
+				while (first != last)
+					this->insert(*first++);
+			}
 
-			void	erase(iterator position);
+			void	erase(iterator position)
+			{
+				this->_btree.delete_val(*position);
+			}
 
-			size_type	erase(const value_type &val);
+			size_type	erase(const value_type &val)
+			{
+				iterator	it = this->find(val);
+				this->_btree.delete_val(*it);
+				return (1);
+			}
 
-			void	erase(iterator first, iterator last);
+			void	erase(iterator first, iterator last)
+			{
+				while (first++ != last)
+					this->_btree.delete_val(*first);
+			}
 			
-			void	swap(set &x);
+			void	swap(set &x)
+			{
+				set aux = *this;
+				*this = x;
+				x = aux;
+			}
 
 			void	clear(void)
 			{
-				this->erase(this->begin(), this->end());
+				while (this->_size != 0)
+					this->_btree.delete_node(this->_btree._root);
 			}
 
-			key_compare	key_comp(void) const;
+			key_compare	key_comp(void) const  { return key_compare(); }
 
-			value_compare	value_comp(void) const;
+			value_compare	value_comp(void) const  { return value_compare(key_comp()); }
 
-			iterator	find(const value_type &val) const;
+			iterator	find(const value_type &val) const
+			{
+				return iterator(this->_btree.find(val));
+			}
 
-			size_type	count(const value_type &val) const;
+			size_type	count(const value_type &val) const
+			{
+				size_type	c = 0;
+
+				for (iterator it = this->begin(); it != this->end(); it++)
+					if ((*it).first == val)
+						c++;
+				return c;
+			}
 
 			iterator	lower_bound(const value_type &val) const;
 

@@ -26,7 +26,7 @@ namespace ft
 			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::difference_type	difference_type;
 			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::pointer			node_pointer;
 			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::reference			node_reference;
-			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::pointer						;
+			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::pointer						pointer;
 			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::reference					reference;
 
 		private:
