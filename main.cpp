@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/20 16:03:09 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/07 10:49:15 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,33 @@
 
 int main (void)
 {
+	/*
+		MAP BOUNDS
+	*/
+
+	ft::map<char,int>			mymap;
+	ft::map<char,int>::iterator	itlow, itup;
+
+	mymap['a'] = 20;
+	mymap['b'] = 40;
+	mymap['c'] = 60;
+	mymap['d'] = 80;
+	mymap['e'] = 100;
+
+	itlow = mymap.lower_bound('b');  // itlow points to b
+	itup = mymap.upper_bound('d');   // itup points to e (not d!)
+
+	std::cout << "BOUNDS " << std::endl;
+	std::cout << itlow->first << " => " << itlow->second << '\n';
+	std::cout << itup->first << " => " << itup->second << '\n';
+	std::cout << "---------------------------------------- " << std::endl;
+
+	// mymap.erase(itlow, itup);        // erases [itlow,itup)                                       error: erasing
+
+	// print content:
+	for (ft::map<char,int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+
 	/*
 		Map empty
 	
@@ -113,29 +140,29 @@ int main (void)
 
 	/*
 		R/B TREE TEST
+	
+	ft::binary_tree<int, std::less<int>, std::allocator<int> >	a('a');
 
-	ft::binary_tree<int, std::less<int>, std::allocator<int> >	a(4);
+	a.insert_node('b');
+	a.insert_node('c');
+	a.insert_node('d');
+	a.insert_node('e');
+	// a.insert_node(2);
+	// a.insert_node(8);
+	// a.insert_node(10);
+	// a.insert_node(7);
+	// a.insert_node(9);
 
-	a.insert_node(6);
-	a.insert_node(5);
-	a.insert_node(3);
-	a.insert_node(1);
-	a.insert_node(2);
-	a.insert_node(8);
-	a.insert_node(10);
-	a.insert_node(7);
-	a.insert_node(9);
-
-	a.delete_val(2);
-	a.delete_val(3);
+	// a.delete_val(2);
+	// a.delete_val(3);
 
 	std::cout << a._root->value << std::endl;
 	std::cout << "----------------------------" << std::endl;
 	std::cout << a._root->lhs->value << " ";
 	std::cout << a._root->rhs->value << std::endl;
 	std::cout << "----------------------------" << std::endl;
-	//std::cout << a._root->lhs->lhs->value << " ";
-	std::cout << a._root->lhs->rhs->value << " ";
+	// std::cout << a._root->lhs->lhs->value << " ";
+	// std::cout << a._root->lhs->rhs->value << " ";
 	std::cout << a._root->rhs->lhs->value << " ";
 	std::cout << a._root->rhs->rhs->value << std::endl;
 	std::cout << "----------------------------" << std::endl;
@@ -145,8 +172,8 @@ int main (void)
 	// std::cout << a._root->lhs->rhs->lhs->value << " ";
 	// std::cout << a._root->lhs->rhs->rhs->value << " ";
 	// std::cout << a._root->rhs->lhs->lhs->value << " ";
-	std::cout << a._root->rhs->lhs->rhs->value << " ";
-	std::cout << a._root->rhs->rhs->lhs->value << " ";
+	// std::cout << a._root->rhs->lhs->rhs->value << " ";
+	// std::cout << a._root->rhs->rhs->lhs->value << " ";
 	// std::cout << a._root->rhs->rhs->rhs->value << " ";
 	*/
 

@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/19 18:16:58 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/07 11:17:45 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -368,7 +368,7 @@ namespace	ft
 				v->parent = u->parent;
 			}
 
-			ft::node<T>	*find(const T val)
+			ft::node<T>	*find(const T val) const
 			{
 				ft::node<T>	*node = this->_root;
 	
@@ -455,8 +455,6 @@ namespace	ft
 	{
 		ft::node<T>	*p = n->parent;
 
-		if (!p)
-			return n->rhs;
 		if (n->rhs)
 			return minimum(n->rhs);
 		else
@@ -480,8 +478,6 @@ namespace	ft
 	{
 		ft::node<T>	*p = n->parent;
 
-		if (n->parent == NULL)
-			return n->lhs;
 		if (n->lhs)
 			return maximum(n->lhs);
 		else

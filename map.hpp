@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/20 17:11:16 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/07 11:21:02 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,16 +224,36 @@ namespace	ft
 				return c;
 			}
 
-			iterator		lower_bound(const key_type &k);
+			iterator		lower_bound(const key_type &k)
+			{
+				for (iterator it = this->find(k); it != this->end(); ++it)
+				{
+					if (this->value_comp()(*it, ft::make_pair(k, mapped_type())))
+						continue ;
+					else
+						return it;
+				}
+				return this->end();
+			}
 	
 			const_iterator	lower_bound(const key_type &k) const;
 
-			iterator		upper_bound(const key_type &k);
+			iterator		upper_bound(const key_type &k)
+			{
+				for (iterator it = this->find(k); it != this->end(); ++it)
+				{
+					if (this->value_comp()(ft::make_pair(k, mapped_type()), *it))
+						return it;
+					else
+						continue ;
+				}
+				return this->end();
+			}
 
 			const_iterator	upper_bound(const key_type &k) const;
 
-			pair<const_iterator, const_iterator>	equal_range(const key_type &k) const;
-			pair<iterator, iterator>				equal_range(const key_type &k);
+			pair<const_iterator, const_iterator>	equal_range(const key_type &k) const { return (ft::make_pair(this->lower_bound(k), this->upper_bound(k))); }
+			pair<iterator, iterator>				equal_range(const key_type &k) { return (ft::make_pair(this->lower_bound(k), this->upper_bound(k))); }
 
 			allocator_type	get_allocator(void) const { return this->_allocator; }
 	};
