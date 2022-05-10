@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 21:05:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/03/11 21:10:35 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/10 10:17:17 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,31 +155,31 @@ namespace ft
 	}
 
 	template <typename T, typename U>
-	typename reverse_iterator<random_access_iterator<T> >::difference_type operator+(const reverse_iterator<random_access_iterator<T> > &a, const reverse_iterator<random_access_iterator<U> > &b)
+	typename reverse_iterator<T>::difference_type operator+(const reverse_iterator<T> &a, const reverse_iterator<U> &b)
 	{
 		return a.get_pointer() + b.get_pointer();
 	}
 
 	template <typename T, typename U>
-	typename reverse_iterator<random_access_iterator<T> >::difference_type operator-(const reverse_iterator<random_access_iterator<T> > &a, const reverse_iterator<random_access_iterator<U> > &b)
+	typename reverse_iterator<T>::difference_type operator-(const reverse_iterator<T> &a, const reverse_iterator<U> &b)
 	{
 		return b.get_pointer() - a.get_pointer();
 	}
 
 	template <typename T>
-	reverse_iterator<random_access_iterator<T> > operator+(typename reverse_iterator<random_access_iterator<T> >::difference_type a, const reverse_iterator<random_access_iterator<T> > &b)
+	reverse_iterator<T> operator+(typename reverse_iterator<T>::difference_type a, const reverse_iterator<T> &b)
 	{
 		return b + a;
 	}
 
 	template <typename T>
-	reverse_iterator<T> operator-(typename reverse_iterator<random_access_iterator<T> >::difference_type a, const reverse_iterator<random_access_iterator<T> > &b)
+	reverse_iterator<T> operator-(typename reverse_iterator<T>::difference_type a, const reverse_iterator<T> &b)
 	{
 		return b - a;
 	}
 
 	template <typename T>
-	reverse_iterator<T> operator-(const reverse_iterator<random_access_iterator<T> > &a, typename reverse_iterator<random_access_iterator<T> >::difference_type &b)
+	reverse_iterator<T> operator-(const reverse_iterator<T> &a, typename reverse_iterator<T>::difference_type &b)
 	{
 		return a.get_pointer() - b;
 	}

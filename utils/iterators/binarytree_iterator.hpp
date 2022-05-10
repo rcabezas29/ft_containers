@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:02:15 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/20 17:22:15 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/10 19:31:09 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ namespace ft
 			binarytree_iterator(void) : _ptr(NULL) {}
 
 			template <typename U>
-			binarytree_iterator(const binarytree_iterator<U> &copy) : _ptr(copy.get_pointer()) {}
+			binarytree_iterator(const binarytree_iterator<U> &copy) { *this = copy; }
 			binarytree_iterator(node_pointer p) : _ptr(p) {}
+			~binarytree_iterator(void) {}
 
 			binarytree_iterator &operator=(const binarytree_iterator &op)
 			{
@@ -86,5 +87,59 @@ namespace ft
 			node_pointer	get_pointer(void) const { return this->_ptr; }
 
 	};
+
+	template <typename T, typename U>
+	bool operator<(const binarytree_iterator<T> &a, const binarytree_iterator<U> &b)
+	{
+		return a.get_pointer() < b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	bool operator>(const binarytree_iterator<T> &a, const binarytree_iterator<U> &b)
+	{
+		return a.get_pointer() > b.get_pointer();
+	}
+	
+	template <typename T, typename U>
+	bool operator<=(const binarytree_iterator<T> &a, const binarytree_iterator<U> &b)
+	{
+		return a.get_pointer() <= b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	bool operator>=(const binarytree_iterator<T> &a, const binarytree_iterator<U> &b)
+	{
+		return a.get_pointer() >= b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	typename binarytree_iterator<T>::difference_type operator+(const binarytree_iterator<T> &a, const binarytree_iterator<U> &b)
+	{
+		return a.get_pointer() + b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	typename binarytree_iterator<T>::difference_type operator-(const binarytree_iterator<T> &a, const binarytree_iterator<U> &b)
+	{
+		return a.get_pointer() - b.get_pointer();
+	}
+
+	template <typename T>
+	ft::binarytree_iterator<T> operator+(typename ft::binarytree_iterator<T>::difference_type a, const binarytree_iterator<T> &b)
+	{
+		return a + b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	bool operator!=(const binarytree_iterator<T> &a, const binarytree_iterator<U> &b)
+	{
+		return a.get_pointer() != b.get_pointer();
+	}
+
+	template <typename T, typename U>
+	bool operator==(const binarytree_iterator<T> &a, const binarytree_iterator<U> &b)
+	{
+		return a.get_pointer() == b.get_pointer();
+	}
 };
 

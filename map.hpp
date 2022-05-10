@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/07 11:21:02 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/10 19:39:49 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ namespace	ft
 			typedef typename allocator_type::pointer						pointer;
 			typedef typename allocator_type::const_pointer					const_pointer;
 			typedef typename ft::binarytree_iterator<value_type>			iterator;
-			typedef typename ft::binarytree_iterator<value_type>		const_iterator;
+			typedef typename ft::binarytree_iterator<value_type>			const_iterator;                      // should be const
 			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef typename ft::iterator_traits<iterator>::difference_type	difference_type;
@@ -49,19 +49,19 @@ namespace	ft
 				friend class map;
 				protected:
 					Compare comp;
-					value_compare(Compare c) : comp(c) {}
 				public:
 					typedef bool		result_type;
 					typedef value_type	first_argument_type;
 					typedef value_type	second_argument_type;
 
+					value_compare(Compare c) : comp(c) {}
 					bool	operator()(const value_type &x, const value_type &y) const { return comp(x.first, y.first); }
 			};
 
 		private:
-			allocator_type												_allocator;
-			ft::binary_tree<value_type, key_compare, allocator_type>	_btree;
-			size_type													_size;
+			allocator_type														_allocator;
+			ft::binary_tree<value_type, value_compare, Compare, allocator_type>	_btree;
+			size_type															_size;
 
 		public:
 			explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()) : _allocator(alloc), _btree(comp), _size(0) {}
@@ -125,12 +125,12 @@ namespace	ft
 
 			reverse_iterator rend(void)
 			{
-				return iterator(this->_btree.rend());
+				return reverse_iterator(this->_btree.rend());
 			}
 
 			const_reverse_iterator rend(void) const
 			{
-				return const_iterator(this->_btree.rend());
+				return const_reverse_iterator(this->_btree.rend());
 			}
 
 			bool empty(void) const {return this->_size == 0 ? true : false; }

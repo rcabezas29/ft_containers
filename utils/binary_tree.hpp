@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/07 11:17:45 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/10 19:44:27 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ namespace	ft
 		}
 	};
 
-	template <class T, class Comp = std::less<T>, class Alloc = std::allocator<T> >
+	template <class T, class Comp, class Compare, class Alloc = std::allocator<T> >
 	class	binary_tree
 	{
 		public:
@@ -89,7 +89,7 @@ namespace	ft
 			compare			_compare;
 
 		public:
-			binary_tree(void) : _root(NULL) {}
+			binary_tree(void) : _root(NULL), _compare(Compare()) {}
 
 			binary_tree(const compare &comp) : _root(NULL), _compare(comp) {}			
 			
@@ -127,12 +127,12 @@ namespace	ft
 				while (aux != NULL)
 				{
 					par = aux;
-					if (_compare(par->value.first, val.first))
+					if (_compare(par->value, val))
 						aux = aux->rhs;
 					else
 						aux = aux->lhs;
 				}
-				if (_compare(par->value.first, val.first))
+				if (_compare(par->value, val))
 					par->rhs = inserted;
 				else
 					par->lhs = inserted;
@@ -356,7 +356,6 @@ namespace	ft
 				}
 			}
 
-
 			void	transplant(ft::node<T> *u, ft::node<T> *v)
 			{
 				if (u->parent == NULL)
@@ -374,12 +373,12 @@ namespace	ft
 	
 				while (node != NULL)
 				{
-					if (node->value.first == val.first)
-						return node;
-					else if (_compare(node->value.first, val.first))
+					if (_compare(val, node->value))
+						node = node->lhs;
+					else if (_compare(node->value, val))
 						node = node->rhs;
 					else
-						node = node->lhs;
+						return node;
 				}
 				return NULL;
 			}
@@ -427,7 +426,6 @@ namespace	ft
 					aux = aux->lhs;
 				return aux->lhs;
 			}
-
 	};
 	
 	template <typename T>

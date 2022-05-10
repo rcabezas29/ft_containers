@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/07 10:49:15 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/10 19:05:24 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,23 @@
 
 int main (void)
 {
+
+	ft::map<int, std::string>	m;
+
+	m[1] = "hola";
+	m[2] = "adios";
+	m[3] = "que tal";
+
+	for (ft::map<int, std::string>::iterator it = m.begin(); it != m.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+
+	ft::map<int, std::string>::const_iterator it = m.begin();
+	std::cout << it->first << " => " << it->second << '\n';
+	
+	//std::cout << (it != ite) << std::endl;
+
 	/*
 		MAP BOUNDS
-	*/
 
 	ft::map<char,int>			mymap;
 	ft::map<char,int>::iterator	itlow, itup;
@@ -48,6 +62,7 @@ int main (void)
 	// print content:
 	for (ft::map<char,int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
+		*/
 
 	/*
 		Map empty
