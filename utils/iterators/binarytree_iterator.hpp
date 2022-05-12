@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:02:15 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/10 19:31:09 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/12 09:17:15 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ namespace ft
 			binarytree_iterator(void) : _ptr(NULL) {}
 
 			template <typename U>
-			binarytree_iterator(const binarytree_iterator<U> &copy) { *this = copy; }
+			binarytree_iterator(const binarytree_iterator<U> &copy) : _ptr(copy.get_pointer()) {}
+			
 			binarytree_iterator(node_pointer p) : _ptr(p) {}
+			
 			~binarytree_iterator(void) {}
 
 			binarytree_iterator &operator=(const binarytree_iterator &op)

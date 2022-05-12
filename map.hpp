@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/10 19:39:49 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/12 17:47:58 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ namespace	ft
 			typedef typename allocator_type::pointer						pointer;
 			typedef typename allocator_type::const_pointer					const_pointer;
 			typedef typename ft::binarytree_iterator<value_type>			iterator;
-			typedef typename ft::binarytree_iterator<value_type>			const_iterator;                      // should be const
+			typedef typename ft::binarytree_iterator<value_type>		const_iterator;                      // should be const
 			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef typename ft::iterator_traits<iterator>::difference_type	difference_type;
@@ -226,6 +226,8 @@ namespace	ft
 
 			iterator		lower_bound(const key_type &k)
 			{
+				if (this->value_comp()(ft::make_pair(k, mapped_type()), *this->begin()))
+					return this->begin();
 				for (iterator it = this->find(k); it != this->end(); ++it)
 				{
 					if (this->value_comp()(*it, ft::make_pair(k, mapped_type())))
@@ -236,10 +238,24 @@ namespace	ft
 				return this->end();
 			}
 	
-			const_iterator	lower_bound(const key_type &k) const;
+			const_iterator	lower_bound(const key_type &k) const
+			{
+				if (this->value_comp()(ft::make_pair(k, mapped_type()), *this->begin()))
+					return this->begin();
+				for (iterator it = this->find(k); it != this->end(); ++it)
+				{
+					if (this->value_comp()(*it, ft::make_pair(k, mapped_type())))
+						continue ;
+					else
+						return it;
+				}
+				return this->end();
+			}
 
 			iterator		upper_bound(const key_type &k)
 			{
+				if (this->value_comp()(ft::make_pair(k, mapped_type()), *this->begin()))
+					return this->begin();
 				for (iterator it = this->find(k); it != this->end(); ++it)
 				{
 					if (this->value_comp()(ft::make_pair(k, mapped_type()), *it))
@@ -250,7 +266,20 @@ namespace	ft
 				return this->end();
 			}
 
-			const_iterator	upper_bound(const key_type &k) const;
+			const_iterator	upper_bound(const key_type &k) const
+			{
+				if (this->value_comp()(ft::make_pair(k, mapped_type()), *this->begin()))
+					return this->begin();
+				for (iterator it = this->find(k); it != this->end(); ++it)
+				{
+					if (this->value_comp()(ft::make_pair(k, mapped_type()), *it))
+						return it;
+					else
+						continue ;
+				}
+				return this->end();
+			}
+			
 
 			pair<const_iterator, const_iterator>	equal_range(const key_type &k) const { return (ft::make_pair(this->lower_bound(k), this->upper_bound(k))); }
 			pair<iterator, iterator>				equal_range(const key_type &k) { return (ft::make_pair(this->lower_bound(k), this->upper_bound(k))); }

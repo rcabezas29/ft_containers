@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/10 19:05:24 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/12 17:36:02 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,14 @@
 #include "map.hpp"
 #include "utils/binary_tree.hpp"
 
+#define NAMESPACE ft
+
 int main (void)
 {
-
+	
+	/* 
+		CONST ITERATOR CREATION
+	
 	ft::map<int, std::string>	m;
 
 	m[1] = "hola";
@@ -36,12 +41,14 @@ int main (void)
 	std::cout << it->first << " => " << it->second << '\n';
 	
 	//std::cout << (it != ite) << std::endl;
+	*/
 
 	/*
 		MAP BOUNDS
+		*/
 
-	ft::map<char,int>			mymap;
-	ft::map<char,int>::iterator	itlow, itup;
+	NAMESPACE::map<char,int>			mymap;
+	NAMESPACE::map<char,int>::iterator	itlow, itup;
 
 	mymap['a'] = 20;
 	mymap['b'] = 40;
@@ -57,12 +64,21 @@ int main (void)
 	std::cout << itup->first << " => " << itup->second << '\n';
 	std::cout << "---------------------------------------- " << std::endl;
 
+	NAMESPACE::map<char,int>::const_iterator	citlow, citup;
+
+	citlow = mymap.lower_bound(-10);
+	citup = mymap.upper_bound(-10);
+
+
+	std::cout << citlow->first << " => " << citlow->second << '\n';
+	std::cout << citup->first << " => " << citup->second << '\n';
+	std::cout << "---------------------------------------- " << std::endl;
+
 	// mymap.erase(itlow, itup);        // erases [itlow,itup)                                       error: erasing
 
 	// print content:
-	for (ft::map<char,int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
+	for (NAMESPACE::map<char,int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
-		*/
 
 	/*
 		Map empty
