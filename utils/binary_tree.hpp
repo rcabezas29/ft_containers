@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/10 19:44:27 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/13 10:46:24 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -426,7 +426,52 @@ namespace	ft
 					aux = aux->lhs;
 				return aux->lhs;
 			}
+
 	};
+	
+	template <typename T>
+	ft::node<T>	*inorder_next(ft::node<T> *n)
+	{
+		if (n->rhs)
+			return minimum(n->rhs);
+		else
+		{
+			ft::node<T>	*p = n->parent;
+			if (n == p->lhs)
+				return p;
+			else
+			{
+				while (p && n == p->rhs)
+				{
+					n = p;
+					p = n->parent;
+				}
+				return n->parent;
+			}
+		}
+	}
+
+	template <typename T>
+	ft::node<T>	*inorder_prev(ft::node<T> *n)
+	{
+		if (n->lhs)
+			return maximum(n->lhs);
+		else
+		{
+			ft::node<T>	*p = n->parent;
+			if (n == p->rhs)
+				return p;
+			else
+			{
+				while (n == p->lhs)
+				{
+					n = p;
+					p = n->parent;
+				}
+				return n->parent;
+			}
+		}
+	}
 	
 	template <typename T>
 	ft::node<T>	*minimum(ft::node<T> *node)
@@ -446,51 +491,5 @@ namespace	ft
 		while (aux->rhs != NULL)
 			aux = aux->rhs;
 		return aux;
-	}
-
-	template <typename T>
-	ft::node<T>	*inorder_next(ft::node<T> *n)
-	{
-		ft::node<T>	*p = n->parent;
-
-		if (n->rhs)
-			return minimum(n->rhs);
-		else
-		{
-			if (n == p->lhs)
-				return p;
-			else
-			{
-				while (p && n == p->rhs)
-				{
-					n = p;
-					p = n->parent;
-				}
-				return n->parent;
-			}
-		}
-	}
-
-	template <typename T>
-	ft::node<T>	*inorder_prev(ft::node<T> *n)
-	{
-		ft::node<T>	*p = n->parent;
-
-		if (n->lhs)
-			return maximum(n->lhs);
-		else
-		{
-			if (n == p->rhs)
-				return p;
-			else
-			{
-				while (n == p->lhs)
-				{
-					n = p;
-					p = n->parent;
-				}
-				return n->parent;
-			}
-		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:02:15 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/12 09:17:15 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/13 10:56:49 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,24 @@ namespace ft
 
 		private:
 			node_pointer	_ptr;
+			node_pointer	_root;
 
 		public:
-			binarytree_iterator(void) : _ptr(NULL) {}
+			binarytree_iterator(void) : _ptr(NULL), _root(NULL) {}
 
 			template <typename U>
-			binarytree_iterator(const binarytree_iterator<U> &copy) : _ptr(copy.get_pointer()) {}
-			
-			binarytree_iterator(node_pointer p) : _ptr(p) {}
-			
+			binarytree_iterator(const binarytree_iterator<U> &copy) : _ptr(copy.get_pointer()), _root(copy.get_root()) {}
+
+			binarytree_iterator(node_pointer p) : _ptr(p)
+			{
+				if (p)
+				{
+					while (p->parent)
+						p = p->parent;
+				}
+				this->_root = p;
+			}
+
 			~binarytree_iterator(void) {}
 
 			binarytree_iterator &operator=(const binarytree_iterator &op)
@@ -47,6 +56,7 @@ namespace ft
 				if (this == &op)
 					return *this;
 				this->_ptr = op.get_pointer();
+				this->_root = op.get_root();
 				return *this;
 			}
 
@@ -60,13 +70,19 @@ namespace ft
 
 			binarytree_iterator	&operator++(void)
 			{
-				this->_ptr = inorder_next(this->_ptr);
+				if (!this->_ptr)
+					this->_ptr = minimum(this->_root);
+				else
+					this->_ptr = inorder_next(this->_ptr);
 				return *this;
 			}
 			
 			binarytree_iterator	&operator--(void)
 			{
-				this->_ptr = inorder_prev(this->_ptr);
+				if (!this->_ptr)
+					this->_ptr = maximum(this->_root);
+				else
+					this->_ptr = inorder_prev(this->_ptr);
 				return *this;
 			}
 			
@@ -74,7 +90,10 @@ namespace ft
 			{
 				binarytree_iterator	pre = *this;
 
-				this->_ptr = inorder_next(this->_ptr);
+				if (!this->_ptr)
+					this->_ptr = minimum(this->_root);
+				else
+					this->_ptr = inorder_next(this->_ptr);
 				return pre;
 			}
 			
@@ -82,11 +101,15 @@ namespace ft
 			{
 				binarytree_iterator	pre = *this;
 				
-				this->_ptr = inorder_prev(this->_ptr);
+				if (!this->_ptr)
+					this->_ptr = maximum(this->_root);
+				else
+					this->_ptr = inorder_prev(this->_ptr);
 				return pre;
 			}
 
 			node_pointer	get_pointer(void) const { return this->_ptr; }
+			node_pointer	get_root(void) const { return this->_root; }
 
 	};
 

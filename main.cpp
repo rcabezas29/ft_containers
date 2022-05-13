@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/12 17:36:02 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/13 08:35:10 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,30 @@
 
 int main (void)
 {
+
+	std::list<NAMESPACE::pair<int, int> > lst;
+	unsigned int lst_size = 7;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		lst.push_back(NAMESPACE::make_pair(lst_size - i, i));
+
+	NAMESPACE::map<int, int> mp(lst.begin(), lst.end());
+	NAMESPACE::map<int, int>::iterator it = mp.begin(), ite = mp.end();
+
+	--ite;
+
+	// std::cout << "TEST: " << (*(--ite)).first << " => " << ite->second << std::endl;
+
+	// NAMESPACE::map<int, int> mp_range(it, --(--ite));
+	// for (int i = 0; it != ite; ++it)
+	// 	it->second = ++i * 5;
 	
+	// it = mp.begin(); ite = --(--mp.end());
+	// NAMESPACE::map<int, int> mp_copy(mp);
+	// for (int i = 0; it != ite; ++it)
+	// 	it->second = ++i * 7;
+
+
+
 	/* 
 		CONST ITERATOR CREATION
 	
@@ -45,7 +68,6 @@ int main (void)
 
 	/*
 		MAP BOUNDS
-		*/
 
 	NAMESPACE::map<char,int>			mymap;
 	NAMESPACE::map<char,int>::iterator	itlow, itup;
@@ -79,6 +101,8 @@ int main (void)
 	// print content:
 	for (NAMESPACE::map<char,int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
+
+		*/
 
 	/*
 		Map empty
@@ -125,6 +149,7 @@ int main (void)
 
 	/*
 		MAP construction
+
 	ft::map<char, int> first;
 
 	first['a'] = 10;
@@ -132,23 +157,33 @@ int main (void)
 	first['c'] = 50;
 	first['d'] = 70;
 
-	std::cout << first['a'] << " " << first['b'] << " " << first['c']  << " " << first['d'] << std::endl;
-
 	ft::map<char,int> second(first.begin(), first.end());
 
 	ft::map<char,int> third(second);
 
 	ft::map<char,int>	fourth;
 
-	std::cout << "First size = " << first.size() << std::endl;
-	std::cout << "Second size = " << second.size() << std::endl;
-	std::cout << "Third size = " << third.size() << std::endl;
-	std::cout << "Fourth size = " << fourth.size() << std::endl;
-
-	std::cout << "Printing first" << std::endl;
+	std::cout << "Printing first: Size = " << first.size() << std::endl;
 	for (ft::map<char, int>::iterator it = first.begin(); it != first.end(); it++)
-		std::cout << (*it).first << " ";
+		std::cout << (*it).first << " => " << (*it).second << std::endl;
 
+	std::cout << "---------------------------------------------------" << std::endl;
+
+	std::cout << "Printing second: Size = " << second.size() << std::endl;
+	for (ft::map<char, int>::iterator it = second.begin(); it != second.end(); it++)
+		std::cout << (*it).first << " => " << (*it).second << std::endl;
+
+	std::cout << "---------------------------------------------------" << std::endl;
+
+	std::cout << "Printing third: Size = " << third.size() << std::endl;
+	for (ft::map<char, int>::iterator it = third.begin(); it != third.end(); it++)
+		std::cout << (*it).first << " => " << (*it).second << std::endl;
+
+	std::cout << "---------------------------------------------------" << std::endl;
+
+	std::cout << "Printing fourth: Size = " << fourth.size() << std::endl;
+	for (ft::map<char, int>::iterator it = fourth.begin(); it != fourth.end(); it++)
+		std::cout << (*it).first << " => " << (*it).second << std::endl;
 		*/
 
 	/*
