@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/13 08:35:10 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/17 19:15:08 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,87 @@
 
 int main (void)
 {
+	/*
+		MAP SIZE
+		
+	NAMESPACE::map<int, std::string>	m;
 
+	std::cout << "M is empty? " << m.empty() << std::endl;
+	std::cout << "M SIZE " << m.size() << std::endl;
+	std::cout << "M MAX_SIZE " << m.max_size() << std::endl;
+
+	m[1] = "hola";
+	m[2] = "adios";
+	m[3] = "que tal";
+
+	std::cout << "M is empty? " << m.empty() << std::endl;
+	std::cout << "M SIZE " << m.size() << std::endl;
+	std::cout << "M MAX_SIZE " << m.max_size() << std::endl;
+	*/
+
+	
+
+	/*
+		MAP CONSTRUCTION
+		
 	std::list<NAMESPACE::pair<int, int> > lst;
 	unsigned int lst_size = 7;
 	for (unsigned int i = 0; i < lst_size; ++i)
 		lst.push_back(NAMESPACE::make_pair(lst_size - i, i));
 
-	NAMESPACE::map<int, int> mp(lst.begin(), lst.end());
+	NAMESPACE::map<int, int>	mp(lst.begin(), lst.end());
+
+	for (ft::map<int, int>::iterator i = mp.begin(); i != mp.end(); ++i)
+		std::cout << i->first << " => " << i->second << '\n';
+	
 	NAMESPACE::map<int, int>::iterator it = mp.begin(), ite = mp.end();
 
-	--ite;
+	NAMESPACE::map<int, int> mp_range(it, --(--ite));
+	for (int i = 0; it != ite; ++it)
+		it->second = ++i * 5;
 
-	// std::cout << "TEST: " << (*(--ite)).first << " => " << ite->second << std::endl;
-
-	// NAMESPACE::map<int, int> mp_range(it, --(--ite));
-	// for (int i = 0; it != ite; ++it)
-	// 	it->second = ++i * 5;
+	for (ft::map<int, int>::iterator i = mp_range.begin(); i != mp_range.end(); ++i)
+		std::cout << i->first << " => " << i->second << '\n';
 	
-	// it = mp.begin(); ite = --(--mp.end());
-	// NAMESPACE::map<int, int> mp_copy(mp);
-	// for (int i = 0; it != ite; ++it)
-	// 	it->second = ++i * 7;
+	it = mp.begin(); ite = --(--mp.end());
+	NAMESPACE::map<int, int> mp_copy(mp);
+	for (int i = 0; it != ite; ++it)
+		it->second = ++i * 7;
+
+	for (ft::map<int, int>::iterator i = mp_copy.begin(); i != mp_copy.end(); ++i)
+		std::cout << i->first << " => " << i->second << '\n';
+		*/
+
+
+	
+	/*
+
+		MAP BEGIN / END / RBEGIN / REND
+		*/
+	
+	std::list<NAMESPACE::pair<int, int> > lst;
+	unsigned int lst_size = 7;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		lst.push_back(NAMESPACE::make_pair(lst_size - i, i));
+
+
+	NAMESPACE::map<int, int>	mp(lst.begin(), lst.end());
+
+	std::cout << "BEGIN: " << mp.begin()->first << " => " << mp.begin()->second << std::endl;
+	NAMESPACE::map<int, int>::iterator	it = mp.end();
+	--it;
+	std::cout << "END -1: " << it->first << " => " << it->second << std::endl;
+
+	NAMESPACE::map<int, int>::reverse_iterator	rit = mp.rbegin();
+	std::cout << "RBEGIN: " << rit->first << " => " << rit->second << std::endl;
+
+	// NAMESPACE::map<int, int>::reverse_iterator	rite = mp.rend();
+	// --rite;
+	// std::cout << "REND -1: " << rite->first << " => " << rite->second << std::endl;
+	/*
+	*/
+
+	
 
 
 

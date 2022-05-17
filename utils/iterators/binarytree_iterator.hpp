@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 08:02:15 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/13 10:56:49 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/17 19:35:30 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 namespace ft
 {
-	template <typename T>
+	template <typename T, class Compare = std::less<T> >
 	class binarytree_iterator
 	{
 		public:
@@ -28,26 +28,19 @@ namespace ft
 			typedef typename ft::Iter<std::bidirectional_iterator_tag, ft::node<T> >::reference			node_reference;
 			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::pointer						pointer;
 			typedef typename ft::Iter<std::bidirectional_iterator_tag, T>::reference					reference;
+			typedef typename ft::binary_tree<T, Compare>*												bt_pointer;
 
 		private:
+			bt_pointer		_tree;
 			node_pointer	_ptr;
-			node_pointer	_root;
 
 		public:
-			binarytree_iterator(void) : _ptr(NULL), _root(NULL) {}
+			binarytree_iterator(void) : _tree(NULL), _ptr(NULL) {}
 
 			template <typename U>
-			binarytree_iterator(const binarytree_iterator<U> &copy) : _ptr(copy.get_pointer()), _root(copy.get_root()) {}
+			binarytree_iterator(const binarytree_iterator<U> &copy) : _tree(copy.get_tree()), _ptr(copy.get_pointer()) {}
 
-			binarytree_iterator(node_pointer p) : _ptr(p)
-			{
-				if (p)
-				{
-					while (p->parent)
-						p = p->parent;
-				}
-				this->_root = p;
-			}
+			binarytree_iterator(node_pointer p, bt_pointer t) : _tree(t), _ptr(p) {}
 
 			~binarytree_iterator(void) {}
 
@@ -56,7 +49,7 @@ namespace ft
 				if (this == &op)
 					return *this;
 				this->_ptr = op.get_pointer();
-				this->_root = op.get_root();
+				this->_tree = op.get_tree();
 				return *this;
 			}
 
@@ -70,19 +63,13 @@ namespace ft
 
 			binarytree_iterator	&operator++(void)
 			{
-				if (!this->_ptr)
-					this->_ptr = minimum(this->_root);
-				else
-					this->_ptr = inorder_next(this->_ptr);
+				this->_ptr = this->_tree->inorder_next(this->_ptr);
 				return *this;
 			}
 			
 			binarytree_iterator	&operator--(void)
 			{
-				if (!this->_ptr)
-					this->_ptr = maximum(this->_root);
-				else
-					this->_ptr = inorder_prev(this->_ptr);
+				this->_ptr = this->_tree->inorder_prev(this->_ptr);
 				return *this;
 			}
 			
@@ -90,10 +77,7 @@ namespace ft
 			{
 				binarytree_iterator	pre = *this;
 
-				if (!this->_ptr)
-					this->_ptr = minimum(this->_root);
-				else
-					this->_ptr = inorder_next(this->_ptr);
+				this->_ptr = this->_tree->inorder_next(this->_ptr);
 				return pre;
 			}
 			
@@ -101,15 +85,12 @@ namespace ft
 			{
 				binarytree_iterator	pre = *this;
 				
-				if (!this->_ptr)
-					this->_ptr = maximum(this->_root);
-				else
-					this->_ptr = inorder_prev(this->_ptr);
+				this->_ptr = this->_tree->inorder_prev(this->_ptr);
 				return pre;
 			}
 
 			node_pointer	get_pointer(void) const { return this->_ptr; }
-			node_pointer	get_root(void) const { return this->_root; }
+			bt_pointer		get_tree(void) const { return this->_tree; }
 
 	};
 

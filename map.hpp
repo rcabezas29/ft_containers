@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/12 17:47:58 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/17 19:32:36 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,6 @@ namespace	ft
 			typedef typename allocator_type::const_reference				const_reference;
 			typedef typename allocator_type::pointer						pointer;
 			typedef typename allocator_type::const_pointer					const_pointer;
-			typedef typename ft::binarytree_iterator<value_type>			iterator;
-			typedef typename ft::binarytree_iterator<value_type>		const_iterator;                      // should be const
-			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
-			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
-			typedef typename ft::iterator_traits<iterator>::difference_type	difference_type;
 			typedef size_t													size_type;
 
 			class value_compare : std::binary_function<value_type, value_type, bool>
@@ -57,11 +52,17 @@ namespace	ft
 					value_compare(Compare c) : comp(c) {}
 					bool	operator()(const value_type &x, const value_type &y) const { return comp(x.first, y.first); }
 			};
+			
+			typedef typename ft::binarytree_iterator<value_type, value_compare>			iterator;
+			typedef typename ft::binarytree_iterator<const value_type, value_compare>			const_iterator;
+			typedef typename ft::reverse_iterator<iterator>								reverse_iterator;
+			typedef typename ft::reverse_iterator<const_iterator>						const_reverse_iterator;
+			typedef typename ft::iterator_traits<iterator>::difference_type				difference_type;
 
 		private:
-			allocator_type														_allocator;
-			ft::binary_tree<value_type, value_compare, Compare, allocator_type>	_btree;
-			size_type															_size;
+			allocator_type												_allocator;
+			ft::binary_tree<value_type, value_compare, allocator_type>	_btree;
+			size_type													_size;
 
 		public:
 			explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()) : _allocator(alloc), _btree(comp), _size(0) {}
@@ -95,42 +96,42 @@ namespace	ft
 
 			iterator begin(void)
 			{
-				return iterator(this->_btree.begin());
+				return iterator(this->_btree.begin(), &this->_btree);
 			}
 
 			const_iterator begin(void) const
 			{
-				return const_iterator(this->_btree.begin());
+				return const_iterator(this->_btree.begin(), &this->_btree);
 			}
 
 			iterator end(void)
 			{
-				return iterator(this->_btree.end());
+				return iterator(this->_btree.end(), &this->_btree);
 			}
 
 			const_iterator end(void) const
 			{
-				return const_iterator(this->_btree.end());
+				return const_iterator(this->_btree.end(), &this->_btree);
 			}
 
 			reverse_iterator rbegin(void)
 			{
-				return reverse_iterator(this->_btree.rbegin());
+				return reverse_iterator(&this->_btree.rbegin()->value);
 			}
 
 			const_reverse_iterator rbegin(void) const
 			{
-				return const_reverse_iterator(this->_btree.rbegin());
+				return const_reverse_iterator(&this->_btree.rbegin()->value);
 			}
 
 			reverse_iterator rend(void)
 			{
-				return reverse_iterator(this->_btree.rend());
+				return reverse_iterator(&this->_btree.rend()->value);
 			}
 
 			const_reverse_iterator rend(void) const
 			{
-				return const_reverse_iterator(this->_btree.rend());
+				return const_reverse_iterator(&this->_btree.rend()->value);
 			}
 
 			bool empty(void) const {return this->_size == 0 ? true : false; }
@@ -206,12 +207,12 @@ namespace	ft
 
 			iterator		find(const key_type &k)
 			{
-				return iterator(this->_btree.find(ft::make_pair(k, mapped_type())));
+				return iterator(this->_btree.find(ft::make_pair(k, mapped_type())), this->_btree);
 			}
 
 			const_iterator	find(const key_type &k) const
 			{
-				return const_iterator(this->_btree.find(ft::make_pair(k, mapped_type())));
+				return const_iterator(this->_btree.find(ft::make_pair(k, mapped_type())), this->_btree);
 			}
 
 			size_type	count(const key_type &k) const
