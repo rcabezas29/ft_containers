@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 17:25:47 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/10 19:38:42 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/19 12:43:23 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ namespace	ft
 	{
 		return !(lhs < rhs);
 	}
-
 
 	template <class T1, class T2>
 	pair<T1, T2>	make_pair(T1 x, T2 y)

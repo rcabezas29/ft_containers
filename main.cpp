@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/17 19:15:08 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/20 15:17:43 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int main (void)
 	/*
 
 		MAP BEGIN / END / RBEGIN / REND
-		*/
 	
 	std::list<NAMESPACE::pair<int, int> > lst;
 	unsigned int lst_size = 7;
@@ -98,10 +97,9 @@ int main (void)
 	NAMESPACE::map<int, int>::reverse_iterator	rit = mp.rbegin();
 	std::cout << "RBEGIN: " << rit->first << " => " << rit->second << std::endl;
 
-	// NAMESPACE::map<int, int>::reverse_iterator	rite = mp.rend();
-	// --rite;
-	// std::cout << "REND -1: " << rite->first << " => " << rite->second << std::endl;
-	/*
+	NAMESPACE::map<int, int>::reverse_iterator	rite = mp.rend();
+	std::cout << "REND -1: " << rite->first << " => " << rite->second << std::endl;
+
 	*/
 
 	
@@ -110,6 +108,7 @@ int main (void)
 
 	/* 
 		CONST ITERATOR CREATION
+		*/
 	
 	ft::map<int, std::string>	m;
 
@@ -120,10 +119,14 @@ int main (void)
 	for (ft::map<int, std::string>::iterator it = m.begin(); it != m.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
 
-	ft::map<int, std::string>::const_iterator it = m.begin();
-	std::cout << it->first << " => " << it->second << '\n';
+	for (ft::map<int, std::string>::reverse_iterator it = m.rbegin(); it != m.rend(); it++)
+		std::cout << it->first << " => " << it->second << '\n';
+
+	ft::map<int, std::string>::const_iterator cit = m.begin();
+	std::cout << cit->first << " => " << cit->second << '\n';
 	
 	//std::cout << (it != ite) << std::endl;
+	/*
 	*/
 
 	/*

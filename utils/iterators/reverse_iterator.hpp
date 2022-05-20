@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 21:05:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/17 19:33:16 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:51:45 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ namespace ft
 
 			bool	operator==(const reverse_iterator &b) const { return this->_base == b.base(); }
 			
-			bool	operator!=(const reverse_iterator &b) const { return this->_ptr != b._ptr; }
+			bool	operator!=(const reverse_iterator &b) const { return this->_base != b.base(); }
 
 			reference			operator*(void) const
 			{
