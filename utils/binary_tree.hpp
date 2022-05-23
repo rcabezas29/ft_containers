@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/17 17:29:57 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/23 12:50:08 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,14 @@ namespace	ft
 		}
 	};
 
-	template <class T, class Compare, class Alloc = std::allocator<T> >
+	template <class T, class Compare, class Comp, class Alloc = std::allocator<T> >
 	class	binary_tree
 	{
 		public:
 			typedef T																value_type;
 			typedef typename Alloc::template rebind<ft::node<value_type> >::other	allocator_type;
 			typedef typename ft::node<value_type>*									node_pointer;
+			typedef const typename ft::node<value_type>*							const_node_pointer;
 			typedef Compare															compare;
 
 		public:
@@ -73,7 +74,7 @@ namespace	ft
 			compare			_compare;
 
 		public:
-			binary_tree(void) : _root(NULL), _allocator(allocator_type()), _compare(std::less<int>()) {}
+			binary_tree(void) : _root(NULL), _allocator(allocator_type()), _compare(Comp()) {}
 
 			binary_tree(const compare &comp) : _root(NULL), _allocator(allocator_type()), _compare(comp) {}
 			
@@ -164,7 +165,7 @@ namespace	ft
 				return NULL;
 			}
 
-			node_pointer minimum(node_pointer node) const
+			node_pointer minimum(node_pointer node)
 			{
 				node_pointer aux = node;
 
@@ -173,9 +174,27 @@ namespace	ft
 				return aux;
 			}
 
-			node_pointer maximum(node_pointer node) const
+			const_node_pointer minimum(const_node_pointer node) const
+			{
+				const_node_pointer aux = node;
+
+				while (aux->lhs)
+					aux = aux->lhs;
+				return aux;
+			}
+
+			node_pointer maximum(node_pointer node)
 			{
 				node_pointer aux = node;
+
+				while (aux->rhs)
+					aux = aux->rhs;
+				return aux;
+			}
+
+			const_node_pointer maximum(const_node_pointer node) const
+			{
+				const_node_pointer aux = node;
 
 				while (aux->rhs)
 					aux = aux->rhs;
@@ -406,6 +425,29 @@ namespace	ft
 				}
 			}
 
+			const_node_pointer inorder_next(const_node_pointer n) const
+			{
+				if (n == NULL)
+					return this->begin();
+				if (n->rhs != NULL)
+					return this->minimum(n->rhs);
+				else
+				{
+					node_pointer	p = n->parent;
+					if (n == p->lhs)
+						return p;
+					else
+					{
+						while (p && n == p->rhs)
+						{
+							n = p;
+							p = n->parent;
+						}
+						return n->parent;
+					}
+				}
+			}
+
 			node_pointer	inorder_prev(node_pointer n)
 			{
 				if (n == NULL)
@@ -429,7 +471,30 @@ namespace	ft
 				}
 			}
 
-			node_pointer	begin(void) const
+			const_node_pointer	inorder_prev(const_node_pointer n) const
+			{
+				if (n == NULL)
+					return this->rbegin();
+				if (n->lhs != NULL)
+					return this->maximum(n->lhs);
+				else
+				{
+					node_pointer	p = n->parent;
+					if (n == p->rhs)
+						return p;
+					else
+					{
+						while (n == p->lhs)
+						{
+							n = p;
+							p = n->parent;
+						}
+						return n->parent;
+					}
+				}
+			}
+
+			node_pointer	begin(void)
 			{
 				node_pointer	aux = this->_root;
 
@@ -440,7 +505,18 @@ namespace	ft
 				return aux;
 			}
 
-			node_pointer	end(void) const
+			const_node_pointer	begin(void) const
+			{
+				const_node_pointer	aux = this->_root;
+
+				if (!aux)
+					return this->_root;
+				while (aux->lhs)
+					aux = aux->lhs;
+				return aux;
+			}
+
+			node_pointer	end(void)
 			{
 				node_pointer	aux = this->_root;
 
@@ -451,7 +527,18 @@ namespace	ft
 				return aux->rhs;
 			}
 
-			node_pointer	rbegin(void) const
+			const_node_pointer	end(void) const
+			{
+				const_node_pointer	aux = this->_root;
+
+				if (!aux)
+					return this->_root;
+				while (aux->rhs)
+					aux = aux->rhs;
+				return aux->rhs;
+			}
+
+			node_pointer	rbegin(void)
 			{
 				node_pointer	aux = this->_root;
 
@@ -462,9 +549,31 @@ namespace	ft
 				return aux;
 			}
 
-			node_pointer	rend(void) const
+			const_node_pointer	rbegin(void) const
+			{
+				const_node_pointer	aux = this->_root;
+
+				if (!aux)
+					return this->_root;
+				while (aux->rhs)
+					aux = aux->rhs;
+				return aux;
+			}
+
+			node_pointer	rend(void)
 			{
 				node_pointer	aux = this->_root;
+
+				if (!aux)
+					return this->_root;
+				while (aux->lhs)
+					aux = aux->lhs;
+				return aux->lhs;
+			}
+			
+			const_node_pointer	rend(void) const
+			{
+				const_node_pointer	aux = this->_root;
 
 				if (!aux)
 					return this->_root;

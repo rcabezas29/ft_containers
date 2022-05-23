@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/20 15:17:43 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/23 10:54:34 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,19 +110,21 @@ int main (void)
 		CONST ITERATOR CREATION
 		*/
 	
-	ft::map<int, std::string>	m;
+	std::map<int, std::string>	m;
 
 	m[1] = "hola";
 	m[2] = "adios";
 	m[3] = "que tal";
 
-	for (ft::map<int, std::string>::iterator it = m.begin(); it != m.end(); ++it)
+	const std::map<int, std::string>	cm(m);
+
+	for (std::map<int, std::string>::iterator it = m.begin(); it != m.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
 
-	for (ft::map<int, std::string>::reverse_iterator it = m.rbegin(); it != m.rend(); it++)
+	for (std::map<int, std::string>::reverse_iterator it = m.rbegin(); it != m.rend(); it++)
 		std::cout << it->first << " => " << it->second << '\n';
 
-	ft::map<int, std::string>::const_iterator cit = m.begin();
+	std::map<int, std::string>::const_iterator cit = cm.begin();
 	std::cout << cit->first << " => " << cit->second << '\n';
 	
 	//std::cout << (it != ite) << std::endl;
