@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/23 12:53:20 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/25 10:04:31 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,8 +199,11 @@ namespace	ft
 
 			void clear(void)
 			{
-				while (this->_size != 0)
+				while (this->_size > 0)
+				{
 					this->_btree.delete_node(this->_btree._root);
+					--this->_size;
+				}
 			}
 
 			key_compare		key_comp(void) const { return key_compare(); }
@@ -294,7 +297,7 @@ namespace	ft
 	{
 		if (x.size() != y.size())
 			return false;
-		for (typename map<Key,T,Compare,Allocator>::iterator it = x.begin(), ite = y.begin(); it != x.end(); it++, ite++)
+		for (typename map<Key, T, Compare, Allocator>::iterator it = x.begin(), ite = y.begin(); it != x.end(); it++, ite++)
 			if (it != ite)
 				return false;
 		return true;
@@ -319,7 +322,7 @@ namespace	ft
 	}
 
     template <class Key, class T, class Compare, class Allocator>
-	bool operator>(const map<Key,T,Compare,Allocator> &x, const map<Key,T,Compare,Allocator> &y)
+	bool operator>(const map<Key, T, Compare, Allocator> &x, const map<Key,T,Compare,Allocator> &y)
 	{
 		return !(x <= y);
 	}

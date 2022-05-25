@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/23 12:50:08 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/25 10:00:45 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,38 @@ namespace	ft
 			return *this;
 		}
 
-		node	*uncle(void) { return this->parent->parent->lhs == this->parent ? this->parent->parent->rhs : this->parent->parent->lhs; }
-		
-		node	*sibling(void) { return this->parent->rhs == this ? this->parent->lhs : this->parent->rhs; }
-		
-		node	*closest_nephew(void) { return this == this->parent->lhs ? this->sibling()->lhs : this->sibling()->rhs; }
-
-		node	*farthest_nephew(void) { return this == this->parent->lhs ? this->sibling()->rhs : this->sibling()->lhs; }
-
-		void	swap(ft::node<T> &b)
+		node	*uncle(void)
 		{
-			T	aux = b.value;
+			if (!this->parent || !this->parent->parent)
+				return NULL;
+			return this->parent->parent->lhs == this->parent ? this->parent->parent->rhs : this->parent->parent->lhs;
+		}
+		
+		node	*sibling(void)
+		{
+			if (!this->parent)
+				return NULL;
+			return this->parent->rhs == this ? this->parent->lhs : this->parent->rhs;
+		}
+		
+		node	*closest_nephew(void)
+		{
+			if (!this->parent)
+				return NULL;
+			node	*sib = this->sibling();
+			if (!sib)
+				return NULL;
+			return this == this->parent->lhs ? this->sibling()->lhs : this->sibling()->rhs;
+		}
 
-			b.value = this->value;
-			this->value = aux;
+		node	*farthest_nephew(void)
+		{
+			if (!this->parent)
+				return NULL;
+			node	*sib = this->sibling();
+			if (!this->sibling())
+				return NULL;
+			return this == this->parent->lhs ? sib->rhs : sib->lhs;
 		}
 	};
 
@@ -309,7 +327,15 @@ namespace	ft
 
 				if (node->lhs == NULL && node->rhs == NULL)
 				{
-					p->rhs == node ? p->rhs = NULL : p->lhs = NULL;
+					if (node == this->_root)
+					{
+						this->_root = NULL;
+						this->_allocator.destroy(node);
+						this->_allocator.deallocate(node, 1);
+						return ;
+					}
+					else
+						p->rhs == node ? p->rhs = NULL : p->lhs = NULL;
 					check_color = node->color;
 					this->_allocator.destroy(node);
 					this->_allocator.deallocate(node, 1);
@@ -318,7 +344,10 @@ namespace	ft
 				else if ((node->lhs == NULL && node->rhs != NULL) || (node->rhs == NULL && node->lhs != NULL))
 				{
 					node->rhs ? x = node->rhs : x = node->lhs;
-					node == p->rhs ? p->rhs = x : p->lhs = x;
+					if (node == this->_root)
+						this->_root = x;
+					else
+						node == p->rhs ? p->rhs = x : p->lhs = x;
 					x->parent = p;
 					this->_allocator.destroy(node);
 					this->_allocator.deallocate(node, 1);
@@ -329,7 +358,7 @@ namespace	ft
 				{
 					x = maximum(node->lhs);
 					check_color = x->color;
-					node->swap(*x);
+					swap_nodes(node, x);
 					p = x->parent;
 					s = x->sibling();
 					node = x;
@@ -356,7 +385,7 @@ namespace	ft
 				s == p->lhs ? c = s->rhs : c = s->lhs;
 				s == p->lhs ? d = s->lhs : d = s->rhs;
 
-				while (p != NULL && n->color == BLACK)
+				while (p != NULL && (!n || n->color == BLACK))
 				{
 					if (s && s->color == RED)
 					{
@@ -580,6 +609,14 @@ namespace	ft
 				while (aux->lhs)
 					aux = aux->lhs;
 				return aux->lhs;
+			}
+
+			void	swap_nodes(node_pointer a, node_pointer b)
+			{
+				value_type	aux = a->value;
+
+				a->value = b->value;
+				b->value = aux;
 			}
 	};
 };

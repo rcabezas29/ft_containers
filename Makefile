@@ -6,7 +6,7 @@
 #    By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/03 10:50:18 by rcabezas          #+#    #+#              #
-#    Updated: 2022/05/11 16:48:15 by rcabezas         ###   ########.fr        #
+#    Updated: 2022/05/25 08:53:37 by rcabezas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ INC= -I utils
 
 CXX = clang++
 
-CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -g3 -fsanitize=address
+CXXFLAGS = -Wall -Werror -Wextra -std=c++98 #-g3 -fsanitize=address
 
 SRCS = main.cpp
 

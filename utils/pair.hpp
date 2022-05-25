@@ -6,11 +6,13 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 17:25:47 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/19 12:43:23 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/24 18:37:24 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+#include "remove_const.hpp"
 
 namespace	ft
 {
@@ -34,8 +36,8 @@ namespace	ft
 		{
 			if (*this == pr)
 				return *this;
-			this->first = pr.first;
-			this->second = pr.second;
+			const_cast<typename ft::remove_const<first_type>::type&>(this->first) = pr.first;
+			const_cast<typename ft::remove_const<second_type>::type&>(this->second) = pr.second;
 			return *this;
 		}
 	};

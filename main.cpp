@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/23 10:54:34 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/25 10:01:04 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int main (void)
 {
 	/*
 		MAP SIZE
+		*/
 		
 	NAMESPACE::map<int, std::string>	m;
 
@@ -36,10 +37,22 @@ int main (void)
 	m[1] = "hola";
 	m[2] = "adios";
 	m[3] = "que tal";
+	m[4] = "asdlkfj";
+	m[5] = "skdfalsd";
+
+	for (NAMESPACE::map<int, std::string>::iterator it = m.begin(); it != m.end(); ++it)
+		std::cout << it->first << " => " << it->second << std::endl;
+
+	m.clear();
+
+	for (NAMESPACE::map<int, std::string>::iterator it = m.begin(); it != m.end(); ++it)
+		std::cout << it->first << " => " << it->second << std::endl;
 
 	std::cout << "M is empty? " << m.empty() << std::endl;
 	std::cout << "M SIZE " << m.size() << std::endl;
 	std::cout << "M MAX_SIZE " << m.max_size() << std::endl;
+
+	/*
 	*/
 
 	
@@ -108,7 +121,7 @@ int main (void)
 
 	/* 
 		CONST ITERATOR CREATION
-		*/
+		
 	
 	std::map<int, std::string>	m;
 
@@ -128,7 +141,7 @@ int main (void)
 	std::cout << cit->first << " => " << cit->second << '\n';
 	
 	//std::cout << (it != ite) << std::endl;
-	/*
+	
 	*/
 
 	/*
