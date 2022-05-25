@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/25 10:01:04 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/25 19:21:57 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,54 @@
 
 #define NAMESPACE ft
 
+#define T1 int
+#define T2 std::string
+typedef NAMESPACE::pair<const T1, T2> T3;
+
 int main (void)
 {
+
+	std::list<T3> lst;
+	unsigned int lst_size = 6;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		lst.push_back(T3(i, std::string((lst_size - i), i + 65)));
+	NAMESPACE::map<T1, T2> mp(lst.begin(), lst.end());
+
+	for (NAMESPACE::map<int, std::string>::iterator it = mp.begin(); it != mp.end(); ++it)
+		std::cout << it->first << " => " << it->second << std::endl;
+	std::cout << "----------------------------------" << std::endl;
+
+	for (int i = 2; i < 4; ++i)
+		mp.erase(i);
+
+	for (NAMESPACE::map<int, std::string>::iterator it = mp.begin(); it != mp.end(); ++it)
+		std::cout << it->first << " => " << it->second << std::endl;
+	std::cout << "----------------------------------" << std::endl;
+
+	mp.erase(mp.begin()->first);
+	mp.erase((--mp.end())->first);
+
+	for (NAMESPACE::map<int, std::string>::iterator it = mp.begin(); it != mp.end(); ++it)
+		std::cout << it->first << " => " << it->second << std::endl;
+	std::cout << "----------------------------------" << std::endl;
+
+	mp[-1] = "Hello";
+	mp[10] = "Hi there";
+	mp[10] = "Hi there";
+
+	for (NAMESPACE::map<int, std::string>::iterator it = mp.begin(); it != mp.end(); ++it)
+		std::cout << it->first << " => " << it->second << std::endl;
+	std::cout << "----------------------------------" << std::endl;
+
+	mp.erase(0);
+	mp.erase(1);
+
+	for (NAMESPACE::map<int, std::string>::iterator it = mp.begin(); it != mp.end(); ++it)
+		std::cout << it->first << " => " << it->second << std::endl;
+	std::cout << "----------------------------------" << std::endl;
+
 	/*
 		MAP SIZE
-		*/
 		
 	NAMESPACE::map<int, std::string>	m;
 
@@ -52,7 +95,6 @@ int main (void)
 	std::cout << "M SIZE " << m.size() << std::endl;
 	std::cout << "M MAX_SIZE " << m.max_size() << std::endl;
 
-	/*
 	*/
 
 	

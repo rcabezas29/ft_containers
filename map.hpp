@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/25 10:04:31 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/25 19:31:42 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,19 +175,30 @@ namespace	ft
 			void erase(iterator position)
 			{
 				this->_btree.delete_val(*position);
+				--this->_size;
 			}
 
 			size_type erase(const key_type &k)
 			{
 				iterator	it = this->find(k);
+
+				if (it == this->end())
+					return 0;
 				this->_btree.delete_val(*it);
-				return (1);
+				--this->_size;
+				return 1;
 			}
 
 			void erase(iterator first, iterator last)
 			{
-				while (first++ != last)
-					this->_btree.delete_val(*first);
+				iterator tmp_first = first;
+				while (first != last)
+				{
+					tmp_first = first;
+					++first;
+					this->_btree.delete_val(*tmp_first);
+					--this->_size;
+				}
 			}
 
 			void swap(map& x)

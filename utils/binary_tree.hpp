@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/25 10:00:45 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/25 19:30:34 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -364,7 +364,8 @@ namespace	ft
 					node = x;
 					if (node->lhs)
 					{
-						p->rhs = node->lhs;
+						node == node->parent->rhs ? node->parent->rhs = node->lhs : node->parent->lhs = node->lhs;
+						node->lhs->parent = node->parent;
 						check_color = RED;
 					}
 					else
@@ -434,9 +435,11 @@ namespace	ft
 			node_pointer inorder_next(node_pointer n)
 			{
 				if (n == NULL)
-					return this->begin();
+					return NULL;
 				if (n->rhs != NULL)
 					return this->minimum(n->rhs);
+				if (n == this->_root && !this->_root->rhs)
+					return NULL;
 				else
 				{
 					node_pointer	p = n->parent;
@@ -457,9 +460,11 @@ namespace	ft
 			const_node_pointer inorder_next(const_node_pointer n) const
 			{
 				if (n == NULL)
-					return this->begin();
+					return NULL;
 				if (n->rhs != NULL)
 					return this->minimum(n->rhs);
+				if (n == this->_root && !this->_root->rhs)
+					return NULL;
 				else
 				{
 					node_pointer	p = n->parent;
@@ -480,9 +485,11 @@ namespace	ft
 			node_pointer	inorder_prev(node_pointer n)
 			{
 				if (n == NULL)
-					return this->rbegin();
+					return this->maximum(this->_root);
 				if (n->lhs != NULL)
 					return this->maximum(n->lhs);
+				if (n == this->_root && !this->_root->lhs)
+					return NULL;
 				else
 				{
 					node_pointer	p = n->parent;
@@ -503,9 +510,11 @@ namespace	ft
 			const_node_pointer	inorder_prev(const_node_pointer n) const
 			{
 				if (n == NULL)
-					return this->rbegin();
+					return this->maximum(this->_root);
 				if (n->lhs != NULL)
 					return this->maximum(n->lhs);
+				if (n == this->_root && !this->_root->lhs)
+					return NULL;
 				else
 				{
 					node_pointer	p = n->parent;
