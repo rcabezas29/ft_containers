@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/26 17:20:03 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/26 18:19:56 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ namespace	ft
 				this->_allocator = x._allocator;
 				this->clear();
 				this->insert(x.begin(), x.end());
-				// this->_btree = x._btree;
 				this->_size = x._size;
 				return *this;
 			}
@@ -148,7 +147,7 @@ namespace	ft
 				return ((*aux).second);
 			}
 
-			pair<iterator, bool>	insert(const value_type &val)
+			ft::pair<iterator, bool>	insert(const value_type &val)
 			{
 				if (this->find(val.first) != this->end())
 					return (ft::make_pair(this->find(val.first), false));
