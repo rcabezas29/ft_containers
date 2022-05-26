@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 17:35:13 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/19 17:38:52 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/26 17:17:16 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ namespace	ft
 			++first1;
 			++first2;
 		}
-		return true
+		return true;
 	}
 };

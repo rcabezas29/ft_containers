@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/25 19:31:42 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/26 17:20:03 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "utils/is_integral.hpp"
 #include "utils/lexicographical_compare.hpp"
 #include "utils/pair.hpp"
+#include "utils/equal.hpp"
 
 namespace	ft
 {	
@@ -76,21 +77,19 @@ namespace	ft
 					InputIterator>::type* = NULL)
 				: _allocator(alloc), _btree(comp), _size(0)
 			{
-				while (first != last)
-				{
-					_btree.insert_node(*first++);
-					++_size;
-				}
+				this->insert(first, last);
 			}
 
-			map(const map& x) { *this = x; }
+			map(const map& x) : _allocator(allocator_type()), _btree(), _size(0) { *this = x; }
 
 			virtual	~map(void) {}
 
 			map	&operator=(const map &x)
 			{
 				this->_allocator = x._allocator;
-				this->_btree = x._btree;
+				this->clear();
+				this->insert(x.begin(), x.end());
+				// this->_btree = x._btree;
 				this->_size = x._size;
 				return *this;
 			}
@@ -151,6 +150,8 @@ namespace	ft
 
 			pair<iterator, bool>	insert(const value_type &val)
 			{
+				if (this->find(val.first) != this->end())
+					return (ft::make_pair(this->find(val.first), false));
 				this->_btree.insert_node(val);
 				iterator it = this->find(val.first);
 				++this->_size;
@@ -203,9 +204,17 @@ namespace	ft
 
 			void swap(map& x)
 			{
-				map aux = *this;
-				*this = x;
-				x = aux;
+				ft::binary_tree<value_type, value_compare, key_compare, allocator_type>	root_tmp;
+				size_t					size_tmp;
+
+				root_tmp = x._btree;
+				size_tmp = x._size;
+
+				x._btree = this->_btree;
+				x._size = this->_size;
+
+				this->_btree = root_tmp;
+				this->_size = size_tmp;
 			}
 
 			void clear(void)
@@ -304,14 +313,11 @@ namespace	ft
 	};
 
 	template <class Key, class T, class Compare, class Allocator>
-	bool operator==(const map<Key,T,Compare,Allocator> &x, const map<Key,T,Compare,Allocator> &y)
+	bool operator==(const map<Key, T, Compare, Allocator> &x, const map<Key, T, Compare, Allocator> &y)
 	{
 		if (x.size() != y.size())
 			return false;
-		for (typename map<Key, T, Compare, Allocator>::iterator it = x.begin(), ite = y.begin(); it != x.end(); it++, ite++)
-			if (it != ite)
-				return false;
-		return true;
+		return ft::equal(x.begin(), x.begin(), y.end());
 	}
 	
 	template <class Key, class T, class Compare, class Allocator>
@@ -321,7 +327,7 @@ namespace	ft
 	}
 
 	template <class Key, class T, class Compare, class Allocator>
-	bool operator<(const map<Key,T,Compare,Allocator> &x, const map<Key,T,Compare,Allocator> &y)
+	bool operator<(const map<Key, T,Compare, Allocator> &x, const map<Key, T, Compare, Allocator> &y)
 	{
 		return ft::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end());
 	}
@@ -345,7 +351,7 @@ namespace	ft
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
-	void swap(map<Key,T,Compare,Alloc> &x, map<Key,T,Compare,Alloc> &y)
+	void swap(map<Key, T, Compare, Alloc> &x, map<Key, T, Compare, Alloc> &y)
 	{
 		map<Key,T,Compare,Alloc>	aux;
 
@@ -354,4 +360,3 @@ namespace	ft
 		y = aux;
 	}
 };
-		
