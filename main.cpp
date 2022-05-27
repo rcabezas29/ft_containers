@@ -16,6 +16,7 @@
 #include <list>
 #include <map>
 #include <set>
+#include "utils/pair.hpp"
 #include "vector.hpp"
 #include "stack.hpp"
 #include "map.hpp"
@@ -24,11 +25,57 @@
 
 #define NAMESPACE ft
 
-#define T1 std::string
-
 int main (void)
 {
-	
+	std::cout << "\n\n--------------------------------" << std::endl;
+	std::cout << "------------STACK TEST------------" << std::endl;
+	std::cout << "--------------------------------\n\n" << std::endl;
+
+	NAMESPACE::stack<int>	stk;
+
+	std::cout << "EMPTY? " << (stk.empty() == true ? "yes" : "no") << std::endl;
+
+	std::cout << "Pulling" << std::endl;
+
+	stk.push(1);
+	stk.push(2);
+	stk.push(4);
+	stk.push(3);
+	stk.push(5);
+	stk.push(9);
+
+	std::cout << stk.size() << std::endl;;
+
+	stk.pop();
+	stk.pop();
+	std::cout << "POPING...." << std::endl;
+
+	std::cout << "SIZE: " << stk.size() << std::endl;
+
+	std::cout << "EMPTY? " << (stk.empty() == true ? "yes" : "no")  << std::endl;
+
+	std::cout << "The top is: " << stk.top() << std::endl;
+
+	stk.pop();
+
+	std::cout << "And after: ... " << stk.top() << std::endl;
+
+
+
+	std::cout << "\n\n--------------------------------" << std::endl;
+	std::cout << "------------MAP TEST------------" << std::endl;
+	std::cout << "--------------------------------\n\n" << std::endl;
+
+	NAMESPACE::map<int, std::string>	mp;
+
+	mp[1] = "abc";
+	mp[17] = "santana";
+
+	mp.insert(NAMESPACE::make_pair(5, "asdf"));
+	mp.insert(NAMESPACE::make_pair(5, "asdf"));
+
+	NAMESPACE::map<int, std::string>	mp_copy(mp);
+
 	/*
 		MAP SIZE
 		

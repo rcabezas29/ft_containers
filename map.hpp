@@ -82,7 +82,7 @@ namespace	ft
 
 			map(const map& x) : _allocator(allocator_type()), _btree(), _size(0) { *this = x; }
 
-			virtual	~map(void) {}
+			virtual	~map(void) { this->clear(); }
 
 			map	&operator=(const map &x)
 			{
