@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 17:39:34 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/26 20:52:53 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/27 13:03:24 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ namespace	ft
 				return *this;
 			}
 
-
 			iterator				begin(void)
 			{
 				return iterator(this->_btree.begin(), &this->_btree);
@@ -136,8 +135,10 @@ namespace	ft
 
 			iterator	insert(iterator position, const value_type &val)
 			{
-				position = this->insert(val);
-				return position;
+				if (position != this->end())
+					this->find(*position);
+				this->insert(val);
+				return this->find(val);
 			}
 
 			template <class InputIterator>
@@ -218,8 +219,8 @@ namespace	ft
 			{
 				size_type	c = 0;
 
-				for (iterator it = this->begin(); it != this->end(); it++)
-					if ((*it).first == val)
+				for (const_iterator it = this->begin(); it != this->end(); it++)
+					if (*it == val)
 						c++;
 				return c;
 			}
@@ -228,7 +229,7 @@ namespace	ft
 			{
 				if (this->value_comp()(k, *this->begin()))
 					return this->begin();
-				for (iterator it = this->find(k); it != this->end(); ++it)
+				for (iterator it = this->begin(); it != this->end(); ++it)
 				{
 					if (this->value_comp()(*it, k))
 						continue ;
@@ -242,7 +243,7 @@ namespace	ft
 			{
 				if (this->value_comp()(k, *this->begin()))
 					return this->begin();
-				for (const_iterator it = this->find(k); it != this->end(); ++it)
+				for (const_iterator it = this->begin(); it != this->end(); ++it)
 				{
 					if (this->value_comp()(*it, k))
 						continue ;
@@ -256,7 +257,7 @@ namespace	ft
 			{
 				if (this->value_comp()(k, *this->begin()))
 					return this->begin();
-				for (iterator it = this->find(k); it != this->end(); ++it)
+				for (iterator it = this->begin(); it != this->end(); ++it)
 				{
 					if (this->value_comp()(k, *it))
 						return it;
@@ -270,7 +271,7 @@ namespace	ft
 			{
 				if (this->value_comp()(k, *this->begin()))
 					return this->begin();
-				for (const_iterator it = this->find(k); it != this->end(); ++it)
+				for (const_iterator it = this->begin(); it != this->end(); ++it)
 				{
 					if (this->value_comp()(k, *it))
 						return it;

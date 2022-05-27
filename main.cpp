@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/26 17:57:38 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/27 11:42:57 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,20 @@
 #include <deque>
 #include <list>
 #include <map>
+#include <set>
 #include "vector.hpp"
 #include "stack.hpp"
 #include "map.hpp"
+#include "set.hpp"
 #include "utils/binary_tree.hpp"
 
 #define NAMESPACE ft
 
+#define T1 std::string
+
 int main (void)
 {
+	
 	/*
 		MAP SIZE
 		
