@@ -11,8 +11,11 @@
 /* ************************************************************************** */
 
 #include <iostream>
+#include <string>
+#include <utility>
 #include <vector>
 #include <deque>
+#include <stack>
 #include <list>
 #include <map>
 #include <set>
@@ -28,10 +31,21 @@
 int main (void)
 {
 	std::cout << "\n\n--------------------------------" << std::endl;
-	std::cout << "------------STACK TEST------------" << std::endl;
+	std::cout << "-----------STACK TEST-----------" << std::endl;
 	std::cout << "--------------------------------\n\n" << std::endl;
 
 	NAMESPACE::stack<int>	stk;
+	NAMESPACE::stack<int>	stk_copy(stk);
+
+	std::cout << "- OPERATORS -" << std::endl;
+	std::cout << "stk - stk_copy" << std::endl;
+	std::cout << "	== - " << (stk == stk_copy) << std::endl;
+	std::cout << "	!= - " << (stk != stk_copy) << std::endl;
+	std::cout << "	< - " << (stk < stk_copy) << std::endl;
+	std::cout << "	<= - " << (stk <= stk_copy) << std::endl;
+	std::cout << "	>= - " << (stk >= stk_copy) << std::endl;
+	std::cout << "	> - " << (stk > stk_copy) << std::endl;
+
 
 	std::cout << "EMPTY? " << (stk.empty() == true ? "yes" : "no") << std::endl;
 
@@ -60,6 +74,15 @@ int main (void)
 
 	std::cout << "And after: ... " << stk.top() << std::endl;
 
+	std::cout << "\n- OPERATORS -" << std::endl;
+	std::cout << "stk - stk_copy" << std::endl;
+	std::cout << "	== - " << (stk == stk_copy) << std::endl;
+	std::cout << "	!= - " << (stk != stk_copy) << std::endl;
+	std::cout << "	< - " << (stk < stk_copy) << std::endl;
+	std::cout << "	<= - " << (stk <= stk_copy) << std::endl;
+	std::cout << "	>= - " << (stk >= stk_copy) << std::endl;
+	std::cout << "	> - " << (stk < stk_copy) << std::endl;
+
 
 
 	std::cout << "\n\n--------------------------------" << std::endl;
@@ -67,14 +90,95 @@ int main (void)
 	std::cout << "--------------------------------\n\n" << std::endl;
 
 	NAMESPACE::map<int, std::string>	mp;
+	NAMESPACE::vector<NAMESPACE::pair<int, std::string> >	vc;
+
+	for (int i = 0; i < 10; ++i)
+		vc.push_back(NAMESPACE::pair<int, std::string>(i, std::string((10 - i), i + 65)));
+
 
 	mp[1] = "abc";
-	mp[17] = "santana";
+	mp[17] = "hello world";
 
 	mp.insert(NAMESPACE::make_pair(5, "asdf"));
 	mp.insert(NAMESPACE::make_pair(5, "asdf"));
+
+	mp.insert(vc.begin(), vc.end());
+
+	for (NAMESPACE::map<int, std::string>::iterator it = mp.begin(); it != mp.end(); ++it)
+		std::cout << it->first << " => " << it->second << std::endl;
+	std::cout << "---------------------------------" << std::endl;
 
 	NAMESPACE::map<int, std::string>	mp_copy(mp);
+
+	std::cout << "COPY" << std::endl;
+	for (NAMESPACE::map<int, std::string>::iterator it = mp_copy.begin(); it != mp_copy.end(); ++it)
+		std::cout << it->first << " => " << it->second << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+	std::cout << "Clearing MP" << std::endl;
+	mp.clear();
+	std::cout << "COPY SIZE " << mp_copy.size() << std::endl;
+
+	std::cout << "Inserting on mp finding in copy\n" << std::endl;
+	mp.insert(*mp_copy.find(17));
+
+	mp[1] = "c++";
+	mp[2000] = "c--";
+	mp[50] = "c**";
+	mp.insert(NAMESPACE::make_pair(-5, "c//"));
+	mp[-60] = "c==";
+
+	for (NAMESPACE::map<int, std::string>::iterator it = mp.begin(); it != mp.end(); ++it)
+		std::cout << it->first << " => " << it->second << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+
+	std::cout << "swap" << std::endl;
+	mp.swap(mp_copy);
+
+	std::cout << "MAP" << std::endl;
+	for (NAMESPACE::map<int, std::string>::iterator it = mp.begin(); it != mp.end(); ++it)
+		std::cout << it->first << " => " << it->second << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+
+	std::cout << "COPY" << std::endl;
+	for (NAMESPACE::map<int, std::string>::iterator it = mp_copy.begin(); it != mp_copy.end(); ++it)
+		std::cout << it->first << " => " << it->second << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+	mp_copy.erase(mp_copy.begin(), mp_copy.find(1));
+
+	mp_copy.erase(2);
+	mp_copy.erase(--mp_copy.end());
+
+	std::cout << "COPY after erase" << std::endl;
+	for (NAMESPACE::map<int, std::string>::iterator it = mp_copy.begin(); it != mp_copy.end(); ++it)
+		std::cout << it->first << " => " << it->second << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+	std::cout << "\n- OPERATORS -" << std::endl;
+	std::cout << "mp - mp_copy" << std::endl;
+	std::cout << "	== - " << (mp == mp_copy) << std::endl;
+	std::cout << "	!= - " << (mp != mp_copy) << std::endl;
+	std::cout << "	< - " << (mp < mp_copy) << std::endl;
+	std::cout << "	<= - " << (mp <= mp_copy) << std::endl;
+	std::cout << "	>= - " << (mp >= mp_copy) << std::endl;
+	std::cout << "	> - " << (mp > mp_copy) << std::endl;
+
+	std::cout << "- TIME TEST -" << std::endl;
+
+	NAMESPACE::map<int, int>	time_map;
+
+	for (int i = 0; i < 10000; ++i)
+		time_map.insert(NAMESPACE::make_pair(i, 10000 - i));
+
+	time_map.erase(time_map.begin(), time_map.end());
+
+
+
+
+
 
 	/*
 		MAP SIZE

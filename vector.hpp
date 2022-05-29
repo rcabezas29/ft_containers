@@ -101,10 +101,7 @@ namespace ft
 				*this = copy;
 			}
 			
-			virtual ~vector(void)
-			{
-				
-			}
+			virtual ~vector(void) {}
 
 			vector	&operator=(const vector &op)
 			{
