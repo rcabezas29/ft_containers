@@ -6,7 +6,7 @@
 #    By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/03 10:50:18 by rcabezas          #+#    #+#              #
-#    Updated: 2022/05/26 17:50:22 by rcabezas         ###   ########.fr        #
+#    Updated: 2022/05/30 11:04:58 by rcabezas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,11 +27,15 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 
+ft:
+	$(CXX) $(CXXFLAGS) $(INC) ft_main.cpp && ./a.out 1
+
 clean:
 	rm -f $(OBJS)
 
 fclean:	clean
 	rm -f $(NAME)
+	rm -f a.out
 
 re:	fclean all
 

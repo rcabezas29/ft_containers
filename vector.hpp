@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/26 17:56:36 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/01 12:02:58 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,7 +260,7 @@ namespace ft
 
 			iterator		insert(iterator position, const value_type &val)
 			{
-				vector	temp(this->_capacity + 1, 0);
+				vector	temp(this->_capacity + 1);
 				iterator	it = this->begin();
 				size_type	pos = 0;
 
@@ -287,7 +287,7 @@ namespace ft
 
 			void			insert(iterator position, size_type n, const value_type &val)
 			{
-				vector	temp(this->_capacity + (n - (this->_capacity - this->_size)), 0);
+				vector	temp(this->_capacity + (n - (this->_capacity - this->_size)));
 				iterator	it = this->begin();
 				size_type	pos = 0;
 
@@ -318,7 +318,7 @@ namespace ft
 			void			insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 			{
 				// distance creo que es de c17
-				vector	temp(this->_capacity + (std::distance(first, last) - (this->_capacity - this->_size)), 0);
+				vector	temp(this->_capacity + (std::distance(first, last) - (this->_capacity - this->_size)));
 				iterator	it = this->begin();
 				size_type	pos = 0;
 

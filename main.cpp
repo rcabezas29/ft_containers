@@ -6,13 +6,14 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/27 11:42:57 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/01 12:16:54 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
 #include <utility>
+#include <chrono>
 #include <vector>
 #include <deque>
 #include <stack>
@@ -30,6 +31,8 @@
 
 int main (void)
 {
+
+	/*
 	std::cout << "\n\n--------------------------------" << std::endl;
 	std::cout << "-----------STACK TEST-----------" << std::endl;
 	std::cout << "--------------------------------\n\n" << std::endl;
@@ -84,16 +87,78 @@ int main (void)
 	std::cout << "	> - " << (stk < stk_copy) << std::endl;
 
 
+	std::cout << "\n\n--------------------------------" << std::endl;
+	std::cout << "-----------VECTOR TEST----------" << std::endl;
+	std::cout << "--------------------------------\n\n" << std::endl;
+
+	
+	NAMESPACE::vector<int>	vc;
+
+	std::cout << "EMPTY? " << (vc.empty() == true ? "yes" : "no") << std::endl;
+
+	vc.assign(5, 5);
+	system("leaks ft_containers");
+	vc.resize(8);
+	vc.reserve(20);
+
+
+	for (NAMESPACE::vector<int>::iterator it = vc.begin(); it != vc.end(); ++it)
+		std::cout << *it << std::endl;
+	std::cout << "--------------------------" << std::endl;
+
+	std::cout << "EMPTY? " << (vc.empty() == true ? "yes" : "no") << std::endl;
+	std::cout << "SIZE: " << vc.size() << " CAPACITY: " << vc.capacity() << std::endl;
+
+	std::cout << "vc[5] = " << vc[5] << std::endl;
+	std::cout << "vc[1] = " << vc[1] << std::endl;
+
+	std::cout << "vc at 5 = " << vc.at(5) << std::endl;
+	std::cout << "vc at 1 = " << vc.at(1) << std::endl;
+
+	vc.pop_back();
+	vc.push_back(6);
+	vc.push_back(1099);
+	vc.push_back(623);
+	vc.push_back(992);
+	vc.insert(vc.end(), 5);
+	vc.insert(vc.end(), 4, 8);
+
+	std::list<int>	lst;
+	for (int i = 0; i != 5; ++i)
+		lst.push_back(i * 6);
+	vc.insert(vc.end(), lst.begin(), lst.end());
+
+	for (NAMESPACE::vector<int>::iterator it = vc.begin(); it != vc.end(); ++it)
+		std::cout << *it << std::endl;
+	std::cout << "--------------------------" << std::endl;
+	
+
+
+	NAMESPACE::vector<int>::iterator ite = vc.begin();
+
+	while (*ite != 0)
+		++ite;
+
+	vc.erase(ite, ite + 15);
+
+	std::cout << "front -> " << vc.front() << std::endl;
+	std::cout << "back -> " << vc.back() << std::endl;
+
+	for (NAMESPACE::vector<int>::iterator it = vc.begin(); it != vc.end(); ++it)
+		std::cout << *it << std::endl;
+	std::cout << "--------------------------" << std::endl;
+	vc.clear();
+
 
 	std::cout << "\n\n--------------------------------" << std::endl;
 	std::cout << "------------MAP TEST------------" << std::endl;
 	std::cout << "--------------------------------\n\n" << std::endl;
 
 	NAMESPACE::map<int, std::string>	mp;
-	NAMESPACE::vector<NAMESPACE::pair<int, std::string> >	vc;
+	NAMESPACE::vector<NAMESPACE::pair<int, std::string> >	vct;
 
 	for (int i = 0; i < 10; ++i)
-		vc.push_back(NAMESPACE::pair<int, std::string>(i, std::string((10 - i), i + 65)));
+		vct.push_back(NAMESPACE::pair<int, std::string>(i, std::string((10 - i), i + 65)));
 
 
 	mp[1] = "abc";
@@ -102,7 +167,7 @@ int main (void)
 	mp.insert(NAMESPACE::make_pair(5, "asdf"));
 	mp.insert(NAMESPACE::make_pair(5, "asdf"));
 
-	mp.insert(vc.begin(), vc.end());
+	mp.insert(vct.begin(), vct.end());
 
 	for (NAMESPACE::map<int, std::string>::iterator it = mp.begin(); it != mp.end(); ++it)
 		std::cout << it->first << " => " << it->second << std::endl;
@@ -157,6 +222,21 @@ int main (void)
 		std::cout << it->first << " => " << it->second << std::endl;
 	std::cout << "---------------------------------" << std::endl;
 
+	std::cout << "- BOUNDS -" << std::endl;
+
+	NAMESPACE::map<int, std::string>::iterator	lb1 = mp.lower_bound(3), lb2 = mp.lower_bound(10);
+	NAMESPACE::map<int, std::string>::iterator	ub1 = mp.upper_bound(3), ub2 = mp.upper_bound(10);
+	NAMESPACE::pair<NAMESPACE::map<int, std::string>::iterator, NAMESPACE::map<int, std::string>::iterator>	er1 = mp.equal_range(5), er2 = mp.equal_range(10);
+
+	std::cout << lb1->first << " => " << lb1->second << std::endl;
+	std::cout << lb2->first << " => " << lb2->second << std::endl;
+	std::cout << ub1->first << " => " << ub1->second << std::endl;
+	std::cout << ub2->first << " => " << ub2->second << std::endl;
+	std::cout << "* * * * * * * * * * " << std::endl;
+	std::cout << er1.first->first << " => " << er1.first->second << " - " <<  er1.second->first << " => " << er1.second->second << std::endl;
+	std::cout << er2.first->first << " => " << er2.first->second << " - " <<  er2.second->first << " => " << er2.second->second << std::endl;
+
+
 	std::cout << "\n- OPERATORS -" << std::endl;
 	std::cout << "mp - mp_copy" << std::endl;
 	std::cout << "	== - " << (mp == mp_copy) << std::endl;
@@ -166,15 +246,23 @@ int main (void)
 	std::cout << "	>= - " << (mp >= mp_copy) << std::endl;
 	std::cout << "	> - " << (mp > mp_copy) << std::endl;
 
-	std::cout << "- TIME TEST -" << std::endl;
+	std::cout << "\n- TIME TEST -" << std::endl;
+	std::chrono::time_point<std::chrono::high_resolution_clock>	start_time = std::chrono::high_resolution_clock::now();
 
 	NAMESPACE::map<int, int>	time_map;
 
-	for (int i = 0; i < 10000; ++i)
-		time_map.insert(NAMESPACE::make_pair(i, 10000 - i));
+	for (int i = 0; i < 100000; ++i)
+		time_map.insert(NAMESPACE::make_pair(i, 100000 - i));
 
 	time_map.erase(time_map.begin(), time_map.end());
 
+	std::chrono::time_point<std::chrono::high_resolution_clock>	end_time = std::chrono::high_resolution_clock::now();
+
+	std::chrono::duration<double> diff = end_time - start_time;
+
+	std::cout << "Inserting and erasing 100000 values: [" << diff.count() << " ms]" << std::endl;
+
+	*/
 
 
 

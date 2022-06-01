@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/26 18:19:56 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/05/30 11:47:52 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ namespace	ft
 
 			map(const map& x) : _allocator(allocator_type()), _btree(), _size(0) { *this = x; }
 
-			virtual	~map(void) { this->clear(); }
+			virtual	~map(void) {}
 
 			map	&operator=(const map &x)
 			{
@@ -252,7 +252,7 @@ namespace	ft
 			{
 				if (this->value_comp()(ft::make_pair(k, mapped_type()), *this->begin()))
 					return this->begin();
-				for (iterator it = this->find(k); it != this->end(); ++it)
+				for (iterator it = this->begin(); it != this->end(); ++it)
 				{
 					if (this->value_comp()(*it, ft::make_pair(k, mapped_type())))
 						continue ;
@@ -266,7 +266,7 @@ namespace	ft
 			{
 				if (this->value_comp()(ft::make_pair(k, mapped_type()), *this->begin()))
 					return this->begin();
-				for (const_iterator it = this->find(k); it != this->end(); ++it)
+				for (const_iterator it = this->begin(); it != this->end(); ++it)
 				{
 					if (this->value_comp()(*it, ft::make_pair(k, mapped_type())))
 						continue ;
@@ -280,7 +280,7 @@ namespace	ft
 			{
 				if (this->value_comp()(ft::make_pair(k, mapped_type()), *this->begin()))
 					return this->begin();
-				for (iterator it = this->find(k); it != this->end(); ++it)
+				for (iterator it = this->begin(); it != this->end(); ++it)
 				{
 					if (this->value_comp()(ft::make_pair(k, mapped_type()), *it))
 						return it;
@@ -294,7 +294,7 @@ namespace	ft
 			{
 				if (this->value_comp()(ft::make_pair(k, mapped_type()), *this->begin()))
 					return this->begin();
-				for (const_iterator it = this->find(k); it != this->end(); ++it)
+				for (const_iterator it = this->begin(); it != this->end(); ++it)
 				{
 					if (this->value_comp()(ft::make_pair(k, mapped_type()), *it))
 						return it;
