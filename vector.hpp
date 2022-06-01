@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/06/01 12:02:58 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/01 12:31:24 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,7 +260,7 @@ namespace ft
 
 			iterator		insert(iterator position, const value_type &val)
 			{
-				vector	temp(this->_capacity + 1);
+				vector	temp(this->_size + 1);
 				iterator	it = this->begin();
 				size_type	pos = 0;
 
