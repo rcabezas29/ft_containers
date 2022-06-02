@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/06/02 09:05:48 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/02 15:53:28 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,12 @@ int main (void)
 	std::cout << er1.first->first << " => " << er1.first->second << " - " <<  er1.second->first << " => " << er1.second->second << std::endl;
 	std::cout << er2.first->first << " => " << er2.first->second << " - " <<  er2.second->first << " => " << er2.second->second << std::endl;
 
+	std::cout << "\nLet's find..." << std::endl;
+	std::cout << "Found? " << (*(mp.find(4))).second << std::endl;
+	std::cout << "Found? " << (*(mp.find(5))).second << std::endl;
+	std::cout << "Found? " << (*(mp.find(6))).second << std::endl;
+	mp.find(100); //  do not find it
+
 
 	std::cout << "\n- OPERATORS -" << std::endl;
 	std::cout << "mp - mp_copy" << std::endl;
@@ -262,7 +268,7 @@ int main (void)
 
 	std::cout << "Inserting and erasing 100000 values: [" << diff.count() << " ms]" << std::endl;
 
-	//system("leaks ft_containers");
+	system("leaks ft_containers");
 
 
 

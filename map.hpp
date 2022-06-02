@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 15:35:59 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/30 11:47:52 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/02 16:35:02 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ namespace	ft
 
 			map(const map& x) : _allocator(allocator_type()), _btree(), _size(0) { *this = x; }
 
-			virtual	~map(void) {}
+			virtual	~map(void) {
+				this->clear();
+			}
 
 			map	&operator=(const map &x)
 			{
