@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/06/01 12:16:54 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/02 09:05:48 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@
 int main (void)
 {
 
-	/*
 	std::cout << "\n\n--------------------------------" << std::endl;
 	std::cout << "-----------STACK TEST-----------" << std::endl;
 	std::cout << "--------------------------------\n\n" << std::endl;
@@ -85,7 +84,7 @@ int main (void)
 	std::cout << "	<= - " << (stk <= stk_copy) << std::endl;
 	std::cout << "	>= - " << (stk >= stk_copy) << std::endl;
 	std::cout << "	> - " << (stk < stk_copy) << std::endl;
-
+	
 
 	std::cout << "\n\n--------------------------------" << std::endl;
 	std::cout << "-----------VECTOR TEST----------" << std::endl;
@@ -97,7 +96,6 @@ int main (void)
 	std::cout << "EMPTY? " << (vc.empty() == true ? "yes" : "no") << std::endl;
 
 	vc.assign(5, 5);
-	system("leaks ft_containers");
 	vc.resize(8);
 	vc.reserve(20);
 
@@ -148,6 +146,8 @@ int main (void)
 		std::cout << *it << std::endl;
 	std::cout << "--------------------------" << std::endl;
 	vc.clear();
+	system("leaks ft_containers");
+
 
 
 	std::cout << "\n\n--------------------------------" << std::endl;
@@ -262,7 +262,8 @@ int main (void)
 
 	std::cout << "Inserting and erasing 100000 values: [" << diff.count() << " ms]" << std::endl;
 
-	*/
+	//system("leaks ft_containers");
+
 
 
 

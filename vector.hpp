@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/06/01 12:31:24 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/02 15:16:14 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,8 @@ namespace ft
 
 		public:
 			//construction & destruction
-			explicit	vector(const allocator_type &alloc = allocator_type())
+			explicit	vector(const allocator_type &alloc = allocator_type()) : _allocator(alloc), _size(0), _capacity(0), _array(NULL), _end(this->_array), _begin(this->_array)
 			{
-				this->_allocator = alloc;
-				this->_array = NULL;
-				this->_size = 0;
-				this->_capacity = 0;
-				this->_end = this->_array;
-				this->_begin = this->_array;
 			}
 
 			explicit	vector(size_type n, const value_type &val = value_type(),
@@ -96,17 +90,26 @@ namespace ft
 				this->_end = &this->_array[this->_size];
 			}
 
-			vector(const vector &copy)
+			vector(const vector &copy) : _size(0), _capacity(0), _array(NULL), _end(this->_array), _begin(this->_array)
 			{
 				*this = copy;
 			}
 			
-			virtual ~vector(void) {}
+			virtual ~vector(void)
+			{
+				this->clear();
+				this->_allocator.deallocate(this->_array, this->_capacity);
+			}
 
 			vector	&operator=(const vector &op)
 			{
 				if (this == &op)
 					return *this;
+				if (this->_capacity)
+				{
+					this->clear();
+					this->_allocator.deallocate(this->_array, this->_capacity);
+				}
 				this->_allocator = op._allocator;
 				this->_array = this->_allocator.allocate(op._capacity);
 				this->_capacity = op._capacity;
@@ -195,6 +198,9 @@ namespace ft
 						for (size_type i = 0; i < this->_size; i++)
 							this->_allocator.construct(&new_array[i], this->_array[i]);
 					}
+					for (size_type i = 0; i < this->_size; i++)
+							this->_allocator.destroy(&this->_array[i]);
+					this->_allocator.deallocate(this->_array, this->_capacity);
 					this->_array = new_array;
 					this->_begin = &this->_array[0];
 					this->_end = &this->_array[this->_size];
@@ -260,6 +266,7 @@ namespace ft
 
 			iterator		insert(iterator position, const value_type &val)
 			{
+				// leaks
 				vector	temp(this->_size + 1);
 				iterator	it = this->begin();
 				size_type	pos = 0;
@@ -279,15 +286,18 @@ namespace ft
 					pos++;
 				}
 				this->swap(temp);
-				for (size_type j = 0; j < temp.size(); j++)
-					this->_allocator.destroy(&temp[j]);
+				//for (size_type j = 0; j < temp.size(); j++)
+				//	this->_allocator.destroy(&temp[j]);
+				// this->_allocator.deallocate(&temp[0], temp._capacity);
 				return this->begin() + ret;
 			}
 			
 
 			void			insert(iterator position, size_type n, const value_type &val)
 			{
-				vector	temp(this->_capacity + (n - (this->_capacity - this->_size)));
+				// leaks
+				size_type	new_capacity = this->_capacity + (n - (this->_capacity - this->_size));
+				vector		temp(new_capacity);
 				iterator	it = this->begin();
 				size_type	pos = 0;
 
@@ -303,22 +313,25 @@ namespace ft
 					pos++;
 					++this->_size;
 				}
-				while (it != this->end())
+				while (pos < new_capacity)
 				{
 					temp[pos] = *it;
 					it++;
 					pos++;
 				}
 				this->swap(temp);
-				for (size_type j = 0; j < temp.size(); j++)
-					this->_allocator.destroy(&temp[j]);
+				// for (size_type j = 0; j < temp.size(); j++)
+				// 	this->_allocator.destroy(&temp[j]);
+				// this->_allocator.deallocate(&temp[0], temp._capacity);
 			}
 
 			template <class InputIterator>
 			void			insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 			{
 				// distance creo que es de c17
-				vector	temp(this->_capacity + (std::distance(first, last) - (this->_capacity - this->_size)));
+				// insert
+				size_type	new_capacity = this->_capacity + (std::distance(first, last) - (this->_capacity - this->_size));
+				vector		temp(new_capacity);
 				iterator	it = this->begin();
 				size_type	pos = 0;
 
@@ -334,15 +347,16 @@ namespace ft
 					first++;
 					pos++;
 				}
-				while (it != this->end())
+				while (pos < new_capacity)
 				{
 					temp[pos] = *it;
 					it++;
 					pos++;
 				}
 				this->swap(temp);
-				for (size_type j = 0; j < temp.size(); j++)
-					this->_allocator.destroy(&temp[j]);
+				// for (size_type j = 0; j < temp.size(); j++)
+				// 	this->_allocator.destroy(&temp[j]);
+				// this->_allocator.deallocate(&temp[0], temp._capacity);
 			}
 
 			iterator		erase(iterator position)
@@ -357,25 +371,41 @@ namespace ft
 			}
 			
 			iterator		erase(iterator first, iterator last)
-			{	
-				for (size_type i = 0; last + i != this->end(); i++)
+			{
+				iterator	tmp;
+
+				tmp = first;
+				while (tmp != last)
+					this->_allocator.destroy(&(*tmp++));
+				tmp = first;
+				for (size_type i = 0; tmp != this->end(); ++i, ++tmp)
 				{
-					this->_allocator.destroy(&(*(first + i)));
-					this->_allocator.construct(&(*(first + i)), *(last + i));
+					this->_allocator.construct(&(*tmp), *(last + i));
+					this->_allocator.destroy(&(*(last + i)));
 				}
 				this->_size -= last - first;
-				return first;
+				return (first);
 			}
 
 			void			swap(vector &x)
 			{
-				vector	aux = x;
-				aux._array = x._array;
+				size_type			aux_size = this->_size;
+				size_type			aux_capacity = this->_capacity;
+				pointer				aux_array = this->_array;
+				pointer				aux_end = this->_end;
+				pointer				aux_begin = this->_begin;
 
-				x = *this;
-				x._array = this->_array;
-				*this = aux;
-				this->_array = aux._array;
+				this->_size = x._size;
+				this->_capacity = x._capacity;
+				this->_array = x._array;
+				this->_end = x._end;
+				this->_begin = x._begin;
+
+				x._size = aux_size;
+				x._capacity = aux_capacity;
+				x._array = aux_array;
+				x._end = aux_end;
+				x._begin = aux_begin;
 			}
 
 			void			clear(void)

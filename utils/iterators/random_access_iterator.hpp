@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 21:05:05 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/04/12 08:05:38 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/02 12:06:20 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ namespace ft
 				return *this;
 			}
 
-			// virtual	~random_access_iterator(void);
+			~random_access_iterator(void) {}
 
 			bool	operator==(const random_access_iterator &b) const { return this->_ptr == b._ptr; }
 			
