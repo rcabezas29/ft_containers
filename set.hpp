@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 17:39:34 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/27 13:03:24 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/06 13:18:09 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@ namespace	ft
 	class set
 	{
 		public:
-			typedef T														key_type;
-			typedef T														value_type;
-			typedef Compare													key_compare;
-			typedef Compare													value_compare;
-			typedef Alloc													allocator_type;
-			typedef typename allocator_type::reference						reference;
-			typedef typename allocator_type::const_reference				const_reference;
-			typedef typename allocator_type::pointer						pointer;
-			typedef typename allocator_type::const_pointer					const_pointer;
-			typedef typename ft::binarytree_iterator<value_type, value_compare, key_compare>			iterator;
+			typedef T																					key_type;
+			typedef T																					value_type;
+			typedef Compare																				key_compare;
+			typedef Compare																				value_compare;
+			typedef Alloc																				allocator_type;
+			typedef typename allocator_type::reference													reference;
+			typedef typename allocator_type::const_reference											const_reference;
+			typedef typename allocator_type::pointer													pointer;
+			typedef typename allocator_type::const_pointer												const_pointer;
+			typedef typename ft::const_binarytree_iterator<value_type, value_compare, key_compare>			iterator;
 			typedef typename ft::const_binarytree_iterator<value_type, value_compare, key_compare>		const_iterator;
 			typedef typename ft::reverse_iterator<iterator>												reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>										const_reverse_iterator;
@@ -46,9 +46,9 @@ namespace	ft
 			typedef size_t																				size_type;
 
 		private:
-			allocator_type												_allocator;
+			allocator_type															_allocator;
 			ft::binary_tree<value_type, value_compare, key_compare, allocator_type>	_btree;
-			size_type													_size;
+			size_type																_size;
 
 		public:	
 			explicit set(const key_compare &comp = key_compare(),
@@ -205,14 +205,9 @@ namespace	ft
 
 			value_compare	value_comp(void) const  { return value_compare(key_comp()); }
 
-			iterator	find(const value_type &val)
+			iterator	find(const value_type &val) const
 			{
 				return iterator(this->_btree.find(val), &this->_btree);
-			}
-
-			const_iterator	find(const key_type &val) const
-			{
-				return const_iterator(this->_btree.find(val), &this->_btree);
 			}
 
 			size_type	count(const value_type &val) const
@@ -225,7 +220,7 @@ namespace	ft
 				return c;
 			}
 
-			iterator		lower_bound(const key_type &k)
+			iterator		lower_bound(const key_type &k) const
 			{
 				if (this->value_comp()(k, *this->begin()))
 					return this->begin();
@@ -238,22 +233,8 @@ namespace	ft
 				}
 				return this->end();
 			}
-	
-			const_iterator	lower_bound(const key_type &k) const
-			{
-				if (this->value_comp()(k, *this->begin()))
-					return this->begin();
-				for (const_iterator it = this->begin(); it != this->end(); ++it)
-				{
-					if (this->value_comp()(*it, k))
-						continue ;
-					else
-						return it;
-				}
-				return this->end();
-			}
 
-			iterator		upper_bound(const key_type &k)
+			iterator		upper_bound(const key_type &k) const
 			{
 				if (this->value_comp()(k, *this->begin()))
 					return this->begin();
@@ -267,23 +248,7 @@ namespace	ft
 				return this->end();
 			}
 
-			const_iterator	upper_bound(const key_type &k) const
-			{
-				if (this->value_comp()(k, *this->begin()))
-					return this->begin();
-				for (const_iterator it = this->begin(); it != this->end(); ++it)
-				{
-					if (this->value_comp()(k, *it))
-						return it;
-					else
-						continue ;
-				}
-				return this->end();
-			}
-			
-
-			pair<const_iterator, const_iterator>	equal_range(const key_type &k) const { return (ft::make_pair(this->lower_bound(k), this->upper_bound(k))); }
-			pair<iterator, iterator>				equal_range(const key_type &k) { return (ft::make_pair(this->lower_bound(k), this->upper_bound(k))); }
+			pair<iterator, iterator>				equal_range(const key_type &k) const { return (ft::make_pair(this->lower_bound(k), this->upper_bound(k))); }
 
 			allocator_type	get_allocator(void) const { return this->_allocactor; }
 
