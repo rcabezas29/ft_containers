@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/06/06 12:06:44 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/06 15:53:47 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,6 @@ int main (void)
 		std::cout << *it << std::endl;
 	std::cout << "--------------------------" << std::endl;
 	vc.clear();
-	system("leaks ft_containers");
-
-
 
 	std::cout << "\n\n--------------------------------" << std::endl;
 	std::cout << "------------MAP TEST------------" << std::endl;
@@ -267,6 +264,121 @@ int main (void)
 
 	std::cout << "Inserting and erasing 100000 values: [" << diff.count() << " ms]" << std::endl;
 
+
+	std::cout << "\n\n--------------------------------" << std::endl;
+	std::cout << "------------SET TEST------------" << std::endl;
+	std::cout << "--------------------------------\n\n" << std::endl;
+
+	NAMESPACE::set<int> st;
+
+	int myints[]= {10, 20, 30, 40, 50};
+	NAMESPACE::set<int>	st2(myints, myints + 5);
+	NAMESPACE::set<int>	st3(st2);
+	NAMESPACE::set<int>	st4(st2.begin(), --st2.end());
+
+	for (NAMESPACE::set<int>::iterator it = st.begin(); it != st.end(); ++it)
+		std::cout << *it << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+	for (NAMESPACE::set<int>::iterator it = st2.begin(); it != st2.end(); ++it)
+		std::cout << *it << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+	for (NAMESPACE::set<int>::iterator it = st3.begin(); it != st3.end(); ++it)
+		std::cout << *it << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+	for (NAMESPACE::set<int>::iterator it = st4.begin(); it != st4.end(); ++it)
+		std::cout << *it << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+	st = st2;
+	st2.clear();
+
+	std::cout << "OPERATOR =" << std::endl;
+
+	for (NAMESPACE::set<int>::iterator it = st.begin(); it != st.end(); ++it)
+		std::cout << *it << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+	std::cout << "SET Begin " << *(st.begin()) << std::endl;
+	std::cout << "SET END - 1 " << *(--st.end()) << std::endl;
+	std::cout << "SET RBEGIN " << *(st.rbegin()) << std::endl;
+	std::cout << "SET REND - 1 " << *(--st.rend()) << std::endl;
+
+	std::cout << "\nSIZE: " << st.size() << std::endl;
+	std::cout << "MAX SIZE: " << st.max_size() << std::endl;
+	std::cout << "EMPTY? " << (st.empty() == true ? "yes" : "no")  << std::endl;
+	std::cout << "clearing..." << std::endl;
+	st.clear();
+	std::cout << "EMPTY? " << (st.empty() == true ? "yes" : "no")  << std::endl;
+	
+	st = st3;
+
+	std::cout << "\n- INSERTION -" << std::endl;
+
+	for (int i = 0; i < 6; ++i)
+		vc.push_back(i * 7);
+
+	st.insert(5);
+	st.insert(-5);
+	st.insert(58);
+	st.insert(58);
+
+	st.insert(vc.begin(), vc.end());
+
+
+	for (NAMESPACE::set<int>::iterator it = st.begin(); it != st.end(); ++it)
+		std::cout << *it << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+	std::cout << "\n- ERASE -" << std::endl;
+
+	st.erase(st.begin());
+	st.erase(++(++st.begin()));
+
+	st.erase(--(--(--st.end())), st.end());
+
+	st.erase(14);
+	st.erase(8);
+
+	std::cout << "\nswap" << std::endl;
+	std::cout << "BEFORE SWAP" << std::endl;
+	
+	std::cout << "st" << std::endl;
+	for (NAMESPACE::set<int>::iterator it = st.begin(); it != st.end(); ++it)
+		std::cout << *it << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+	std::cout << "st3" << std::endl;
+	for (NAMESPACE::set<int>::iterator it = st3.begin(); it != st3.end(); ++it)
+		std::cout << *it << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+	
+	st.swap(st3);
+
+	std::cout << "st" << std::endl;
+	for (NAMESPACE::set<int>::iterator it = st.begin(); it != st.end(); ++it)
+		std::cout << *it << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+	std::cout << "st3" << std::endl;
+	for (NAMESPACE::set<int>::iterator it = st3.begin(); it != st3.end(); ++it)
+		std::cout << *it << std::endl;
+	std::cout << "---------------------------------" << std::endl;
+
+	std::cout << "\nBOUNDS" << std::endl;
+
+	std::cout << *st.lower_bound(30) << std::endl;
+	std::cout << *st.lower_bound(15) << std::endl;
+	std::cout << *st.lower_bound(-15) << std::endl;
+	std::cout << *st.upper_bound(30) << std::endl;
+	std::cout << *st.upper_bound(15) << std::endl;
+	std::cout << *st.upper_bound(-15) << std::endl;
+
+	
+	
 	system("leaks ft_containers");
 
 
