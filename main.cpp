@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/06/06 15:53:47 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/06 18:16:19 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,8 +376,6 @@ int main (void)
 	std::cout << *st.upper_bound(30) << std::endl;
 	std::cout << *st.upper_bound(15) << std::endl;
 	std::cout << *st.upper_bound(-15) << std::endl;
-
-	
 	
 	system("leaks ft_containers");
 

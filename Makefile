@@ -6,7 +6,7 @@
 #    By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/03 10:50:18 by rcabezas          #+#    #+#              #
-#    Updated: 2022/06/02 19:42:24 by rcabezas         ###   ########.fr        #
+#    Updated: 2022/06/06 18:16:09 by rcabezas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ INC= -I utils
 CXX = clang++
 
 CXXFLAGS = -Wall -Werror -Wextra -std=c++98 #-g3 -fsanitize=address
+
+DEF = -D NAMESPACE=ft
 
 SRCS = main.cpp
 
@@ -32,6 +34,7 @@ ft:
 
 clean:
 	rm -f $(OBJS)
+	rm -f difference.txt
 
 fclean:	clean
 	rm -f $(NAME)
