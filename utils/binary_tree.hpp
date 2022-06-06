@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:44:37 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/26 12:34:57 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/06 09:05:02 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,7 +319,7 @@ namespace	ft
 			}
 
 			void	delete_node(node_pointer node)
-			{
+			{	
 				node_pointer p = node->parent;
 				node_pointer s = node->sibling();
 				node_pointer x = node;
@@ -380,12 +380,15 @@ namespace	ft
 
 			void	deleteFix(node_pointer n, node_pointer p, node_pointer s)
 			{
-				node_pointer	c;
-				node_pointer	d;
+				node_pointer	c = NULL;
+				node_pointer	d = NULL;
 
-				s == p->lhs ? c = s->rhs : c = s->lhs;
-				s == p->lhs ? d = s->lhs : d = s->rhs;
-
+				
+				if (s)
+				{
+					s == p->lhs ? c = s->rhs : c = s->lhs;
+					s == p->lhs ? d = s->lhs : d = s->rhs;
+				}
 				while (p != NULL && (!n || n->color == BLACK))
 				{
 					if (s && s->color == RED)
@@ -395,10 +398,11 @@ namespace	ft
 						s->color = BLACK;
 						s = c;
 					}
-					else if (p->color == BLACK && (s && s->color == BLACK)
+					else if (p->color == BLACK && (!s || s->color == BLACK)
 						&& (!c || c->color == BLACK) && (!d || d->color == BLACK))
 					{
-						s->color = RED;
+						if (s)
+							s->color = RED;
 						n = p;
 						p = n->parent;
 						s = n->sibling();

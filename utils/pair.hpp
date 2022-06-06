@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 17:25:47 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/05/24 18:37:24 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/02 21:34:37 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ namespace	ft
 
 		pair	&operator=(const pair &pr)
 		{
-			if (*this == pr)
-				return *this;
+			// if (*this == pr)
+			// 	return *this;
 			const_cast<typename ft::remove_const<first_type>::type&>(this->first) = pr.first;
 			const_cast<typename ft::remove_const<second_type>::type&>(this->second) = pr.second;
 			return *this;

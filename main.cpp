@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:06:25 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/06/02 15:53:28 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/03 08:45:00 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,39 @@
 
 int main (void)
 {
+	unsigned int lst_size = 7;
 
+	
+	std::list<NAMESPACE::pair<const int, char> > lsterase;
+
+	lst_size = 10;
+	for (unsigned int i = 0; i < lst_size; ++i)
+	{
+		lsterase.push_back(NAMESPACE::make_pair((int)lst_size - i, (int)i + 65));
+	}
+	NAMESPACE::map<int, int> mpe(lsterase.begin(), lsterase.end());
+
+	
+	std::cout << "Deling " << (++mpe.begin())->first << std::endl;
+	mpe.erase(++mpe.begin());
+
+	std::cout << "Deling " << (mpe.begin())->first << std::endl;
+	mpe.erase(mpe.begin());
+	
+
+	std::cout << "Deling " << (--mpe.end())->first << std::endl;
+	mpe.erase(--mpe.end());
+	
+	std::cout << "Deling " << (--(--mpe.end()))->first << std::endl;
+	mpe.erase(--(--mpe.end()));
+
+	for (NAMESPACE::map<int, int>::iterator it = mpe.begin(); it != mpe.end(); ++it)	
+		std::cout << it->first << " => " << it->second << std::endl;
+
+
+
+	
+	/*
 	std::cout << "\n\n--------------------------------" << std::endl;
 	std::cout << "-----------STACK TEST-----------" << std::endl;
 	std::cout << "--------------------------------\n\n" << std::endl;
@@ -269,6 +301,7 @@ int main (void)
 	std::cout << "Inserting and erasing 100000 values: [" << diff.count() << " ms]" << std::endl;
 
 	system("leaks ft_containers");
+	*/
 
 
 
