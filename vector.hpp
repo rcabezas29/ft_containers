@@ -6,7 +6,7 @@
 /*   By: rcabezas <rcabezas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:52:17 by rcabezas          #+#    #+#             */
-/*   Updated: 2022/06/02 15:16:14 by rcabezas         ###   ########.fr       */
+/*   Updated: 2022/06/06 12:04:29 by rcabezas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "utils/lexicographical_compare.hpp"
 #include "utils/is_integral.hpp"
 #include "utils/enable_if.hpp"
+#include "utils/distance.hpp"
 
 namespace ft
 {
@@ -266,7 +267,6 @@ namespace ft
 
 			iterator		insert(iterator position, const value_type &val)
 			{
-				// leaks
 				vector	temp(this->_size + 1);
 				iterator	it = this->begin();
 				size_type	pos = 0;
@@ -286,16 +286,12 @@ namespace ft
 					pos++;
 				}
 				this->swap(temp);
-				//for (size_type j = 0; j < temp.size(); j++)
-				//	this->_allocator.destroy(&temp[j]);
-				// this->_allocator.deallocate(&temp[0], temp._capacity);
 				return this->begin() + ret;
 			}
 			
 
 			void			insert(iterator position, size_type n, const value_type &val)
 			{
-				// leaks
 				size_type	new_capacity = this->_capacity + (n - (this->_capacity - this->_size));
 				vector		temp(new_capacity);
 				iterator	it = this->begin();
@@ -320,17 +316,12 @@ namespace ft
 					pos++;
 				}
 				this->swap(temp);
-				// for (size_type j = 0; j < temp.size(); j++)
-				// 	this->_allocator.destroy(&temp[j]);
-				// this->_allocator.deallocate(&temp[0], temp._capacity);
 			}
 
 			template <class InputIterator>
 			void			insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL)
 			{
-				// distance creo que es de c17
-				// insert
-				size_type	new_capacity = this->_capacity + (std::distance(first, last) - (this->_capacity - this->_size));
+				size_type	new_capacity = this->_capacity + (ft::distance(first, last) - (this->_capacity - this->_size));
 				vector		temp(new_capacity);
 				iterator	it = this->begin();
 				size_type	pos = 0;
@@ -354,9 +345,6 @@ namespace ft
 					pos++;
 				}
 				this->swap(temp);
-				// for (size_type j = 0; j < temp.size(); j++)
-				// 	this->_allocator.destroy(&temp[j]);
-				// this->_allocator.deallocate(&temp[0], temp._capacity);
 			}
 
 			iterator		erase(iterator position)
