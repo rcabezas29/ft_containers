@@ -30,6 +30,8 @@ A Red-Black Tree is a self-balancing binary search tree where each node contains
 
 These properties ensure that the tree remains approximately balanced, with the path from the root to the farthest leaf being no more than twice as long as the path from the root to the nearest leaf, guaranteeing O(log n) time complexity for basic operations.
 
+![Red/Black Tree](img/rb_tree.png)
+
 ## Building and Using the Project
 
 ### Compilation with [Make](Makefile)
@@ -41,7 +43,12 @@ make
 ### Test
 
 ```bash
-make test
+./test.sh
 ```
 
 This will do an overall test to check efficiency on the implementation of all the containers.
+
+## Resources
+
+- https://devdocs.io/cpp/
+- https://cplusplus.com/
